@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 #import "EditingBabyViewController.h"
+#import "CalendarViewController.h"
+#import "MilestonesViewController.h"
+#import "PhotographViewController.h"
 
 @implementation AppDelegate
 
@@ -31,12 +34,29 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    EditingBabyViewController *editingBabyVC = [[EditingBabyViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    editingBabyVC.managedObjectContext = self.managedObjectContext;
-    UINavigationController *editingBabyNVC = [[UINavigationController alloc] initWithRootViewController:editingBabyVC];
-    self.window.rootViewController = editingBabyNVC;
-    [editingBabyVC release];
-    [editingBabyNVC release];
+//    EditingBabyViewController *editingBabyVC = [[EditingBabyViewController alloc] initWithStyle:UITableViewStyleGrouped];
+//    editingBabyVC.managedObjectContext = self.managedObjectContext;
+//    UINavigationController *editingBabyNVC = [[UINavigationController alloc] initWithRootViewController:editingBabyVC];
+//    self.window.rootViewController = editingBabyNVC;
+//    [editingBabyVC release];
+//    [editingBabyNVC release];
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    
+    CalendarViewController *calendarVC = [[CalendarViewController alloc] initWithNibName:@"CalendarViewController" bundle:[NSBundle mainBundle]];
+    calendarVC.managedObjectContext = self.managedObjectContext;
+    UINavigationController *calendarNVC = [[UINavigationController alloc] initWithRootViewController:calendarVC];
+    calendarNVC.navigationBarHidden = YES;
+    [calendarVC release];
+    
+    PhotographViewController *photographVC = [[PhotographViewController alloc] init];
+    
+    MilestonesViewController *milestonesVC = [[MilestonesViewController alloc] init];
+    UINavigationController *milestonesNVC = [[UINavigationController alloc] initWithRootViewController:milestonesVC];
+    [milestonesVC release];
+    
+    tabBarController.viewControllers = [NSArray arrayWithObjects:calendarNVC, photographVC, milestonesNVC, nil];
+    self.window.rootViewController = tabBarController;
+    [tabBarController release];
     
     [self.window makeKeyAndVisible];
     return YES;

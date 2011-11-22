@@ -25,7 +25,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        self.title = @"编辑宝宝信息";
     }
     return self;
 }
@@ -56,6 +56,7 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"请输入宝宝名称" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
         [alertView release];
+        [self.nameField becomeFirstResponder];
         return;
     }
     
@@ -63,6 +64,7 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"请输入宝宝生日" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
         [alertView release];
+        [self.birthdayField becomeFirstResponder];
         return;
     }
     
@@ -85,6 +87,13 @@
     baby.fatherName = self.fatherNameField.text;
     
     baby.motherName = self.motherNameField.text;
+    
+    NSError *error = nil;
+    if (![self.managedObjectContext save:&error]) {
+        //Handle the error
+    }
+    
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)birthdayPickerChange:(UIDatePicker *)datePicker {
@@ -99,8 +108,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.title = @"编辑宝宝信息";
     
     //don't allow select tableView cell
     self.tableView.allowsSelection = NO;

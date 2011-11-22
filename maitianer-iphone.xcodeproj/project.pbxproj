@@ -23,6 +23,11 @@
 		3F0F8611147B6C1600FC3FC9 /* maitianer_iphoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0F8610147B6C1600FC3FC9 /* maitianer_iphoneTests.m */; };
 		3F0F861C147B6C7900FC3FC9 /* Baby.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0F861B147B6C7900FC3FC9 /* Baby.m */; };
 		3F0F8627147B79EC00FC3FC9 /* EditingBabyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0F8626147B79EC00FC3FC9 /* EditingBabyViewController.m */; };
+		75287426147C00B000581419 /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 75287425147C00B000581419 /* NSDate-Utilities.m */; };
+		75BFE3E1147BE18900BF3522 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BFE3DF147BE18900BF3522 /* CalendarViewController.m */; };
+		75BFE3E2147BE18900BF3522 /* CalendarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75BFE3E0147BE18900BF3522 /* CalendarViewController.xib */; };
+		75BFE3E6147BE1BA00BF3522 /* MilestonesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BFE3E5147BE1BA00BF3522 /* MilestonesViewController.m */; };
+		75BFE3E9147BE22700BF3522 /* PhotographViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BFE3E8147BE22700BF3522 /* PhotographViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +63,15 @@
 		3F0F861B147B6C7900FC3FC9 /* Baby.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Baby.m; sourceTree = "<group>"; };
 		3F0F8625147B79EC00FC3FC9 /* EditingBabyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditingBabyViewController.h; sourceTree = "<group>"; };
 		3F0F8626147B79EC00FC3FC9 /* EditingBabyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditingBabyViewController.m; sourceTree = "<group>"; };
+		75287424147C00AF00581419 /* NSDate-Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate-Utilities.h"; sourceTree = "<group>"; };
+		75287425147C00B000581419 /* NSDate-Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate-Utilities.m"; sourceTree = "<group>"; };
+		75BFE3DE147BE18900BF3522 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
+		75BFE3DF147BE18900BF3522 /* CalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
+		75BFE3E0147BE18900BF3522 /* CalendarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarViewController.xib; sourceTree = "<group>"; };
+		75BFE3E4147BE1BA00BF3522 /* MilestonesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MilestonesViewController.h; sourceTree = "<group>"; };
+		75BFE3E5147BE1BA00BF3522 /* MilestonesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MilestonesViewController.m; sourceTree = "<group>"; };
+		75BFE3E7147BE22700BF3522 /* PhotographViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotographViewController.h; sourceTree = "<group>"; };
+		75BFE3E8147BE22700BF3522 /* PhotographViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotographViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,12 +136,21 @@
 			children = (
 				3F0F85F6147B6C1600FC3FC9 /* AppDelegate.h */,
 				3F0F85F7147B6C1600FC3FC9 /* AppDelegate.m */,
+				75287424147C00AF00581419 /* NSDate-Utilities.h */,
+				75287425147C00B000581419 /* NSDate-Utilities.m */,
 				3F0F85F9147B6C1600FC3FC9 /* maitianer_iphone.xcdatamodeld */,
 				3F0F861A147B6C7900FC3FC9 /* Baby.h */,
 				3F0F861B147B6C7900FC3FC9 /* Baby.m */,
 				3F0F85EE147B6C1600FC3FC9 /* Supporting Files */,
 				3F0F8625147B79EC00FC3FC9 /* EditingBabyViewController.h */,
 				3F0F8626147B79EC00FC3FC9 /* EditingBabyViewController.m */,
+				75BFE3DE147BE18900BF3522 /* CalendarViewController.h */,
+				75BFE3DF147BE18900BF3522 /* CalendarViewController.m */,
+				75BFE3E0147BE18900BF3522 /* CalendarViewController.xib */,
+				75BFE3E4147BE1BA00BF3522 /* MilestonesViewController.h */,
+				75BFE3E5147BE1BA00BF3522 /* MilestonesViewController.m */,
+				75BFE3E7147BE22700BF3522 /* PhotographViewController.h */,
+				75BFE3E8147BE22700BF3522 /* PhotographViewController.m */,
 			);
 			path = "maitianer-iphone";
 			sourceTree = "<group>";
@@ -234,6 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F0F85F2147B6C1600FC3FC9 /* InfoPlist.strings in Resources */,
+				75BFE3E2147BE18900BF3522 /* CalendarViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +297,10 @@
 				3F0F85FB147B6C1600FC3FC9 /* maitianer_iphone.xcdatamodeld in Sources */,
 				3F0F861C147B6C7900FC3FC9 /* Baby.m in Sources */,
 				3F0F8627147B79EC00FC3FC9 /* EditingBabyViewController.m in Sources */,
+				75BFE3E1147BE18900BF3522 /* CalendarViewController.m in Sources */,
+				75BFE3E6147BE1BA00BF3522 /* MilestonesViewController.m in Sources */,
+				75BFE3E9147BE22700BF3522 /* PhotographViewController.m in Sources */,
+				75287426147C00B000581419 /* NSDate-Utilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,6 +460,7 @@
 				3F0F8616147B6C1600FC3FC9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3F0F8617147B6C1600FC3FC9 /* Build configuration list for PBXNativeTarget "maitianer-iphoneTests" */ = {
 			isa = XCConfigurationList;
@@ -440,6 +469,7 @@
 				3F0F8619147B6C1600FC3FC9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
