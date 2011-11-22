@@ -1,0 +1,460 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3F0F85E6147B6C1600FC3FC9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0F85E5147B6C1600FC3FC9 /* UIKit.framework */; };
+		3F0F85E8147B6C1600FC3FC9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0F85E7147B6C1600FC3FC9 /* Foundation.framework */; };
+		3F0F85EA147B6C1600FC3FC9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0F85E9147B6C1600FC3FC9 /* CoreGraphics.framework */; };
+		3F0F85EC147B6C1600FC3FC9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0F85EB147B6C1600FC3FC9 /* CoreData.framework */; };
+		3F0F85F2147B6C1600FC3FC9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3F0F85F0147B6C1600FC3FC9 /* InfoPlist.strings */; };
+		3F0F85F4147B6C1600FC3FC9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0F85F3147B6C1600FC3FC9 /* main.m */; };
+		3F0F85F8147B6C1600FC3FC9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0F85F7147B6C1600FC3FC9 /* AppDelegate.m */; };
+		3F0F85FB147B6C1600FC3FC9 /* maitianer_iphone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F0F85F9147B6C1600FC3FC9 /* maitianer_iphone.xcdatamodeld */; };
+		3F0F8603147B6C1600FC3FC9 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0F8602147B6C1600FC3FC9 /* SenTestingKit.framework */; };
+		3F0F8604147B6C1600FC3FC9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0F85E5147B6C1600FC3FC9 /* UIKit.framework */; };
+		3F0F8605147B6C1600FC3FC9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0F85E7147B6C1600FC3FC9 /* Foundation.framework */; };
+		3F0F8606147B6C1600FC3FC9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0F85EB147B6C1600FC3FC9 /* CoreData.framework */; };
+		3F0F860E147B6C1600FC3FC9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3F0F860C147B6C1600FC3FC9 /* InfoPlist.strings */; };
+		3F0F8611147B6C1600FC3FC9 /* maitianer_iphoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0F8610147B6C1600FC3FC9 /* maitianer_iphoneTests.m */; };
+		3F0F861C147B6C7900FC3FC9 /* Baby.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0F861B147B6C7900FC3FC9 /* Baby.m */; };
+		3F0F8627147B79EC00FC3FC9 /* EditingBabyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0F8626147B79EC00FC3FC9 /* EditingBabyViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3F0F8607147B6C1600FC3FC9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F0F85D8147B6C1600FC3FC9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3F0F85E0147B6C1600FC3FC9;
+			remoteInfo = "maitianer-iphone";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3F0F85E1147B6C1600FC3FC9 /* maitianer-iphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "maitianer-iphone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F0F85E5147B6C1600FC3FC9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		3F0F85E7147B6C1600FC3FC9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3F0F85E9147B6C1600FC3FC9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		3F0F85EB147B6C1600FC3FC9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		3F0F85EF147B6C1600FC3FC9 /* maitianer-iphone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "maitianer-iphone-Info.plist"; sourceTree = "<group>"; };
+		3F0F85F1147B6C1600FC3FC9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3F0F85F3147B6C1600FC3FC9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3F0F85F5147B6C1600FC3FC9 /* maitianer-iphone-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "maitianer-iphone-Prefix.pch"; sourceTree = "<group>"; };
+		3F0F85F6147B6C1600FC3FC9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		3F0F85F7147B6C1600FC3FC9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		3F0F85FA147B6C1600FC3FC9 /* maitianer_iphone.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = maitianer_iphone.xcdatamodel; sourceTree = "<group>"; };
+		3F0F8601147B6C1600FC3FC9 /* maitianer-iphoneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "maitianer-iphoneTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F0F8602147B6C1600FC3FC9 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		3F0F860B147B6C1600FC3FC9 /* maitianer-iphoneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "maitianer-iphoneTests-Info.plist"; sourceTree = "<group>"; };
+		3F0F860D147B6C1600FC3FC9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3F0F860F147B6C1600FC3FC9 /* maitianer_iphoneTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = maitianer_iphoneTests.h; sourceTree = "<group>"; };
+		3F0F8610147B6C1600FC3FC9 /* maitianer_iphoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = maitianer_iphoneTests.m; sourceTree = "<group>"; };
+		3F0F861A147B6C7900FC3FC9 /* Baby.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Baby.h; sourceTree = "<group>"; };
+		3F0F861B147B6C7900FC3FC9 /* Baby.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Baby.m; sourceTree = "<group>"; };
+		3F0F8625147B79EC00FC3FC9 /* EditingBabyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditingBabyViewController.h; sourceTree = "<group>"; };
+		3F0F8626147B79EC00FC3FC9 /* EditingBabyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditingBabyViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3F0F85DE147B6C1600FC3FC9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F0F85E6147B6C1600FC3FC9 /* UIKit.framework in Frameworks */,
+				3F0F85E8147B6C1600FC3FC9 /* Foundation.framework in Frameworks */,
+				3F0F85EA147B6C1600FC3FC9 /* CoreGraphics.framework in Frameworks */,
+				3F0F85EC147B6C1600FC3FC9 /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F0F85FD147B6C1600FC3FC9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F0F8603147B6C1600FC3FC9 /* SenTestingKit.framework in Frameworks */,
+				3F0F8604147B6C1600FC3FC9 /* UIKit.framework in Frameworks */,
+				3F0F8605147B6C1600FC3FC9 /* Foundation.framework in Frameworks */,
+				3F0F8606147B6C1600FC3FC9 /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3F0F85D6147B6C1600FC3FC9 = {
+			isa = PBXGroup;
+			children = (
+				3F0F85ED147B6C1600FC3FC9 /* maitianer-iphone */,
+				3F0F8609147B6C1600FC3FC9 /* maitianer-iphoneTests */,
+				3F0F85E4147B6C1600FC3FC9 /* Frameworks */,
+				3F0F85E2147B6C1600FC3FC9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3F0F85E2147B6C1600FC3FC9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3F0F85E1147B6C1600FC3FC9 /* maitianer-iphone.app */,
+				3F0F8601147B6C1600FC3FC9 /* maitianer-iphoneTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3F0F85E4147B6C1600FC3FC9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3F0F85E5147B6C1600FC3FC9 /* UIKit.framework */,
+				3F0F85E7147B6C1600FC3FC9 /* Foundation.framework */,
+				3F0F85E9147B6C1600FC3FC9 /* CoreGraphics.framework */,
+				3F0F85EB147B6C1600FC3FC9 /* CoreData.framework */,
+				3F0F8602147B6C1600FC3FC9 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3F0F85ED147B6C1600FC3FC9 /* maitianer-iphone */ = {
+			isa = PBXGroup;
+			children = (
+				3F0F85F6147B6C1600FC3FC9 /* AppDelegate.h */,
+				3F0F85F7147B6C1600FC3FC9 /* AppDelegate.m */,
+				3F0F85F9147B6C1600FC3FC9 /* maitianer_iphone.xcdatamodeld */,
+				3F0F861A147B6C7900FC3FC9 /* Baby.h */,
+				3F0F861B147B6C7900FC3FC9 /* Baby.m */,
+				3F0F85EE147B6C1600FC3FC9 /* Supporting Files */,
+				3F0F8625147B79EC00FC3FC9 /* EditingBabyViewController.h */,
+				3F0F8626147B79EC00FC3FC9 /* EditingBabyViewController.m */,
+			);
+			path = "maitianer-iphone";
+			sourceTree = "<group>";
+		};
+		3F0F85EE147B6C1600FC3FC9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3F0F85EF147B6C1600FC3FC9 /* maitianer-iphone-Info.plist */,
+				3F0F85F0147B6C1600FC3FC9 /* InfoPlist.strings */,
+				3F0F85F3147B6C1600FC3FC9 /* main.m */,
+				3F0F85F5147B6C1600FC3FC9 /* maitianer-iphone-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3F0F8609147B6C1600FC3FC9 /* maitianer-iphoneTests */ = {
+			isa = PBXGroup;
+			children = (
+				3F0F860F147B6C1600FC3FC9 /* maitianer_iphoneTests.h */,
+				3F0F8610147B6C1600FC3FC9 /* maitianer_iphoneTests.m */,
+				3F0F860A147B6C1600FC3FC9 /* Supporting Files */,
+			);
+			path = "maitianer-iphoneTests";
+			sourceTree = "<group>";
+		};
+		3F0F860A147B6C1600FC3FC9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3F0F860B147B6C1600FC3FC9 /* maitianer-iphoneTests-Info.plist */,
+				3F0F860C147B6C1600FC3FC9 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3F0F85E0147B6C1600FC3FC9 /* maitianer-iphone */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F0F8614147B6C1600FC3FC9 /* Build configuration list for PBXNativeTarget "maitianer-iphone" */;
+			buildPhases = (
+				3F0F85DD147B6C1600FC3FC9 /* Sources */,
+				3F0F85DE147B6C1600FC3FC9 /* Frameworks */,
+				3F0F85DF147B6C1600FC3FC9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "maitianer-iphone";
+			productName = "maitianer-iphone";
+			productReference = 3F0F85E1147B6C1600FC3FC9 /* maitianer-iphone.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3F0F8600147B6C1600FC3FC9 /* maitianer-iphoneTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F0F8617147B6C1600FC3FC9 /* Build configuration list for PBXNativeTarget "maitianer-iphoneTests" */;
+			buildPhases = (
+				3F0F85FC147B6C1600FC3FC9 /* Sources */,
+				3F0F85FD147B6C1600FC3FC9 /* Frameworks */,
+				3F0F85FE147B6C1600FC3FC9 /* Resources */,
+				3F0F85FF147B6C1600FC3FC9 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3F0F8608147B6C1600FC3FC9 /* PBXTargetDependency */,
+			);
+			name = "maitianer-iphoneTests";
+			productName = "maitianer-iphoneTests";
+			productReference = 3F0F8601147B6C1600FC3FC9 /* maitianer-iphoneTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3F0F85D8147B6C1600FC3FC9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "麦田儿";
+			};
+			buildConfigurationList = 3F0F85DB147B6C1600FC3FC9 /* Build configuration list for PBXProject "maitianer-iphone" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3F0F85D6147B6C1600FC3FC9;
+			productRefGroup = 3F0F85E2147B6C1600FC3FC9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3F0F85E0147B6C1600FC3FC9 /* maitianer-iphone */,
+				3F0F8600147B6C1600FC3FC9 /* maitianer-iphoneTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3F0F85DF147B6C1600FC3FC9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F0F85F2147B6C1600FC3FC9 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F0F85FE147B6C1600FC3FC9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F0F860E147B6C1600FC3FC9 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3F0F85FF147B6C1600FC3FC9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3F0F85DD147B6C1600FC3FC9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F0F85F4147B6C1600FC3FC9 /* main.m in Sources */,
+				3F0F85F8147B6C1600FC3FC9 /* AppDelegate.m in Sources */,
+				3F0F85FB147B6C1600FC3FC9 /* maitianer_iphone.xcdatamodeld in Sources */,
+				3F0F861C147B6C7900FC3FC9 /* Baby.m in Sources */,
+				3F0F8627147B79EC00FC3FC9 /* EditingBabyViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F0F85FC147B6C1600FC3FC9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F0F8611147B6C1600FC3FC9 /* maitianer_iphoneTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3F0F8608147B6C1600FC3FC9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3F0F85E0147B6C1600FC3FC9 /* maitianer-iphone */;
+			targetProxy = 3F0F8607147B6C1600FC3FC9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3F0F85F0147B6C1600FC3FC9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3F0F85F1147B6C1600FC3FC9 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		3F0F860C147B6C1600FC3FC9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3F0F860D147B6C1600FC3FC9 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3F0F8612147B6C1600FC3FC9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		3F0F8613147B6C1600FC3FC9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3F0F8615147B6C1600FC3FC9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "maitianer-iphone/maitianer-iphone-Prefix.pch";
+				INFOPLIST_FILE = "maitianer-iphone/maitianer-iphone-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		3F0F8616147B6C1600FC3FC9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "maitianer-iphone/maitianer-iphone-Prefix.pch";
+				INFOPLIST_FILE = "maitianer-iphone/maitianer-iphone-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		3F0F8618147B6C1600FC3FC9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/maitianer-iphone.app/maitianer-iphone";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "maitianer-iphone/maitianer-iphone-Prefix.pch";
+				INFOPLIST_FILE = "maitianer-iphoneTests/maitianer-iphoneTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		3F0F8619147B6C1600FC3FC9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/maitianer-iphone.app/maitianer-iphone";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "maitianer-iphone/maitianer-iphone-Prefix.pch";
+				INFOPLIST_FILE = "maitianer-iphoneTests/maitianer-iphoneTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3F0F85DB147B6C1600FC3FC9 /* Build configuration list for PBXProject "maitianer-iphone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F0F8612147B6C1600FC3FC9 /* Debug */,
+				3F0F8613147B6C1600FC3FC9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3F0F8614147B6C1600FC3FC9 /* Build configuration list for PBXNativeTarget "maitianer-iphone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F0F8615147B6C1600FC3FC9 /* Debug */,
+				3F0F8616147B6C1600FC3FC9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		3F0F8617147B6C1600FC3FC9 /* Build configuration list for PBXNativeTarget "maitianer-iphoneTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F0F8618147B6C1600FC3FC9 /* Debug */,
+				3F0F8619147B6C1600FC3FC9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3F0F85F9147B6C1600FC3FC9 /* maitianer_iphone.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3F0F85FA147B6C1600FC3FC9 /* maitianer_iphone.xcdatamodel */,
+			);
+			currentVersion = 3F0F85FA147B6C1600FC3FC9 /* maitianer_iphone.xcdatamodel */;
+			path = maitianer_iphone.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 3F0F85D8147B6C1600FC3FC9 /* Project object */;
+}
