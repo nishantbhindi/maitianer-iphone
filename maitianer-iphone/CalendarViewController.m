@@ -13,9 +13,34 @@
 @implementation CalendarViewController
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize baby = _baby;
+@synthesize babyInfoView = _babyInfoView;
+@synthesize avatarView = _avatarView;
 @synthesize babyNameLabel = _babyNameLabel;
 @synthesize daysFromBirthdayLabel = _daysFromBirthdayLabel;
-@synthesize daysAfterRecord = _daysAfterRecord;
+@synthesize daysAfterRecordLabel = _daysAfterRecordLabel;
+@synthesize babyInfoToggle = _babyInfoToggle;
+@synthesize calendarView = _calendarView;
+
+- (IBAction)toggleBabyInfo:(id)sender {
+    UIButton *button = sender;
+    CGRect babyInfoFrame = self.babyInfoView.frame;
+    CGRect buttonFrame = button.frame;
+    [UIView beginAnimations:@"Baby Info Move in/out" context:nil];
+    if (babyInfoFrame.origin.y >= 0) {
+        babyInfoFrame.origin.y = -babyInfoFrame.size.height;
+        buttonFrame.origin.y -= babyInfoFrame.size.height;
+        self.babyInfoView.frame = babyInfoFrame;
+        button.frame = buttonFrame;
+        [button setTitle:@"打开" forState:UIControlStateNormal];
+    }else {
+        babyInfoFrame.origin.y = 0;
+        buttonFrame.origin.y += babyInfoFrame.size.height;
+        self.babyInfoView.frame = babyInfoFrame;
+        button.frame = buttonFrame;
+        [button setTitle:@"收起" forState:UIControlStateNormal];
+    }
+    [UIView commitAnimations];
+}
 
 - (NSArray *)_fetchBabies {
     //fetch babies from database
@@ -49,9 +74,13 @@
 - (void)dealloc {
     [_managedObjectContext release];
     [_baby release];
+    [_babyInfoView release];
+    [_avatarView release];
     [_babyNameLabel release];
     [_daysFromBirthdayLabel release];
-    [_daysAfterRecord release];
+    [_daysAfterRecordLabel release];
+    [_babyInfoToggle release]; 
+    [_calendarView release];
     [super dealloc];
 }
 
@@ -74,6 +103,7 @@
         [editingBabyNVC release];
     }else {
         self.baby = [babiesArray objectAtIndex:0];
+        
         self.babyNameLabel.text = self.baby.nickName;
         NSString *duringBirthday = nil;
         NSInteger yearsAfter = [[NSDate date] year] - [self.baby.birthday year];
@@ -88,7 +118,7 @@
             duringBirthday = [NSString stringWithFormat:@"%d天", [[NSDate date] daysAfterDate:self.baby.birthday]];
         }
         self.daysFromBirthdayLabel.text = [NSString stringWithFormat:@"宝宝出生到现在已经%@了", duringBirthday];
-        self.daysAfterRecord.text = [NSString stringWithFormat:@"您已经有40天没有记录宝宝了"];
+        self.daysAfterRecordLabel.text = [NSString stringWithFormat:@"您已经有40天没有记录宝宝了"];
     }
     
 }

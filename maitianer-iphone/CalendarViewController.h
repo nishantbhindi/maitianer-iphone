@@ -8,21 +8,36 @@
 
 #import <UIKit/UIKit.h>
 #import "Baby.h"
+#import "MTCalendarView.h"
 
 @interface CalendarViewController : UIViewController {
     NSManagedObjectContext *_managedObjectContext;
     Baby *_baby;
     
+    IBOutlet UIView *_babyInfoView;
+    IBOutlet UIImageView *_avatarView;
     IBOutlet UILabel *_babyNameLabel;
     IBOutlet UILabel *_daysFromBirthdayLabel;
-    IBOutlet UILabel *_daysAfterRecord;
+    IBOutlet UILabel *_daysAfterRecordLabel;
+    
+    IBOutlet UIButton *_babyInfoToggle;
+    
+    IBOutlet MTCalendarView *_calendarView;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) Baby *baby;
 
+@property (nonatomic, retain) UIView *babyInfoView;
+@property (nonatomic, retain) UIImageView *avatarView;
 @property (nonatomic, retain) UILabel *babyNameLabel;
 @property (nonatomic, retain) UILabel *daysFromBirthdayLabel;
-@property (nonatomic, retain) UILabel *daysAfterRecord;
+@property (nonatomic, retain) UILabel *daysAfterRecordLabel;
+
+@property (nonatomic, retain) UIButton *babyInfoToggle;
+
+@property (nonatomic, retain) MTCalendarView *calendarView;
+
+- (IBAction)toggleBabyInfo:(id)sender;
 
 @end
