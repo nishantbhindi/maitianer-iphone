@@ -13,6 +13,7 @@
 
 @interface MTCalendarView : UIView {
     NSDate *_selectedDate;
+    NSDate *_miniumDate;
     
     UIView *_monthBar;
     UIButton *_monthLabelButton;
@@ -22,6 +23,7 @@
 }
 
 @property (nonatomic, retain) NSDate *selectedDate;
+@property (nonatomic, retain) NSDate *miniumDate;
 @property (readonly) UIView *monthBar;
 @property (readonly) UIButton *monthLabelButton;
 @property (readonly) UIButton *monthBackButton;

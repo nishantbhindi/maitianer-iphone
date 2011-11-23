@@ -10,7 +10,7 @@
 #import "Baby.h"
 #import "MTCalendarView.h"
 
-@interface CalendarViewController : UIViewController {
+@interface CalendarViewController : UIViewController <MTCalendarViewDelegate> {
     NSManagedObjectContext *_managedObjectContext;
     Baby *_baby;
     

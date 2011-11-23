@@ -7,15 +7,24 @@
 //
 
 #import "MTCalendarCellView.h"
+#import "NSDate-Utilities.h"
 
 @implementation MTCalendarCellView
 @synthesize date = _date;
+
+- (void)setDate:(NSDate *)date {
+    if (![date isEqualToDate:_date]) {
+        [_date release];
+        _date = [date retain];
+        [self setTitle:[NSString stringWithFormat:@"%d", _date.day] forState:UIControlStateNormal];
+    }
+}
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        [self setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
     }
     return self;
 }

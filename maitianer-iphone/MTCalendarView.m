@@ -7,6 +7,8 @@
 //
 
 #import "MTCalendarView.h"
+#import "NSDate+Calculations.h"
+#import "NSDate-Utilities.h"
 
 @interface MTCalendarView(private)
 
@@ -16,6 +18,7 @@
 
 @implementation MTCalendarView
 @synthesize selectedDate = _selectedDate;
+@synthesize miniumDate = _miniumDate;
 @synthesize monthBar = _monthBar;
 @synthesize monthLabelButton = _monthLabelButton;
 @synthesize monthBackButton = _monthBackButton;
@@ -62,6 +65,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
     if (!_monthBackButton) {
         _monthBackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, kDefaultMonthBarButtonWidth, kDefaultMonthBarHeight)];
         [_monthBackButton setTitle:@"<" forState:UIControlStateNormal];
+        [_monthBackButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         [_monthBackButton addTarget:self action:@selector(monthBack) forControlEvents:UIControlEventTouchUpInside];
         
     }
@@ -120,44 +124,52 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 }
 
 - (void)monthUpdated {
+    
+    //disable month back button when current month equal minium date month
+    if ([[self.selectedDate beginningOfMonth] timeIntervalSince1970] <= [self.miniumDate timeIntervalSince1970]) {
+        self.monthBackButton.enabled = NO;
+    }else {
+        self.monthBackButton.enabled = YES;
+    }
+    
     //remove all calendar cell views from the scroll view
     for (MTCalendarCellView *cellView in self.calendarScrollView.subviews) {
         [cellView removeFromSuperview];
     }
     
-    //selected month
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSRange days = [calendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:self.selectedDate];
-    
-    int selectedMonth = [calendar components:NSMonthCalendarUnit fromDate:self.selectedDate].month;
-    NSDateComponents *dayStep = [[NSDateComponents alloc] init];
-    dayStep.day = 1;
-//    int month = [calendar components:NSMonthCalendarUnit fromDate:date].month;
-    
-    //add cell view as calendar scroll view's subview for selected month
-//    while (month <= selectedMonth) {
-//        MTCalendarCellView *cellView = [[[MTCalendarCellView alloc] init] autorelease];
-//        cellView.date = date;
-//        [cellView addTarget:self action:@selector(touchedCellView:) forControlEvents:UIControlEventTouchUpInside];
-//        [self.calendarScrollView addSubview:cellView];
-//        date = [calendar dateByAddingComponents:dayStep toDate:date options:0];
-//        month = [calendar components: NSMonthCalendarUnit fromDate:date].month;
-//    }
+    //add calendar cell views for selected month
+    int days = [self.selectedDate daysInMonth];
+    NSDate *date = [self.selectedDate beginningOfMonth];
+    for (int i = 1; i <= days; i++) {
+        MTCalendarCellView *cellView = [[[MTCalendarCellView alloc] init] autorelease];
+        cellView.date = date;
+        //disable cell if date before minium date
+        if ([date timeIntervalSince1970] < [self.miniumDate timeIntervalSince1970]) {
+            cellView.enabled = NO;
+        }
+        cellView.backgroundColor = [UIColor grayColor];
+        cellView.tag = i;
+        [cellView addTarget:self action:@selector(touchedCellView:) forControlEvents:UIControlEventTouchUpInside];
+        [self.calendarScrollView addSubview:cellView];
+        date = [date dateByAddingDays:1];
+    }
     
     [self setNeedsLayout];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
     float cellSideLength = self.calendarScrollView.frame.size.width / 4;
+    self.calendarScrollView.contentSize = CGSizeMake(self.frame.size.width, cellSideLength * ceil([self.selectedDate daysInMonth] / 4.0));
     CGRect cellFrame = CGRectMake(0, 0, cellSideLength, cellSideLength);
     
     int i = 0;
     for (MTCalendarCellView *cellView in self.calendarScrollView.subviews) {
-        cellFrame.origin.x = cellFrame.size.width * (i % 7);
-        cellFrame.origin.y = cellFrame.size.height * (i / 7);
-        cellView.frame = cellFrame;
+        if (cellView.tag > 0) {
+            cellFrame.origin.x = cellFrame.size.width * (i % 4);
+            cellFrame.origin.y = cellFrame.size.height * (i / 4);
+            cellView.frame = cellFrame;
+        }
         
         i++;
     }
@@ -169,6 +181,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
         [self addSubview:self.monthBar];
         [self addSubview:self.calendarScrollView];
         self.selectedDate = [NSDate date];
+        self.miniumDate = [NSDate dateWithTimeIntervalSince1970:0];
     }
     return self;
 }
@@ -179,6 +192,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
         [self addSubview:self.monthBar];
         [self addSubview:self.calendarScrollView];
         self.selectedDate = [NSDate date];
+        self.miniumDate = [NSDate dateWithTimeIntervalSince1970:0];
     }
     return self;
 }
@@ -190,12 +204,14 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
         [self addSubview:self.monthBar];
         [self addSubview:self.calendarScrollView];
         self.selectedDate = [NSDate date];
+        self.miniumDate = [NSDate dateWithTimeIntervalSince1970:0];
     }
     return self;
 }
 
 - (void)dealloc {
     [_selectedDate release];
+    [_miniumDate release];
     [_monthBar release];
     [_monthBackButton release];
     [_monthForwardButton release];

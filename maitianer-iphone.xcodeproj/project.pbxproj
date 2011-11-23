@@ -31,6 +31,13 @@
 		75BFE3E2147BE18900BF3522 /* CalendarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75BFE3E0147BE18900BF3522 /* CalendarViewController.xib */; };
 		75BFE3E6147BE1BA00BF3522 /* MilestonesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BFE3E5147BE1BA00BF3522 /* MilestonesViewController.m */; };
 		75BFE3E9147BE22700BF3522 /* PhotographViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BFE3E8147BE22700BF3522 /* PhotographViewController.m */; };
+		75C5D770147D049500BD84E8 /* NSDate+Calculations.m in Sources */ = {isa = PBXBuildFile; fileRef = 75C5D76F147D049500BD84E8 /* NSDate+Calculations.m */; };
+		75C5D782147D54CE00BD84E8 /* milestones.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C5D77E147D54CE00BD84E8 /* milestones.png */; };
+		75C5D783147D54CE00BD84E8 /* milestones@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C5D77F147D54CE00BD84E8 /* milestones@2x.png */; };
+		75C5D784147D54CE00BD84E8 /* calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C5D780147D54CE00BD84E8 /* calendar.png */; };
+		75C5D785147D54CE00BD84E8 /* calendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C5D781147D54CE00BD84E8 /* calendar@2x.png */; };
+		75C5D788147D584500BD84E8 /* capture-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C5D786147D584500BD84E8 /* capture-button.png */; };
+		75C5D789147D584500BD84E8 /* capture-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C5D787147D584500BD84E8 /* capture-button@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +87,14 @@
 		75BFE3E5147BE1BA00BF3522 /* MilestonesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MilestonesViewController.m; sourceTree = "<group>"; };
 		75BFE3E7147BE22700BF3522 /* PhotographViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotographViewController.h; sourceTree = "<group>"; };
 		75BFE3E8147BE22700BF3522 /* PhotographViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotographViewController.m; sourceTree = "<group>"; };
+		75C5D76E147D049500BD84E8 /* NSDate+Calculations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Calculations.h"; sourceTree = "<group>"; };
+		75C5D76F147D049500BD84E8 /* NSDate+Calculations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Calculations.m"; sourceTree = "<group>"; };
+		75C5D77E147D54CE00BD84E8 /* milestones.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = milestones.png; sourceTree = "<group>"; };
+		75C5D77F147D54CE00BD84E8 /* milestones@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "milestones@2x.png"; sourceTree = "<group>"; };
+		75C5D780147D54CE00BD84E8 /* calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar.png; sourceTree = "<group>"; };
+		75C5D781147D54CE00BD84E8 /* calendar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar@2x.png"; sourceTree = "<group>"; };
+		75C5D786147D584500BD84E8 /* capture-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "capture-button.png"; sourceTree = "<group>"; };
+		75C5D787147D584500BD84E8 /* capture-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "capture-button@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +127,12 @@
 		3F0F85D6147B6C1600FC3FC9 = {
 			isa = PBXGroup;
 			children = (
+				75C5D786147D584500BD84E8 /* capture-button.png */,
+				75C5D787147D584500BD84E8 /* capture-button@2x.png */,
+				75C5D77E147D54CE00BD84E8 /* milestones.png */,
+				75C5D77F147D54CE00BD84E8 /* milestones@2x.png */,
+				75C5D780147D54CE00BD84E8 /* calendar.png */,
+				75C5D781147D54CE00BD84E8 /* calendar@2x.png */,
 				3F0F85ED147B6C1600FC3FC9 /* maitianer-iphone */,
 				3F0F8609147B6C1600FC3FC9 /* maitianer-iphoneTests */,
 				3F0F85E4147B6C1600FC3FC9 /* Frameworks */,
@@ -148,6 +169,8 @@
 				3F0F85F7147B6C1600FC3FC9 /* AppDelegate.m */,
 				75287424147C00AF00581419 /* NSDate-Utilities.h */,
 				75287425147C00B000581419 /* NSDate-Utilities.m */,
+				75C5D76E147D049500BD84E8 /* NSDate+Calculations.h */,
+				75C5D76F147D049500BD84E8 /* NSDate+Calculations.m */,
 				3F0F85F9147B6C1600FC3FC9 /* maitianer_iphone.xcdatamodeld */,
 				3F0F861A147B6C7900FC3FC9 /* Baby.h */,
 				3F0F861B147B6C7900FC3FC9 /* Baby.m */,
@@ -272,6 +295,12 @@
 			files = (
 				3F0F85F2147B6C1600FC3FC9 /* InfoPlist.strings in Resources */,
 				75BFE3E2147BE18900BF3522 /* CalendarViewController.xib in Resources */,
+				75C5D782147D54CE00BD84E8 /* milestones.png in Resources */,
+				75C5D783147D54CE00BD84E8 /* milestones@2x.png in Resources */,
+				75C5D784147D54CE00BD84E8 /* calendar.png in Resources */,
+				75C5D785147D54CE00BD84E8 /* calendar@2x.png in Resources */,
+				75C5D788147D584500BD84E8 /* capture-button.png in Resources */,
+				75C5D789147D584500BD84E8 /* capture-button@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +346,7 @@
 				75287426147C00B000581419 /* NSDate-Utilities.m in Sources */,
 				3F8B4396147C9D9F00D544CF /* MTCalendarView.m in Sources */,
 				3F8B439A147C9DB200D544CF /* MTCalendarCellView.m in Sources */,
+				75C5D770147D049500BD84E8 /* NSDate+Calculations.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

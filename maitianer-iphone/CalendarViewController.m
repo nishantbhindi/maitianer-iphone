@@ -25,20 +25,24 @@
     UIButton *button = sender;
     CGRect babyInfoFrame = self.babyInfoView.frame;
     CGRect buttonFrame = button.frame;
+    CGRect calendarViewFrame = self.calendarView.frame;
     [UIView beginAnimations:@"Baby Info Move in/out" context:nil];
     if (babyInfoFrame.origin.y >= 0) {
         babyInfoFrame.origin.y = -babyInfoFrame.size.height;
         buttonFrame.origin.y -= babyInfoFrame.size.height;
-        self.babyInfoView.frame = babyInfoFrame;
-        button.frame = buttonFrame;
         [button setTitle:@"打开" forState:UIControlStateNormal];
+        calendarViewFrame.size.height += babyInfoFrame.size.height;
+        calendarViewFrame.origin.y -= babyInfoFrame.size.height;
     }else {
         babyInfoFrame.origin.y = 0;
         buttonFrame.origin.y += babyInfoFrame.size.height;
-        self.babyInfoView.frame = babyInfoFrame;
-        button.frame = buttonFrame;
         [button setTitle:@"收起" forState:UIControlStateNormal];
+        calendarViewFrame.size.height -= babyInfoFrame.size.height;
+        calendarViewFrame.origin.y += babyInfoFrame.size.height;
     }
+    self.babyInfoView.frame = babyInfoFrame;
+    button.frame = buttonFrame;
+    self.calendarView.frame = calendarViewFrame;
     [UIView commitAnimations];
 }
 
@@ -59,6 +63,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"日历";
+        self.tabBarItem = [[[UITabBarItem alloc] initWithTitle:@"日历" image:[UIImage imageNamed:@"calendar.png"] tag:1] autorelease];
     }
     return self;
 }
@@ -121,6 +126,10 @@
         self.daysAfterRecordLabel.text = [NSString stringWithFormat:@"您已经有40天没有记录宝宝了"];
     }
     
+    //config calendar view
+    self.calendarView.delegate = self;
+    self.calendarView.miniumDate = self.baby.birthday;
+    
 }
 
 - (void)viewDidUnload
@@ -144,6 +153,13 @@
         NSArray *babiesArray = [self _fetchBabies];
         self.baby = [babiesArray objectAtIndex:0];
     }
+}
+
+#pragma mark - calendar view delegate methods
+- (void)calendarView:(MTCalendarView *)calendarView didSelectDate:(NSDate *)date {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Test" message:[date descriptionWithLocale:[NSLocale systemLocale]] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alert show];
+    [alert release];
 }
 
 @end
