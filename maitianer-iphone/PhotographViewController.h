@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PhotographViewController : UIViewController
+@interface PhotographViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
+    UIImagePickerController *_imagePickerController;
+    NSDate *_recordDate;
+}
+
+@property (nonatomic, retain) UIImagePickerController *imagePickerController;
+@property (nonatomic, retain) NSDate *recordDate;
+
+- (void)cameraAction:(id)sender;
+- (void)photoLibraryAction:(id)sender;
 
 @end
