@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface PhotographViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
+    NSManagedObjectContext *_managedObjectContext;
+    
     UIImagePickerController *_imagePickerController;
     NSDate *_recordDate;
 }
 
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) UIImagePickerController *imagePickerController;
 @property (nonatomic, retain) NSDate *recordDate;
 

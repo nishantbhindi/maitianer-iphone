@@ -49,6 +49,7 @@
     [calendarVC release];
     
     PhotographViewController *photographVC = [[PhotographViewController alloc] init];
+    photographVC.managedObjectContext = self.managedObjectContext;
     
     MilestonesViewController *milestonesVC = [[MilestonesViewController alloc] init];
     UINavigationController *milestonesNVC = [[UINavigationController alloc] initWithRootViewController:milestonesVC];

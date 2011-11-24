@@ -10,8 +10,10 @@
 #import "DKFile.h"
 #import "NSDate-Utilities.h"
 #import "UIImage+ProportionalFill.h"
+#import "Photo.h"
 
 @implementation PhotographViewController
+@synthesize managedObjectContext = _managedObjectContext;
 @synthesize imagePickerController = _imagePickerController;
 @synthesize recordDate = _recordDate;
 
@@ -54,6 +56,7 @@
 }
 
 - (void)dealloc {
+    [_managedObjectContext release];
     [_imagePickerController release];
     [_recordDate release];
     [super dealloc];
@@ -90,18 +93,9 @@
 }
 
 #pragma mark - Image picker controller delegate methods
-- (void)_saveImage:(UIImage *)image {
-    int year = self.recordDate.year;
-    int month = self.recordDate.month;
-    int day = self.recordDate.day;
+- (void)_saveImage:(UIImage *)image toPath:(NSString *)path{
     
-    CFUUIDRef uuid = CFUUIDCreate(NULL);
-    CFStringRef uuidString = CFUUIDCreateString(NULL, uuid);
-    CFRelease(uuid);
-    NSString *uniqueFileName = [NSString stringWithFormat:@"%@.jpg", (NSString *)uuidString];
-    CFRelease(uuidString);
-    
-    DKFile *file = [DKFile fileFromDocuments:uniqueFileName];
+    DKFile *file = [DKFile fileFromDocuments:path];
     NSError *error = nil;
     if ([file writeData:UIImageJPEGRepresentation(image, 0.9) error:&error]) {
         NSLog(@"File save success!");
@@ -110,20 +104,80 @@
     }
 }
 
+- (NSString *)_generateUUID {
+    CFUUIDRef uuid = CFUUIDCreate(NULL);
+    CFStringRef uuidString = CFUUIDCreateString(NULL, uuid);
+    CFRelease(uuid);
+    NSString *uniqueFileName = [NSString stringWithFormat:@"%@", (NSString *)uuidString];
+    CFRelease(uuidString);
+    return uniqueFileName;
+}
+
+- (NSString *)_photoStorePathByDate:(NSDate *)date {
+    int year = date.year;
+    int month = date.month;
+    int day = date.day;
+    
+    NSString *path;
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *subPath = [NSString stringWithFormat:@"photos/%d/%d/%d", year, month, day];
+	path = [[paths objectAtIndex:0] stringByAppendingPathComponent:subPath];
+	NSError *error;
+	if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+		if (![[NSFileManager defaultManager] createDirectoryAtPath:path
+									   withIntermediateDirectories:YES
+														attributes:nil
+															 error:&error]) {
+			NSLog(@"Create directory error: %@", error);
+		}
+	}
+    
+    return subPath;
+}
+
+- (NSArray *)_fetchBabies {
+    //fetch babies from database
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Baby"];
+    NSError *error = nil;
+    NSArray *babiesArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    if (babiesArray == nil) {
+        //Handle the error.
+    }
+    NSLog(@"babies count: %d", [babiesArray count]);
+    return babiesArray;
+}
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *originImage = [info valueForKey:UIImagePickerControllerOriginalImage];
     UIImage *editedImage = [info valueForKey:UIImagePickerControllerEditedImage];
     
+    NSString *storePath = [self _photoStorePathByDate:self.recordDate];
+    NSString *fileNameUUID = [self _generateUUID];
+    
     //store the origin image picked
-    [self _saveImage:originImage];
+    [self _saveImage:originImage 
+              toPath:[storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-origin.jpg", fileNameUUID]]];
     
     //resize the origin image for thumbnail 640x640 and store it
-    [self _saveImage:editedImage];
+    [self _saveImage:editedImage 
+              toPath:[storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", fileNameUUID]]];
     
     //resize the origin image for thumbnail 200x200 and store it
-    [self _saveImage:[editedImage imageScaledToFitSize:CGSizeMake(200, 200)]];
+    [self _saveImage:[editedImage imageScaledToFitSize:CGSizeMake(200, 200)] 
+              toPath:[storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-b200.jpg", fileNameUUID]]];
     
     //save the photo record use core data
+    Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:self.managedObjectContext];
+    photo.path = [storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", fileNameUUID]];
+    photo.baby = [[self _fetchBabies] objectAtIndex:0];
+    photo.recoredDate = self.recordDate;
+    photo.creationDate = [NSDate date];
+    photo.shared = NO;
+    
+    NSError *error = nil;
+    if (![self.managedObjectContext save:&error]) {
+        NSLog(@"%@", error.description);
+    }
     
     [self dismissModalViewControllerAnimated:YES];
 }

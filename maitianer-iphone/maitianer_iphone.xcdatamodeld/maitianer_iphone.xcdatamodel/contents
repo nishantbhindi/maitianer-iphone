@@ -8,8 +8,19 @@
         <attribute name="nickName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="realName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sex" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="photos" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="baby" inverseEntity="Photo" syncable="YES"/>
+    </entity>
+    <entity name="Photo" representedClassName="Photo" syncable="YES">
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="recoredDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="shared" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="baby" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Baby" inverseName="photos" inverseEntity="Baby" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Baby" positionX="160" positionY="192" width="128" height="150"/>
+        <element name="Baby" positionX="160" positionY="192" width="128" height="165"/>
+        <element name="Photo" positionX="367" positionY="201" width="128" height="150"/>
     </elements>
 </model>
