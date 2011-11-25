@@ -58,6 +58,20 @@
     return babiesArray;
 }
 
+- (NSArray *)_fetchPhotosPerDay {
+    //fetch photos per day from database
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
+    //[request setPropertiesToGroupBy:[NSArray arrayWithObject:@"recoredDate"]];
+    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]]];
+    NSError *error = nil;
+    NSArray *photosArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    if (photosArray == nil) {
+        //Handle the error.
+    }
+    NSLog(@"photos count: %d", [photosArray count]);
+    return photosArray;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -96,6 +110,7 @@
     [super viewDidLoad];
     
     NSArray *babiesArray = [self _fetchBabies];
+    [self _fetchPhotosPerDay];
     
     //show editing baby view controller for create a baby if baby not existed
     if ([babiesArray count] == 0) {

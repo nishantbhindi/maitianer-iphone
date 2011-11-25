@@ -2,21 +2,23 @@
 //  Baby.m
 //  maitianer-iphone
 //
-//  Created by 张 朝 on 11-11-22.
+//  Created by 张 朝 on 11-11-25.
 //  Copyright (c) 2011年 麦田儿. All rights reserved.
 //
 
 #import "Baby.h"
+#import "Photo.h"
 
 
 @implementation Baby
 
-@dynamic nickName;
-@dynamic realName;
 @dynamic birthday;
-@dynamic sex;
+@dynamic birthWeight;
 @dynamic fatherName;
 @dynamic motherName;
-@dynamic birthWeight;
+@dynamic nickName;
+@dynamic realName;
+@dynamic sex;
+@dynamic photos;
 
 @end

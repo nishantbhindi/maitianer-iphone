@@ -2,7 +2,7 @@
 //  Photo.m
 //  maitianer-iphone
 //
-//  Created by lee rock on 11-11-24.
+//  Created by 张 朝 on 11-11-25.
 //  Copyright (c) 2011年 麦田儿. All rights reserved.
 //
 
@@ -12,12 +12,12 @@
 
 @implementation Photo
 
-@dynamic path;
 @dynamic content;
-@dynamic recoredDate;
 @dynamic creationDate;
-@dynamic title;
+@dynamic path;
+@dynamic recoredDate;
 @dynamic shared;
+@dynamic title;
 @dynamic baby;
 
 @end

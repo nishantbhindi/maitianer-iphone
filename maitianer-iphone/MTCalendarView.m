@@ -48,7 +48,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
     }
 }
 
-- (UIView *) monthBar {
+- (UIView *)monthBar {
     if (!_monthBar) {
         _monthBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, kDefaultMonthBarHeight)];
         _monthBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
@@ -101,6 +101,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 }
 
 - (MTCalendarCellView *)cellForDate:(NSDate *)date {
+    
     return nil;
 }
 

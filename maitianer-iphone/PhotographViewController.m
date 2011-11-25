@@ -9,6 +9,7 @@
 #import "PhotographViewController.h"
 #import "DKFile.h"
 #import "NSDate-Utilities.h"
+#import "NSDate+Calculations.h"
 #import "UIImage+ProportionalFill.h"
 #import "Photo.h"
 
@@ -168,11 +169,11 @@
     
     //save the photo record use core data
     Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:self.managedObjectContext];
-    photo.path = [storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", fileNameUUID]];
+    photo.path = [storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", fileNameUUID]];
     photo.baby = [[self _fetchBabies] objectAtIndex:0];
-    photo.recoredDate = self.recordDate;
+    photo.recoredDate = [self.recordDate beginningOfDay];
     photo.creationDate = [NSDate date];
-    photo.shared = NO;
+    photo.shared = [NSNumber numberWithBool:NO];
     
     NSError *error = nil;
     if (![self.managedObjectContext save:&error]) {
