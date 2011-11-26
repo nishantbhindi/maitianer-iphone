@@ -181,10 +181,15 @@
     }
     
     [self dismissModalViewControllerAnimated:YES];
+    
+    //when dismiss modal view reset the record date to now
+    self.recordDate = [[NSDate date] beginningOfDay];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self dismissModalViewControllerAnimated:YES];
+    //when dismiss modal view reset the record date to now
+    self.recordDate = [[NSDate date] beginningOfDay];
 }
 
 @end

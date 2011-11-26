@@ -9,10 +9,13 @@
 #import "CalendarViewController.h"
 #import "EditingBabyViewController.h"
 #import "NSDate-Utilities.h"
+#import "PhotographViewController.h"
 
 @implementation CalendarViewController
 @synthesize managedObjectContext = _managedObjectContext;
+@synthesize photoResultsController = _photoResultsController;
 @synthesize baby = _baby;
+@synthesize photographVC = _photographVC;
 @synthesize babyInfoView = _babyInfoView;
 @synthesize avatarView = _avatarView;
 @synthesize babyNameLabel = _babyNameLabel;
@@ -58,25 +61,22 @@
     return babiesArray;
 }
 
-- (NSArray *)_fetchPhotosPerDay {
-    //fetch photos per day from database
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
-    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]]];
-    NSError *error = nil;
-    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"recordDateLabel" cacheName:nil];
+- (void)_showPhotosInCalendar {
     
-    [fetchedResultsController performFetch:&error];
-    NSArray *photosArray = [fetchedResultsController fetchedObjects];
-    id <NSFetchedResultsSectionInfo> section = [[fetchedResultsController sections] objectAtIndex:0];
-    NSLog(@"photos count: %d", [photosArray count]);
-    NSLog(@"section title: %@", [section name]);
-    NSLog(@"section objects count: %d", [section numberOfObjects]);
-    [fetchedResultsController release];
-    if (photosArray == nil) {
-        //Handle the error.
+    //fetch result sections
+    NSArray *sectionsArray = [self.photoResultsController sections];
+    
+    //fill in calendar cell by record date
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    for (id <NSFetchedResultsSectionInfo> sectionInfo in sectionsArray) {
+        NSDate *sectionDate = [dateFormatter dateFromString:sectionInfo.name];
+        MTCalendarCellView *cell = [self.calendarView cellForDate:sectionDate];
+        if (cell) {
+            cell.photo = [[sectionInfo objects] objectAtIndex:0];
+        }
     }
-    
-    return photosArray;
+    [dateFormatter release];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -99,7 +99,9 @@
 
 - (void)dealloc {
     [_managedObjectContext release];
+    [_photoResultsController release];
     [_baby release];
+    [_photographVC release];
     [_babyInfoView release];
     [_avatarView release];
     [_babyNameLabel release];
@@ -117,7 +119,11 @@
     [super viewDidLoad];
     
     NSArray *babiesArray = [self _fetchBabies];
-    [self _fetchPhotosPerDay];
+    
+    //init photos fetched results controller
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
+    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]]];
+    _photoResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"recordDateLabel" cacheName:nil];
     
     //show editing baby view controller for create a baby if baby not existed
     if ([babiesArray count] == 0) {
@@ -130,22 +136,6 @@
         [editingBabyNVC release];
     }else {
         self.baby = [babiesArray objectAtIndex:0];
-        
-        self.babyNameLabel.text = self.baby.nickName;
-        NSString *duringBirthday = nil;
-        NSInteger yearsAfter = [[NSDate date] year] - [self.baby.birthday year];
-        NSInteger monthsAfter = [[NSDate date] month] - [self.baby.birthday month];
-        if (monthsAfter < 0) {
-            yearsAfter = yearsAfter - 1;
-            monthsAfter = 12 + monthsAfter;
-        }
-        if (yearsAfter > 0) {
-            duringBirthday = [NSString stringWithFormat:@"%d年%d个月", yearsAfter, monthsAfter];
-        }else {
-            duringBirthday = [NSString stringWithFormat:@"%d天", [[NSDate date] daysAfterDate:self.baby.birthday]];
-        }
-        self.daysFromBirthdayLabel.text = [NSString stringWithFormat:@"宝宝出生到现在已经%@了", duringBirthday];
-        self.daysAfterRecordLabel.text = [NSString stringWithFormat:@"您已经有40天没有记录宝宝了"];
     }
     
     //config calendar view
@@ -175,13 +165,51 @@
         NSArray *babiesArray = [self _fetchBabies];
         self.baby = [babiesArray objectAtIndex:0];
     }
+    
+    //fetch photos per day from database
+    NSError *error = nil;
+    BOOL success = [self.photoResultsController performFetch:&error];
+    if (error != nil || !success) {
+        //handle the error.
+    }
+    
+    //config baby info
+    self.babyNameLabel.text = self.baby.nickName;
+    NSString *duringBirthday = nil;
+    NSInteger yearsAfter = [[NSDate date] year] - [self.baby.birthday year];
+    NSInteger monthsAfter = [[NSDate date] month] - [self.baby.birthday month];
+    if (monthsAfter < 0) {
+        yearsAfter = yearsAfter - 1;
+        monthsAfter = 12 + monthsAfter;
+    }
+    if (yearsAfter > 0) {
+        duringBirthday = [NSString stringWithFormat:@"%d年%d个月", yearsAfter, monthsAfter];
+    }else {
+        duringBirthday = [NSString stringWithFormat:@"%d天", [[NSDate date] daysAfterDate:self.baby.birthday]];
+    }
+    self.daysFromBirthdayLabel.text = [NSString stringWithFormat:@"宝宝出生到现在已经%@了", duringBirthday];
+    self.daysAfterRecordLabel.text = [NSString stringWithFormat:@"您已经有40天没有记录宝宝了"];
+    
+    //fetch photos then show in calendar
+    [self _showPhotosInCalendar];
+    
 }
 
 #pragma mark - calendar view delegate methods
 - (void)calendarView:(MTCalendarView *)calendarView didSelectDate:(NSDate *)date {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Test" message:[date descriptionWithLocale:[NSLocale systemLocale]] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    [alert show];
-    [alert release];
+    MTCalendarCellView *cell = [calendarView cellForDate:date];
+    if (cell.photo) {
+        //show photos at selected date
+    }else {
+        //show photos library for picking photo
+        self.photographVC.recordDate = date;
+        [self.photographVC photoLibraryAction:[calendarView cellForDate:date]];
+    }
+    
+}
+
+- (void)monthDidChangeOnCalendarview:(MTCalendarView *)calendarView {
+    [self _showPhotosInCalendar];
 }
 
 @end

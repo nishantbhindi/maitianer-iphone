@@ -46,10 +46,10 @@
     calendarVC.managedObjectContext = self.managedObjectContext;
     UINavigationController *calendarNVC = [[UINavigationController alloc] initWithRootViewController:calendarVC];
     calendarNVC.navigationBarHidden = YES;
-    [calendarVC release];
     
     PhotographViewController *photographVC = [[PhotographViewController alloc] init];
     photographVC.managedObjectContext = self.managedObjectContext;
+    calendarVC.photographVC = photographVC;
     
     MilestonesViewController *milestonesVC = [[MilestonesViewController alloc] init];
     UINavigationController *milestonesNVC = [[UINavigationController alloc] initWithRootViewController:milestonesVC];
@@ -79,6 +79,7 @@
     }
     
     [tabBarController.view addSubview:button];
+    [calendarVC release];
     [photographVC release];
     [tabBarController release];
     

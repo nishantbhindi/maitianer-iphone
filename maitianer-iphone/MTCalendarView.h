@@ -42,5 +42,6 @@
 @protocol MTCalendarViewDelegate <NSObject>
 
 - (void) calendarView:(MTCalendarView *)calendarView didSelectDate:(NSDate *)date;
+- (void) monthDidChangeOnCalendarview:(MTCalendarView *)calendarView;
 
 @end

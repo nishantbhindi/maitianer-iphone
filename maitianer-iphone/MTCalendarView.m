@@ -101,7 +101,12 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 }
 
 - (MTCalendarCellView *)cellForDate:(NSDate *)date {
-    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *startDate = [self.selectedDate beginningOfMonth];
+    int dayInCalendar = [calendar components:NSDayCalendarUnit fromDate:startDate toDate:date options:0].day;
+    if (dayInCalendar > 0 && dayInCalendar <= [self.selectedDate daysInMonth]) {
+        return (MTCalendarCellView *)[self.calendarScrollView viewWithTag:date.day];
+    }
     return nil;
 }
 
@@ -115,6 +120,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
     NSDateComponents *monthStep = [[NSDateComponents new] autorelease];
     monthStep.month = -1;
     self.selectedDate = [calendar dateByAddingComponents: monthStep toDate: self.selectedDate options: 0];
+    [self.delegate monthDidChangeOnCalendarview:self];
 }
 
 - (void)monthForward {
@@ -122,6 +128,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
     NSDateComponents *monthStep = [[NSDateComponents new] autorelease];
     monthStep.month = 1;
     self.selectedDate = [calendar dateByAddingComponents: monthStep toDate: self.selectedDate options: 0];
+    [self.delegate monthDidChangeOnCalendarview:self];
 }
 
 - (void)monthUpdated {

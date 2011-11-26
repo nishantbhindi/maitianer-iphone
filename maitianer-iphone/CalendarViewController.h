@@ -10,9 +10,14 @@
 #import "Baby.h"
 #import "MTCalendarView.h"
 
+@class PhotographViewController;
+
 @interface CalendarViewController : UIViewController <MTCalendarViewDelegate> {
     NSManagedObjectContext *_managedObjectContext;
+    NSFetchedResultsController *_photoResultsController;
     Baby *_baby;
+    
+    PhotographViewController *_photographVC;
     
     IBOutlet UIView *_babyInfoView;
     IBOutlet UIImageView *_avatarView;
@@ -26,7 +31,10 @@
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) NSFetchedResultsController *photoResultsController;
 @property (nonatomic, retain) Baby *baby;
+
+@property (nonatomic, retain) PhotographViewController *photographVC;
 
 @property (nonatomic, retain) UIView *babyInfoView;
 @property (nonatomic, retain) UIImageView *avatarView;
