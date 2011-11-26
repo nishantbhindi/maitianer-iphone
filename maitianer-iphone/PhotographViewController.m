@@ -171,7 +171,7 @@
     Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:self.managedObjectContext];
     photo.path = [storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", fileNameUUID]];
     photo.baby = [[self _fetchBabies] objectAtIndex:0];
-    photo.recoredDate = [self.recordDate beginningOfDay];
+    photo.recordDate = [self.recordDate beginningOfDay];
     photo.creationDate = [NSDate date];
     photo.shared = [NSNumber numberWithBool:NO];
     

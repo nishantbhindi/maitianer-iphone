@@ -14,7 +14,7 @@
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="recoredDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="recordDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="shared" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="baby" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Baby" inverseName="photos" inverseEntity="Baby" syncable="YES"/>

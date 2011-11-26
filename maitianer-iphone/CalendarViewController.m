@@ -61,14 +61,21 @@
 - (NSArray *)_fetchPhotosPerDay {
     //fetch photos per day from database
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
-    //[request setPropertiesToGroupBy:[NSArray arrayWithObject:@"recoredDate"]];
     [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]]];
     NSError *error = nil;
-    NSArray *photosArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"recordDateLabel" cacheName:nil];
+    
+    [fetchedResultsController performFetch:&error];
+    NSArray *photosArray = [fetchedResultsController fetchedObjects];
+    id <NSFetchedResultsSectionInfo> section = [[fetchedResultsController sections] objectAtIndex:0];
+    NSLog(@"photos count: %d", [photosArray count]);
+    NSLog(@"section title: %@", [section name]);
+    NSLog(@"section objects count: %d", [section numberOfObjects]);
+    [fetchedResultsController release];
     if (photosArray == nil) {
         //Handle the error.
     }
-    NSLog(@"photos count: %d", [photosArray count]);
+    
     return photosArray;
 }
 
