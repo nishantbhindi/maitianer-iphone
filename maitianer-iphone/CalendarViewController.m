@@ -10,6 +10,7 @@
 #import "EditingBabyViewController.h"
 #import "NSDate-Utilities.h"
 #import "PhotographViewController.h"
+#import "PhotosViewController.h"
 
 @implementation CalendarViewController
 @synthesize managedObjectContext = _managedObjectContext;
@@ -121,7 +122,8 @@
     NSArray *babiesArray = [self _fetchBabies];
     
     //init photos fetched results controller
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:[NSEntityDescription entityForName:@"Photo" inManagedObjectContext:self.managedObjectContext]];
     [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]]];
     _photoResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"recordDateLabel" cacheName:nil];
     
@@ -159,6 +161,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBarHidden = YES;
     
     //set baby and show baby info after create baby
     if (self.baby == nil) {
@@ -200,6 +204,9 @@
     MTCalendarCellView *cell = [calendarView cellForDate:date];
     if (cell.photo) {
         //show photos at selected date
+        PhotosViewController *photosViewController = [[PhotosViewController alloc] initWithStyle:UITableViewStylePlain];
+        [self.navigationController pushViewController:photosViewController animated:YES];
+        [photosViewController release];
     }else {
         //show photos library for picking photo
         self.photographVC.recordDate = date;
