@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PhotosViewController : UITableViewController
+@interface PhotosViewController : UITableViewController {
+    NSArray *_photos;
+    NSArray *_milestones;
+    NSIndexPath *_selectedIndexPath;
+}
+
+@property (nonatomic, retain) NSArray *photos;
+@property (nonatomic, retain) NSArray *milestones;
+@property (nonatomic, retain) NSIndexPath *selectedIndexPath;
 
 @end

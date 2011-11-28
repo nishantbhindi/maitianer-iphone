@@ -74,7 +74,7 @@
         NSDate *sectionDate = [dateFormatter dateFromString:sectionInfo.name];
         MTCalendarCellView *cell = [self.calendarView cellForDate:sectionDate];
         if (cell) {
-            cell.photo = [[sectionInfo objects] objectAtIndex:0];
+            cell.photos = [sectionInfo objects];
         }
     }
     [dateFormatter release];
@@ -202,11 +202,21 @@
 #pragma mark - calendar view delegate methods
 - (void)calendarView:(MTCalendarView *)calendarView didSelectDate:(NSDate *)date {
     MTCalendarCellView *cell = [calendarView cellForDate:date];
-    if (cell.photo) {
+    if (cell.photos) {
         //show photos at selected date
-        PhotosViewController *photosViewController = [[PhotosViewController alloc] initWithStyle:UITableViewStylePlain];
-        [self.navigationController pushViewController:photosViewController animated:YES];
-        [photosViewController release];
+        PhotosViewController *photosVC = [[PhotosViewController alloc] initWithStyle:UITableViewStylePlain];
+        
+        //set controller title
+        NSDateFormatter *dateFormattor = [[NSDateFormatter alloc] init];
+        dateFormattor.dateFormat = @"yyyy年MM月dd日";
+        photosVC.title = [dateFormattor stringFromDate:date];
+        [dateFormattor release];
+        
+        //set controller photos
+        photosVC.photos = cell.photos;
+        
+        [self.navigationController pushViewController:photosVC animated:YES];
+        [photosVC release];
     }else {
         //show photos library for picking photo
         self.photographVC.recordDate = date;

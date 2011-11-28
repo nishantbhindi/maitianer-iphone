@@ -21,6 +21,10 @@
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) Baby *baby;
 
+@property (nonatomic, readonly) UIImage *originImage;
+@property (nonatomic, readonly) UIImage *image;
+@property (nonatomic, readonly) UIImage *b200Image;
+
 - (NSString *)recordDateLabel;
 
 @end

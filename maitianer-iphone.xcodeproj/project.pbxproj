@@ -22,6 +22,7 @@
 		3F0F860E147B6C1600FC3FC9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3F0F860C147B6C1600FC3FC9 /* InfoPlist.strings */; };
 		3F0F8611147B6C1600FC3FC9 /* maitianer_iphoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0F8610147B6C1600FC3FC9 /* maitianer_iphoneTests.m */; };
 		3F0F8627147B79EC00FC3FC9 /* EditingBabyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0F8626147B79EC00FC3FC9 /* EditingBabyViewController.m */; };
+		3F16A5A8148334CF00521446 /* MTTableViewPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F16A5A7148334CF00521446 /* MTTableViewPhotoCell.m */; };
 		3F263D5E147E10B300C6B838 /* DKFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F263D5D147E10B300C6B838 /* DKFile.m */; };
 		3F263D62147E1E1900C6B838 /* UIImage+ProportionalFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F263D61147E1E1900C6B838 /* UIImage+ProportionalFill.m */; };
 		3F35F22E147F610200CFA677 /* Baby.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F35F22D147F610200CFA677 /* Baby.m */; };
@@ -75,6 +76,8 @@
 		3F0F8610147B6C1600FC3FC9 /* maitianer_iphoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = maitianer_iphoneTests.m; sourceTree = "<group>"; };
 		3F0F8625147B79EC00FC3FC9 /* EditingBabyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditingBabyViewController.h; sourceTree = "<group>"; };
 		3F0F8626147B79EC00FC3FC9 /* EditingBabyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditingBabyViewController.m; sourceTree = "<group>"; };
+		3F16A5A6148334CE00521446 /* MTTableViewPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTableViewPhotoCell.h; sourceTree = "<group>"; };
+		3F16A5A7148334CF00521446 /* MTTableViewPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTableViewPhotoCell.m; sourceTree = "<group>"; };
 		3F263D5C147E10B300C6B838 /* DKFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKFile.h; sourceTree = "<group>"; };
 		3F263D5D147E10B300C6B838 /* DKFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKFile.m; sourceTree = "<group>"; };
 		3F263D60147E1E1900C6B838 /* UIImage+ProportionalFill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ProportionalFill.h"; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 				3F8B4399147C9DB200D544CF /* MTCalendarCellView.m */,
 				759537991482853C007CF4D2 /* PhotosViewController.h */,
 				7595379A1482853C007CF4D2 /* PhotosViewController.m */,
+				3F16A5A6148334CE00521446 /* MTTableViewPhotoCell.h */,
+				3F16A5A7148334CF00521446 /* MTTableViewPhotoCell.m */,
 			);
 			path = "maitianer-iphone";
 			sourceTree = "<group>";
@@ -371,6 +376,7 @@
 				3F35F22E147F610200CFA677 /* Baby.m in Sources */,
 				750AB6011480AA0F001A20E4 /* Photo.m in Sources */,
 				7595379B1482853C007CF4D2 /* PhotosViewController.m in Sources */,
+				3F16A5A8148334CF00521446 /* MTTableViewPhotoCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

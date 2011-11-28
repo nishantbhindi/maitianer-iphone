@@ -8,11 +8,11 @@
 
 #import "MTCalendarCellView.h"
 #import "NSDate-Utilities.h"
-#import "DKFile.h"
+#import "Photo.h"
 
 @implementation MTCalendarCellView
 @synthesize date = _date;
-@synthesize photo = _photo;
+@synthesize photos = _photos;
 
 - (void)setDate:(NSDate *)date {
     if (![date isEqualToDate:_date]) {
@@ -22,12 +22,12 @@
     }
 }
 
-- (void)setPhoto:(Photo *)photo {
-    if (photo != _photo) {
-        [_photo release];
-        _photo = [photo retain];
-        DKFile *dkFile = [DKFile fileFromDocuments:_photo.path];
-        [self setBackgroundImage:[UIImage imageWithContentsOfFile:dkFile.path] forState:UIControlStateNormal];
+- (void)setPhotos:(NSArray *)photos {
+    if (photos != _photos) {
+        [_photos release];
+        _photos = [photos retain];
+        Photo *firstPhoto = [_photos objectAtIndex:0];
+        [self setBackgroundImage:firstPhoto.b200Image forState:UIControlStateNormal];
     }
 }
 
@@ -42,7 +42,7 @@
 
 - (void)dealloc {
     [_date release];
-    [_photo release];
+    [_photos release];
     [super dealloc];
 }
 

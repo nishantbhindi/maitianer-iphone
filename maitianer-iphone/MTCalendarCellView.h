@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Photo.h"
 
 @interface MTCalendarCellView : UIButton {
     NSDate *_date;
-    Photo *_photo;
+    NSArray *_photos;
 }
 
 @property (nonatomic, retain) NSDate *date;
-@property (nonatomic, retain) Photo *photo;
+@property (nonatomic, retain) NSArray *photos;
 
 @end

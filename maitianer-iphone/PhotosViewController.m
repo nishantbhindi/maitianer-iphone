@@ -7,9 +7,14 @@
 //
 
 #import "PhotosViewController.h"
-
+#import "Photo.h"
+#import "MTTableViewPhotoCell.h"
+#import "UIImage+ProportionalFill.h"
 
 @implementation PhotosViewController
+@synthesize photos = _photos;
+@synthesize milestones = _milestones;
+@synthesize selectedIndexPath = _selectedIndexPath;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,6 +31,13 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
+}
+
+- (void)dealloc {
+    [_photos release];
+    [_milestones release];
+    [_selectedIndexPath release];
+    [super dealloc];
 }
 
 #pragma mark - View lifecycle
@@ -85,18 +97,48 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 0;
+    return [self.photos count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"PhotoCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    MTTableViewPhotoCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[MTTableViewPhotoCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+    }else {
+        //remove add milestone button from cell when reuse the cell
+        if (cell.addMilestoneButton && [cell.contentView.subviews containsObject:cell.addMilestoneButton]) {
+            [cell.addMilestoneButton removeFromSuperview];
+        }
+        
+        //remove edit photo button from cell when reuse the cell
+        if (cell.editPhotoButton && [cell.contentView.subviews containsObject:cell.editPhotoButton]) {
+            [cell.editPhotoButton removeFromSuperview];
+        }
     }
     
+    Photo *photo = [self.photos objectAtIndex:indexPath.row];
+    if (self.selectedIndexPath && [self.selectedIndexPath compare:indexPath] == NSOrderedSame) {
+        cell.imageView.image = photo.image;
+        
+        cell.addMilestoneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [cell.addMilestoneButton setTitle:@"添加里程碑" forState:UIControlStateNormal];
+        cell.addMilestoneButton.frame = CGRectMake(260, 10, 50, 20);
+        [cell.contentView addSubview:cell.addMilestoneButton];
+        
+        cell.editPhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [cell.editPhotoButton setTitle:@"编辑图片" forState:UIControlStateNormal];
+        cell.editPhotoButton.frame = CGRectMake(260, 40, 50, 20);
+        [cell.contentView addSubview:cell.editPhotoButton];
+    }else {
+        cell.imageView.image = [photo.image imageToFitSize:CGSizeMake(320, 80) method:MGImageResizeCrop];
+    }
+    
+    if (photo.content) {
+        cell.detailTextLabel.text = photo.content;
+    }
     // Configure the cell...
     
     return cell;
@@ -143,16 +185,20 @@
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([indexPath compare:self.selectedIndexPath] != NSOrderedSame) {
+        NSIndexPath *preSelectedIndexPath = [self.selectedIndexPath retain];
+        self.selectedIndexPath = indexPath;
+        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.selectedIndexPath, preSelectedIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
+        [preSelectedIndexPath release];
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.selectedIndexPath && [self.selectedIndexPath compare:indexPath] == NSOrderedSame) {
+        return self.view.frame.size.width;
+    }
+    return 80;
 }
 
 @end
