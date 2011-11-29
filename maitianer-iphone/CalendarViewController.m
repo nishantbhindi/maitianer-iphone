@@ -215,6 +215,9 @@
         //set controller photos
         photosVC.photos = cell.photos;
         
+        //set managed object context
+        photosVC.managedObjectContext = self.managedObjectContext;
+        
         [self.navigationController pushViewController:photosVC animated:YES];
         [photosVC release];
     }else {

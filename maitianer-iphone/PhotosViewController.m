@@ -12,9 +12,41 @@
 #import "UIImage+ProportionalFill.h"
 
 @implementation PhotosViewController
+@synthesize managedObjectContext = _managedObjectContext;
 @synthesize photos = _photos;
 @synthesize milestones = _milestones;
 @synthesize selectedIndexPath = _selectedIndexPath;
+
+- (Photo *)selectedPhoto {
+    if (self.selectedIndexPath) {
+        return [self.photos objectAtIndex:self.selectedIndexPath.row];
+    }
+    return nil;
+}
+
+- (void)addMilestone {
+    NSLog(@"add milestone!");
+}
+
+- (void)editPhoto {
+    NSLog(@"edit photo!");
+}
+
+- (void)removePhoto {
+    if (self.selectedPhoto) {
+        
+        [self.managedObjectContext deleteObject:self.selectedPhoto];
+        
+        NSError *error = nil;
+        [self.managedObjectContext save:&error];
+        if (error) {
+            //handle the error.
+            return;
+        }
+        
+        NSLog(@"remove photo!");
+    }
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,6 +66,7 @@
 }
 
 - (void)dealloc {
+    [_managedObjectContext release];
     [_photos release];
     [_milestones release];
     [_selectedIndexPath release];
@@ -113,9 +146,14 @@
             [cell.addMilestoneButton removeFromSuperview];
         }
         
-        //remove edit photo button from cell when reuse the cell
+        //edit photo button from cell when reuse the cell
         if (cell.editPhotoButton && [cell.contentView.subviews containsObject:cell.editPhotoButton]) {
             [cell.editPhotoButton removeFromSuperview];
+        }
+        
+        //remove photo button from cell when reuse the cell
+        if (cell.removePhotoButton && [cell.contentView.subviews containsObject:cell.removePhotoButton]) {
+            [cell.removePhotoButton removeFromSuperview];
         }
     }
     
@@ -126,12 +164,20 @@
         cell.addMilestoneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [cell.addMilestoneButton setTitle:@"添加里程碑" forState:UIControlStateNormal];
         cell.addMilestoneButton.frame = CGRectMake(260, 10, 50, 20);
+        [cell.addMilestoneButton addTarget:self action:@selector(addMilestone) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:cell.addMilestoneButton];
         
         cell.editPhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [cell.editPhotoButton setTitle:@"编辑图片" forState:UIControlStateNormal];
         cell.editPhotoButton.frame = CGRectMake(260, 40, 50, 20);
+        [cell.editPhotoButton addTarget:self action:@selector(editPhoto) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:cell.editPhotoButton];
+        
+        cell.removePhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [cell.removePhotoButton setTitle:@"删除照片" forState:UIControlStateNormal];
+        cell.removePhotoButton.frame = CGRectMake(260, 70, 50, 20);
+        [cell.removePhotoButton addTarget:self action:@selector(removePhoto) forControlEvents:UIControlEventTouchUpInside];
+        [cell.contentView addSubview:cell.removePhotoButton];
     }else {
         cell.imageView.image = [photo.image imageToFitSize:CGSizeMake(320, 80) method:MGImageResizeCrop];
     }
@@ -192,6 +238,7 @@
         [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.selectedIndexPath, preSelectedIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
         [preSelectedIndexPath release];
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
