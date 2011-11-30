@@ -36,6 +36,7 @@
 
 - (void) monthForward;
 - (void) monthBack;
+- (void) reload;
 
 @end
 

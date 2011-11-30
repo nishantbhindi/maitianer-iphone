@@ -131,6 +131,10 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
     [self.delegate monthDidChangeOnCalendarview:self];
 }
 
+- (void)reload {
+    [self monthUpdated];
+}
+
 - (void)monthUpdated {
     
     //disable month back button when current month equal minium date month

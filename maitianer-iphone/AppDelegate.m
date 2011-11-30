@@ -48,7 +48,6 @@
     calendarNVC.navigationBarHidden = YES;
     
     PhotographViewController *photographVC = [[PhotographViewController alloc] init];
-    photographVC.managedObjectContext = self.managedObjectContext;
     calendarVC.photographVC = photographVC;
     
     MilestonesViewController *milestonesVC = [[MilestonesViewController alloc] init];

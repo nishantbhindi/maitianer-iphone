@@ -10,9 +10,10 @@
 #import "Photo.h"
 #import "MTTableViewPhotoCell.h"
 #import "UIImage+ProportionalFill.h"
+#import "EditingPhotoViewController.h"
+#import "AppDelegate.h"
 
 @implementation PhotosViewController
-@synthesize managedObjectContext = _managedObjectContext;
 @synthesize photos = _photos;
 @synthesize milestones = _milestones;
 @synthesize selectedIndexPath = _selectedIndexPath;
@@ -29,22 +30,31 @@
 }
 
 - (void)editPhoto {
+    if (self.selectedPhoto) {
+        EditingPhotoViewController *editingPhotoVC = [[EditingPhotoViewController alloc] initWithNibName:@"EditingPhotoViewController" bundle:[NSBundle mainBundle]];
+        editingPhotoVC.photo = self.selectedPhoto;
+        UINavigationController *editingPhotoNVC = [[UINavigationController alloc] initWithRootViewController:editingPhotoVC];
+        [self presentModalViewController:editingPhotoNVC animated:YES];
+        [editingPhotoVC release];
+        [editingPhotoNVC release];
+    }
     NSLog(@"edit photo!");
 }
 
 - (void)removePhoto {
     if (self.selectedPhoto) {
         
-        [self.managedObjectContext deleteObject:self.selectedPhoto];
-        
-        NSError *error = nil;
-        [self.managedObjectContext save:&error];
-        if (error) {
-            //handle the error.
-            return;
+        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+        [appDelegate.managedObjectContext deleteObject:self.selectedPhoto];
+        [appDelegate saveContext];
+        [self.photos removeObjectAtIndex:self.selectedIndexPath.row];
+        [self.tableView beginUpdates];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.selectedIndexPath] withRowAnimation:UITableViewRowAnimationRight];
+        [self.tableView endUpdates];
+        if ([self.photos count] == 0) {
+            [self.navigationController popViewControllerAnimated:YES];
         }
-        
-        NSLog(@"remove photo!");
+        NSLog(@"photo removed!");
     }
 }
 
@@ -66,7 +76,6 @@
 }
 
 - (void)dealloc {
-    [_managedObjectContext release];
     [_photos release];
     [_milestones release];
     [_selectedIndexPath release];
@@ -78,7 +87,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -96,6 +105,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -185,6 +195,7 @@
     if (photo.content) {
         cell.detailTextLabel.text = photo.content;
     }
+    
     // Configure the cell...
     
     return cell;

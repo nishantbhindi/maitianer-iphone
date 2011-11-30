@@ -12,9 +12,9 @@
 #import "NSDate+Calculations.h"
 #import "UIImage+ProportionalFill.h"
 #import "Photo.h"
+#import "AppDelegate.h"
 
 @implementation PhotographViewController
-@synthesize managedObjectContext = _managedObjectContext;
 @synthesize imagePickerController = _imagePickerController;
 @synthesize recordDate = _recordDate;
 
@@ -57,7 +57,6 @@
 }
 
 - (void)dealloc {
-    [_managedObjectContext release];
     [_imagePickerController release];
     [_recordDate release];
     [super dealloc];
@@ -137,10 +136,12 @@
 }
 
 - (NSArray *)_fetchBabies {
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    
     //fetch babies from database
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Baby"];
     NSError *error = nil;
-    NSArray *babiesArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    NSArray *babiesArray = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
     if (babiesArray == nil) {
         //Handle the error.
     }
@@ -168,17 +169,15 @@
               toPath:[storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-b200.jpg", fileNameUUID]]];
     
     //save the photo record use core data
-    Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:self.managedObjectContext];
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:appDelegate.managedObjectContext];
     photo.path = [storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", fileNameUUID]];
     photo.baby = [[self _fetchBabies] objectAtIndex:0];
     photo.recordDate = [self.recordDate beginningOfDay];
     photo.creationDate = [NSDate date];
     photo.shared = [NSNumber numberWithBool:NO];
     
-    NSError *error = nil;
-    if (![self.managedObjectContext save:&error]) {
-        NSLog(@"%@", error.description);
-    }
+    [appDelegate saveContext];
     
     [self dismissModalViewControllerAnimated:YES];
     

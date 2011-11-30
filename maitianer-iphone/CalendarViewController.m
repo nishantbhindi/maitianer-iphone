@@ -194,6 +194,8 @@
     self.daysFromBirthdayLabel.text = [NSString stringWithFormat:@"宝宝出生到现在已经%@了", duringBirthday];
     self.daysAfterRecordLabel.text = [NSString stringWithFormat:@"您已经有40天没有记录宝宝了"];
     
+    //reload calendar view for reset calendar cell view
+    [self.calendarView reload];
     //fetch photos then show in calendar
     [self _showPhotosInCalendar];
     
@@ -213,10 +215,7 @@
         [dateFormattor release];
         
         //set controller photos
-        photosVC.photos = cell.photos;
-        
-        //set managed object context
-        photosVC.managedObjectContext = self.managedObjectContext;
+        photosVC.photos = [cell.photos mutableCopy];
         
         [self.navigationController pushViewController:photosVC animated:YES];
         [photosVC release];

@@ -11,14 +11,12 @@
 @class Photo;
 
 @interface PhotosViewController : UITableViewController {
-    NSManagedObjectContext *_managedObjectContext;
-    NSArray *_photos;
+    NSMutableArray *_photos;
     NSArray *_milestones;
     NSIndexPath *_selectedIndexPath;
 }
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) NSArray *photos;
+@property (nonatomic, retain) NSMutableArray *photos;
 @property (nonatomic, retain) NSArray *milestones;
 @property (nonatomic, retain) NSIndexPath *selectedIndexPath;
 @property (nonatomic, readonly) Photo *selectedPhoto;
