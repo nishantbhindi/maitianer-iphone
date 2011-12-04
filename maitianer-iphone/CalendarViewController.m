@@ -133,6 +133,7 @@
         editingBabyVC.title = @"添加宝宝信息";
         editingBabyVC.managedObjectContext = self.managedObjectContext;
         UINavigationController *editingBabyNVC = [[UINavigationController alloc] initWithRootViewController:editingBabyVC];
+        editingBabyVC.navigationController.navigationBar.tintColor = [UIColor colorWithRed:124.0/255 green:175.0/255 blue:3.0/255 alpha:1.0];
         [self presentModalViewController:editingBabyNVC animated:YES];
         [editingBabyVC release];
         [editingBabyNVC release];

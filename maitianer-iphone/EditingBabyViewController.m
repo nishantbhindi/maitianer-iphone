@@ -114,6 +114,7 @@
     
     //right bar button item for save baby info
     UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleDone target:self action:@selector(saveBaby)];
+    saveButtonItem.tintColor = [UIColor colorWithRed:208.0/255 green:231.0/255 blue:129.0/255 alpha:0];
     self.navigationItem.rightBarButtonItem = saveButtonItem;
     [saveButtonItem release];
     

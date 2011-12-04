@@ -26,8 +26,9 @@
 @synthesize calendarScrollView = _calendarScrollView;
 @synthesize delegate;
 
-static const CGFloat kDefaultMonthBarHeight = 28;
+static const CGFloat kDefaultMonthBarHeight = 36;
 static const CGFloat kDefaultMonthBarButtonWidth = 60;
+static const CGFloat kCalendarCellSideLength = 70;
 
 - (void)setSelectedDate:(NSDate *)selectedDate {
     if (![selectedDate isEqualToDate:_selectedDate]) {
@@ -52,7 +53,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
     if (!_monthBar) {
         _monthBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, kDefaultMonthBarHeight)];
         _monthBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
-        _monthBar.backgroundColor = [UIColor blackColor];
+        _monthBar.backgroundColor = [UIColor colorWithRed:235.0/255 green:242.0/255 blue:218.0/255 alpha:1.0];
         [_monthBar addSubview:self.monthBackButton];
         [_monthBar addSubview:self.monthLabelButton];
         [_monthBar addSubview:self.monthForwardButton];
@@ -65,6 +66,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
     if (!_monthBackButton) {
         _monthBackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, kDefaultMonthBarButtonWidth, kDefaultMonthBarHeight)];
         [_monthBackButton setTitle:@"<" forState:UIControlStateNormal];
+        [_monthBackButton setTitleColor:[UIColor colorWithRed:99.0/255 green:159.0/255 blue:40.0/255 alpha:1.0] forState:UIControlStateNormal];
         [_monthBackButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         [_monthBackButton addTarget:self action:@selector(monthBack) forControlEvents:UIControlEventTouchUpInside];
         
@@ -77,6 +79,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
         float x = self.monthBar.frame.size.width - kDefaultMonthBarButtonWidth;
         _monthForwardButton = [[UIButton alloc] initWithFrame:CGRectMake(x, 0, kDefaultMonthBarButtonWidth, kDefaultMonthBarHeight)];
         [_monthForwardButton setTitle:@">" forState:UIControlStateNormal];
+        [_monthForwardButton setTitleColor:[UIColor colorWithRed:99.0/255 green:159.0/255 blue:40.0/255 alpha:1.0] forState:UIControlStateNormal];
         [_monthForwardButton addTarget:self action:@selector(monthForward) forControlEvents:UIControlEventTouchUpInside];
     }
     return _monthForwardButton;
@@ -85,6 +88,7 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 - (UIButton *)monthLabelButton {
     if (!_monthLabelButton) {
         _monthLabelButton = [[UIButton alloc] initWithFrame:CGRectMake(self.monthBar.frame.size.width / 4, 0, self.monthBar.frame.size.width / 2, kDefaultMonthBarHeight)];
+        [_monthLabelButton setTitleColor:[UIColor colorWithRed:99.0/255 green:159.0/255 blue:40.0/255 alpha:1.0] forState:UIControlStateNormal];
     }
     return _monthLabelButton;
 }
@@ -171,15 +175,15 @@ static const CGFloat kDefaultMonthBarButtonWidth = 60;
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    float cellSideLength = self.calendarScrollView.frame.size.width / 4;
-    self.calendarScrollView.contentSize = CGSizeMake(self.frame.size.width, cellSideLength * ceil([self.selectedDate daysInMonth] / 4.0));
-    CGRect cellFrame = CGRectMake(0, 0, cellSideLength, cellSideLength);
+    CGFloat marginWidth = (self.frame.size.width - 4 * kCalendarCellSideLength) / 5;
+    self.calendarScrollView.contentSize = CGSizeMake(kCalendarCellSideLength, (kCalendarCellSideLength + marginWidth) * ceil([self.selectedDate daysInMonth] / 4.0));
+    CGRect cellFrame = CGRectMake(0, 0, kCalendarCellSideLength, kCalendarCellSideLength);
     
     int i = 0;
     for (MTCalendarCellView *cellView in self.calendarScrollView.subviews) {
         if (cellView.tag > 0) {
-            cellFrame.origin.x = cellFrame.size.width * (i % 4);
-            cellFrame.origin.y = cellFrame.size.height * (i / 4);
+            cellFrame.origin.x = (kCalendarCellSideLength + marginWidth) * (i % 4) + marginWidth;
+            cellFrame.origin.y = (kCalendarCellSideLength + marginWidth) * (i / 4) + marginWidth;
             cellView.frame = cellFrame;
         }
         

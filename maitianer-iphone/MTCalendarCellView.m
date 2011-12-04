@@ -31,11 +31,13 @@
     }
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         [self setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
+        self.backgroundColor = [UIColor whiteColor];
+        self.layer.cornerRadius = 5;
+        
     }
     return self;
 }
