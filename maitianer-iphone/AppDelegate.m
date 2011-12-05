@@ -12,6 +12,17 @@
 #import "MilestonesViewController.h"
 #import "PhotographViewController.h"
 
+@implementation UINavigationBar (CustomBackground)
+
+- (void)drawRect:(CGRect)rect {
+    UIImage *navBackgroundImage = [UIImage imageNamed:@"NavigationBar"];
+    [navBackgroundImage drawInRect:rect];
+}
+
+@end
+
+
+
 @implementation AppDelegate
 
 @synthesize window = _window;

@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F0EE110148CA08000070843 /* NavigationBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE10E148CA08000070843 /* NavigationBar@2x.png */; };
+		3F0EE111148CA08000070843 /* NavigationBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE10F148CA08000070843 /* NavigationBar.png */; };
+		3F0EE114148CB04D00070843 /* EditingBabyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE113148CB04D00070843 /* EditingBabyViewController.xib */; };
+		3F0EE119148CB68100070843 /* detail-button-down.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE115148CB68100070843 /* detail-button-down.png */; };
+		3F0EE11A148CB68100070843 /* detail-button-down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE116148CB68100070843 /* detail-button-down@2x.png */; };
+		3F0EE11B148CB68100070843 /* detail-button-up.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE117148CB68100070843 /* detail-button-up.png */; };
+		3F0EE11C148CB68100070843 /* detail-button-up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE118148CB68100070843 /* detail-button-up@2x.png */; };
+		3F0EE121148CC0BE00070843 /* calendar-back-disable.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE11D148CC0BE00070843 /* calendar-back-disable.png */; };
+		3F0EE122148CC0BE00070843 /* calendar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE11E148CC0BE00070843 /* calendar-back.png */; };
+		3F0EE123148CC0BE00070843 /* calendar-forward-disable.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE11F148CC0BE00070843 /* calendar-forward-disable.png */; };
+		3F0EE124148CC0BE00070843 /* calendar-forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE120148CC0BE00070843 /* calendar-forward.png */; };
 		3F0F85E6147B6C1600FC3FC9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0F85E5147B6C1600FC3FC9 /* UIKit.framework */; };
 		3F0F85E8147B6C1600FC3FC9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0F85E7147B6C1600FC3FC9 /* Foundation.framework */; };
 		3F0F85EA147B6C1600FC3FC9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0F85E9147B6C1600FC3FC9 /* CoreGraphics.framework */; };
@@ -60,6 +71,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F0EE10E148CA08000070843 /* NavigationBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NavigationBar@2x.png"; sourceTree = "<group>"; };
+		3F0EE10F148CA08000070843 /* NavigationBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavigationBar.png; sourceTree = "<group>"; };
+		3F0EE113148CB04D00070843 /* EditingBabyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditingBabyViewController.xib; sourceTree = "<group>"; };
+		3F0EE115148CB68100070843 /* detail-button-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detail-button-down.png"; sourceTree = "<group>"; };
+		3F0EE116148CB68100070843 /* detail-button-down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detail-button-down@2x.png"; sourceTree = "<group>"; };
+		3F0EE117148CB68100070843 /* detail-button-up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detail-button-up.png"; sourceTree = "<group>"; };
+		3F0EE118148CB68100070843 /* detail-button-up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detail-button-up@2x.png"; sourceTree = "<group>"; };
+		3F0EE11D148CC0BE00070843 /* calendar-back-disable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar-back-disable.png"; sourceTree = "<group>"; };
+		3F0EE11E148CC0BE00070843 /* calendar-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar-back.png"; sourceTree = "<group>"; };
+		3F0EE11F148CC0BE00070843 /* calendar-forward-disable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar-forward-disable.png"; sourceTree = "<group>"; };
+		3F0EE120148CC0BE00070843 /* calendar-forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar-forward.png"; sourceTree = "<group>"; };
 		3F0F85E1147B6C1600FC3FC9 /* maitianer-iphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "maitianer-iphone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F0F85E5147B6C1600FC3FC9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3F0F85E7147B6C1600FC3FC9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -159,6 +181,16 @@
 				75C5D77F147D54CE00BD84E8 /* milestones@2x.png */,
 				75C5D780147D54CE00BD84E8 /* calendar.png */,
 				75C5D781147D54CE00BD84E8 /* calendar@2x.png */,
+				3F0EE10E148CA08000070843 /* NavigationBar@2x.png */,
+				3F0EE10F148CA08000070843 /* NavigationBar.png */,
+				3F0EE115148CB68100070843 /* detail-button-down.png */,
+				3F0EE116148CB68100070843 /* detail-button-down@2x.png */,
+				3F0EE117148CB68100070843 /* detail-button-up.png */,
+				3F0EE118148CB68100070843 /* detail-button-up@2x.png */,
+				3F0EE11D148CC0BE00070843 /* calendar-back-disable.png */,
+				3F0EE11E148CC0BE00070843 /* calendar-back.png */,
+				3F0EE11F148CC0BE00070843 /* calendar-forward-disable.png */,
+				3F0EE120148CC0BE00070843 /* calendar-forward.png */,
 				3F0F85ED147B6C1600FC3FC9 /* maitianer-iphone */,
 				3F0F8609147B6C1600FC3FC9 /* maitianer-iphoneTests */,
 				3F0F85E4147B6C1600FC3FC9 /* Frameworks */,
@@ -209,6 +241,7 @@
 				3F0F85EE147B6C1600FC3FC9 /* Supporting Files */,
 				3F0F8625147B79EC00FC3FC9 /* EditingBabyViewController.h */,
 				3F0F8626147B79EC00FC3FC9 /* EditingBabyViewController.m */,
+				3F0EE113148CB04D00070843 /* EditingBabyViewController.xib */,
 				75BFE3DE147BE18900BF3522 /* CalendarViewController.h */,
 				75BFE3DF147BE18900BF3522 /* CalendarViewController.m */,
 				75BFE3E0147BE18900BF3522 /* CalendarViewController.xib */,
@@ -343,6 +376,17 @@
 				3F19608F148616E9004D17AE /* EditingPhotoViewController.xib in Resources */,
 				75CDB966148BADA40003923D /* Default.png in Resources */,
 				75CDB969148BADAB0003923D /* Default@2x.png in Resources */,
+				3F0EE110148CA08000070843 /* NavigationBar@2x.png in Resources */,
+				3F0EE111148CA08000070843 /* NavigationBar.png in Resources */,
+				3F0EE114148CB04D00070843 /* EditingBabyViewController.xib in Resources */,
+				3F0EE119148CB68100070843 /* detail-button-down.png in Resources */,
+				3F0EE11A148CB68100070843 /* detail-button-down@2x.png in Resources */,
+				3F0EE11B148CB68100070843 /* detail-button-up.png in Resources */,
+				3F0EE11C148CB68100070843 /* detail-button-up@2x.png in Resources */,
+				3F0EE121148CC0BE00070843 /* calendar-back-disable.png in Resources */,
+				3F0EE122148CC0BE00070843 /* calendar-back.png in Resources */,
+				3F0EE123148CC0BE00070843 /* calendar-forward-disable.png in Resources */,
+				3F0EE124148CC0BE00070843 /* calendar-forward.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EditingBabyViewController : UITableViewController <UITextFieldDelegate> {
+@interface EditingBabyViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
+    IBOutlet UITableView *_tableView;
+    IBOutlet UILabel *_promptLabel;
+    IBOutlet UIButton *_detailInfoButton;
+    
     UITextField *_nameField;
     UITextField *_birthdayField;
     UITextField *_sexField;
@@ -19,6 +23,9 @@
     NSManagedObjectContext *_managedObjectContext;
 }
 
+@property (nonatomic, retain) UITableView *tableView;
+@property (nonatomic, retain) UILabel *promptLabel;
+@property (nonatomic, retain) UIButton *detailInfoButton;
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) UITextField *birthdayField;
 @property (nonatomic, retain) UITextField *sexField;
@@ -30,5 +37,6 @@
 
 - (void)saveBaby;
 - (void)birthdayPickerChange:(UIDatePicker *)datePicker;
+- (IBAction)toggleDetailInfo:(UIButton *)sender;
 
 @end

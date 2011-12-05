@@ -12,6 +12,9 @@
 
 
 @implementation EditingBabyViewController
+@synthesize tableView = _tableView;
+@synthesize promptLabel = _promptLabel;
+@synthesize detailInfoButton = _detailInfoButton;
 @synthesize nameField = _nameField;
 @synthesize birthdayField = _birthdayField;
 @synthesize sexField = _sexField;
@@ -21,9 +24,30 @@
 
 @synthesize managedObjectContext = _managedObjectContext;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
+- (void)toggleDetailInfo:(UIButton *)sender {
+    if (sender.selected) {
+        self.promptLabel.hidden = NO;
+        sender.selected = NO;
+        [self.tableView reloadData];
+    }else {
+        self.promptLabel.hidden = YES;
+        sender.selected = YES;
+        [self.tableView reloadData];
+    }
+    
+    [UIView beginAnimations:@"up/down detail info" context:nil];
+    //resize table view and layout button
+    CGRect tableFrame =  self.tableView.frame;
+    tableFrame.size.height = self.tableView.contentSize.height;
+    self.tableView.frame = tableFrame;
+    CGRect buttonFrame = self.detailInfoButton.frame;
+    buttonFrame.origin.y = tableFrame.size.height;
+    self.detailInfoButton.frame = buttonFrame;
+    [UIView commitAnimations];
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"编辑宝宝信息";
     }
@@ -39,6 +63,9 @@
 }
 
 - (void)dealloc {
+    [_tableView release];
+    [_promptLabel release];
+    [_detailInfoButton release];
     [_nameField release];
     [_birthdayField release];
     [_sexField release];
@@ -111,6 +138,14 @@
     
     //don't allow select tableView cell
     self.tableView.allowsSelection = NO;
+    
+    //set table view background
+    self.tableView.backgroundColor = [UIColor colorWithRed:229.0/255 green:233.0/255 blue:206.0/255 alpha:1.0];
+    
+    //set navigation bar background image for ios 5
+    if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
+    }
     
     //right bar button item for save baby info
     UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleDone target:self action:@selector(saveBaby)];
@@ -202,7 +237,12 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 2;
+    if (self.detailInfoButton.selected) {
+        return 2;
+    }else {
+        return 1;
+    }
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -283,6 +323,10 @@
         }
     }
     
+    //custom text label appearance
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
+    cell.textLabel.textColor = [UIColor colorWithRed:172.0/255 green:175.0/255 blue:155.0/255 alpha:1.0];
+    
     return cell;
 }
 
@@ -337,6 +381,20 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UILabel *sectionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
+    sectionTitleLabel.backgroundColor = [UIColor clearColor];
+    if (section == 0) {
+        sectionTitleLabel.text = @"基本信息";
+    }else {
+        sectionTitleLabel.text = @"详细信息";
+    }
+    sectionTitleLabel.textAlignment = UITextAlignmentCenter;
+    sectionTitleLabel.textColor = [UIColor colorWithRed:61.0/255 green:82.0/255 blue:36.0/255 alpha:1.0];
+    sectionTitleLabel.font = [UIFont boldSystemFontOfSize:18];
+    return [sectionTitleLabel autorelease];
 }
 
 #pragma mark - Text field delegate
