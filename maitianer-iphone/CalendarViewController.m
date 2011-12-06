@@ -223,7 +223,7 @@
     }else {
         duringBirthday = [NSString stringWithFormat:@"%d天", [[NSDate date] daysAfterDate:self.baby.birthday]];
     }
-    self.daysFromBirthdayLabel.text = [NSString stringWithFormat:@"宝宝出生到现在已经%@了", duringBirthday];
+    self.daysFromBirthdayLabel.text = [NSString stringWithFormat:@"出生%@", duringBirthday];
     self.daysAfterRecordLabel.text = [NSString stringWithFormat:@"您已经有40天没有记录宝宝了"];
     
     //reload calendar view for reset calendar cell view

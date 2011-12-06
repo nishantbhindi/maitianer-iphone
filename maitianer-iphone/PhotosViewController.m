@@ -88,6 +88,12 @@
 {
     [super viewDidLoad];
     self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    
+    //set navigation bar background image for ios 5
+    if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
+    }
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  

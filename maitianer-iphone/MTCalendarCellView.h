@@ -12,9 +12,13 @@
 @interface MTCalendarCellView : UIButton {
     NSDate *_date;
     NSArray *_photos;
+    UIImageView *_innerImageView;
+    UIImageView *_dateImageView;
 }
 
 @property (nonatomic, retain) NSDate *date;
 @property (nonatomic, retain) NSArray *photos;
+@property (nonatomic, retain) UIImageView *innerImageView;
+@property (nonatomic, retain) UIImageView *dateImageView;
 
 @end

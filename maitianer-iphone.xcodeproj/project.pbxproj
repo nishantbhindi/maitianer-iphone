@@ -45,6 +45,14 @@
 		3FCD46C6148E15DC0056A671 /* no-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FCD46C5148E15DC0056A671 /* no-photo.png */; };
 		750AB6011480AA0F001A20E4 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 750AB6001480AA0F001A20E4 /* Photo.m */; };
 		75287426147C00B000581419 /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 75287425147C00B000581419 /* NSDate-Utilities.m */; };
+		7544E165148E3710009DC7AE /* date-background-disable.png in Resources */ = {isa = PBXBuildFile; fileRef = 7544E15F148E3710009DC7AE /* date-background-disable.png */; };
+		7544E166148E3710009DC7AE /* date-background-disable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7544E160148E3710009DC7AE /* date-background-disable@2x.png */; };
+		7544E167148E3710009DC7AE /* date-background-enable.png in Resources */ = {isa = PBXBuildFile; fileRef = 7544E161148E3710009DC7AE /* date-background-enable.png */; };
+		7544E168148E3710009DC7AE /* date-background-enable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7544E162148E3710009DC7AE /* date-background-enable@2x.png */; };
+		7544E169148E3710009DC7AE /* date-background-today.png in Resources */ = {isa = PBXBuildFile; fileRef = 7544E163148E3710009DC7AE /* date-background-today.png */; };
+		7544E16A148E3710009DC7AE /* date-background-today@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7544E164148E3710009DC7AE /* date-background-today@2x.png */; };
+		7544E16D148E3F79009DC7AE /* baby-info-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7544E16B148E3F79009DC7AE /* baby-info-bg.png */; };
+		7544E16E148E3F79009DC7AE /* baby-info-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7544E16C148E3F79009DC7AE /* baby-info-bg@2x.png */; };
 		7595379B1482853C007CF4D2 /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7595379A1482853C007CF4D2 /* PhotosViewController.m */; };
 		75BFE3E1147BE18900BF3522 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BFE3DF147BE18900BF3522 /* CalendarViewController.m */; };
 		75BFE3E2147BE18900BF3522 /* CalendarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75BFE3E0147BE18900BF3522 /* CalendarViewController.xib */; };
@@ -124,6 +132,14 @@
 		750AB6001480AA0F001A20E4 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		75287424147C00AF00581419 /* NSDate-Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate-Utilities.h"; sourceTree = "<group>"; };
 		75287425147C00B000581419 /* NSDate-Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate-Utilities.m"; sourceTree = "<group>"; };
+		7544E15F148E3710009DC7AE /* date-background-disable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date-background-disable.png"; sourceTree = "<group>"; };
+		7544E160148E3710009DC7AE /* date-background-disable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date-background-disable@2x.png"; sourceTree = "<group>"; };
+		7544E161148E3710009DC7AE /* date-background-enable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date-background-enable.png"; sourceTree = "<group>"; };
+		7544E162148E3710009DC7AE /* date-background-enable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date-background-enable@2x.png"; sourceTree = "<group>"; };
+		7544E163148E3710009DC7AE /* date-background-today.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date-background-today.png"; sourceTree = "<group>"; };
+		7544E164148E3710009DC7AE /* date-background-today@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date-background-today@2x.png"; sourceTree = "<group>"; };
+		7544E16B148E3F79009DC7AE /* baby-info-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "baby-info-bg.png"; sourceTree = "<group>"; };
+		7544E16C148E3F79009DC7AE /* baby-info-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "baby-info-bg@2x.png"; sourceTree = "<group>"; };
 		759537991482853C007CF4D2 /* PhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosViewController.h; sourceTree = "<group>"; };
 		7595379A1482853C007CF4D2 /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
 		75BFE3DE147BE18900BF3522 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
@@ -193,7 +209,15 @@
 				3F0EE11E148CC0BE00070843 /* calendar-back.png */,
 				3F0EE11F148CC0BE00070843 /* calendar-forward-disable.png */,
 				3F0EE120148CC0BE00070843 /* calendar-forward.png */,
+				7544E16B148E3F79009DC7AE /* baby-info-bg.png */,
+				7544E16C148E3F79009DC7AE /* baby-info-bg@2x.png */,
 				3FCD46C5148E15DC0056A671 /* no-photo.png */,
+				7544E15F148E3710009DC7AE /* date-background-disable.png */,
+				7544E160148E3710009DC7AE /* date-background-disable@2x.png */,
+				7544E161148E3710009DC7AE /* date-background-enable.png */,
+				7544E162148E3710009DC7AE /* date-background-enable@2x.png */,
+				7544E163148E3710009DC7AE /* date-background-today.png */,
+				7544E164148E3710009DC7AE /* date-background-today@2x.png */,
 				3F0F85ED147B6C1600FC3FC9 /* maitianer-iphone */,
 				3F0F8609147B6C1600FC3FC9 /* maitianer-iphoneTests */,
 				3F0F85E4147B6C1600FC3FC9 /* Frameworks */,
@@ -391,6 +415,14 @@
 				3F0EE123148CC0BE00070843 /* calendar-forward-disable.png in Resources */,
 				3F0EE124148CC0BE00070843 /* calendar-forward.png in Resources */,
 				3FCD46C6148E15DC0056A671 /* no-photo.png in Resources */,
+				7544E165148E3710009DC7AE /* date-background-disable.png in Resources */,
+				7544E166148E3710009DC7AE /* date-background-disable@2x.png in Resources */,
+				7544E167148E3710009DC7AE /* date-background-enable.png in Resources */,
+				7544E168148E3710009DC7AE /* date-background-enable@2x.png in Resources */,
+				7544E169148E3710009DC7AE /* date-background-today.png in Resources */,
+				7544E16A148E3710009DC7AE /* date-background-today@2x.png in Resources */,
+				7544E16D148E3F79009DC7AE /* baby-info-bg.png in Resources */,
+				7544E16E148E3F79009DC7AE /* baby-info-bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

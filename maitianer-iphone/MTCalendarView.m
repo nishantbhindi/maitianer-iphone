@@ -168,11 +168,11 @@ static const CGFloat kCalendarCellSideLength = 70;
     NSDate *date = [self.selectedDate beginningOfMonth];
     for (int i = 1; i <= days; i++) {
         MTCalendarCellView *cellView = [[MTCalendarCellView alloc] initWithFrame:CGRectMake(0, 0, kCalendarCellSideLength, kCalendarCellSideLength)];
-        cellView.date = date;
         //disable cell if date before minium date
         if ([date timeIntervalSince1970] < [self.miniumDate timeIntervalSince1970]) {
             cellView.enabled = NO;
         }
+        cellView.date = date;
         cellView.backgroundColor = [UIColor grayColor];
         cellView.tag = i;
         [cellView addTarget:self action:@selector(touchedCellView:) forControlEvents:UIControlEventTouchUpInside];
