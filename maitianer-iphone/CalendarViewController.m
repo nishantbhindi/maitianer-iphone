@@ -62,6 +62,19 @@
     return babiesArray;
 }
 
+- (Photo *)_fetchLatelyPhoto {
+    //fetch photos from database
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO]];
+    request.fetchLimit = 1;
+    NSError *error = nil;
+    NSArray *photosArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    if (photosArray == nil || [photosArray count] == 0) {
+        return nil;
+    }
+    return [photosArray objectAtIndex:0];
+}
+
 - (void)_showPhotosInCalendar {
     
     //fetch result sections
@@ -142,7 +155,25 @@
     
     //config calendar view
     self.calendarView.delegate = self;
-    self.calendarView.miniumDate = self.baby.birthday;
+    
+    //fetch lately photo
+    Photo *latelyPhoto = [self _fetchLatelyPhoto];
+    
+    //config avatar shadow
+    [self.avatarView.layer setCornerRadius:5];
+    [self.avatarView.layer setShadowOffset:CGSizeMake(0, 1.0)];
+    [self.avatarView.layer setShadowColor:[UIColor grayColor].CGColor];
+    [self.avatarView.layer setShadowRadius:0];
+    [self.avatarView.layer setShadowOpacity:0.8];
+    if (latelyPhoto) {
+        //add real avatar for masks to bounds
+        UIImageView *innerImageView = [[UIImageView alloc] initWithImage:latelyPhoto.image];
+        innerImageView.layer.cornerRadius = 5;
+        innerImageView.layer.masksToBounds = YES;
+        innerImageView.frame = self.avatarView.bounds;
+        [self.avatarView addSubview:innerImageView];
+        [innerImageView release];
+    }
     
 }
 
@@ -169,6 +200,7 @@
         NSArray *babiesArray = [self _fetchBabies];
         self.baby = [babiesArray objectAtIndex:0];
     }
+    self.calendarView.miniumDate = self.baby.birthday;
     
     //fetch photos per day from database
     NSError *error = nil;

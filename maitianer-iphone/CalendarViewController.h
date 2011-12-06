@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Baby.h"
+#import "Photo.h"
 #import "MTCalendarView.h"
 
 @class PhotographViewController;

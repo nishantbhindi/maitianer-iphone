@@ -42,6 +42,7 @@
 		3F8B4396147C9D9F00D544CF /* MTCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F8B4395147C9D9F00D544CF /* MTCalendarView.m */; };
 		3F8B439A147C9DB200D544CF /* MTCalendarCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F8B4399147C9DB200D544CF /* MTCalendarCellView.m */; };
 		3F8CE9A5147C8D11000E1277 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F8CE9A4147C8D11000E1277 /* QuartzCore.framework */; };
+		3FCD46C6148E15DC0056A671 /* no-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FCD46C5148E15DC0056A671 /* no-photo.png */; };
 		750AB6011480AA0F001A20E4 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 750AB6001480AA0F001A20E4 /* Photo.m */; };
 		75287426147C00B000581419 /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 75287425147C00B000581419 /* NSDate-Utilities.m */; };
 		7595379B1482853C007CF4D2 /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7595379A1482853C007CF4D2 /* PhotosViewController.m */; };
@@ -118,6 +119,7 @@
 		3F8B4398147C9DB200D544CF /* MTCalendarCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTCalendarCellView.h; sourceTree = "<group>"; };
 		3F8B4399147C9DB200D544CF /* MTCalendarCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTCalendarCellView.m; sourceTree = "<group>"; };
 		3F8CE9A4147C8D11000E1277 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		3FCD46C5148E15DC0056A671 /* no-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-photo.png"; sourceTree = "<group>"; };
 		750AB5FF1480AA0F001A20E4 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		750AB6001480AA0F001A20E4 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		75287424147C00AF00581419 /* NSDate-Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate-Utilities.h"; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				3F0EE11E148CC0BE00070843 /* calendar-back.png */,
 				3F0EE11F148CC0BE00070843 /* calendar-forward-disable.png */,
 				3F0EE120148CC0BE00070843 /* calendar-forward.png */,
+				3FCD46C5148E15DC0056A671 /* no-photo.png */,
 				3F0F85ED147B6C1600FC3FC9 /* maitianer-iphone */,
 				3F0F8609147B6C1600FC3FC9 /* maitianer-iphoneTests */,
 				3F0F85E4147B6C1600FC3FC9 /* Frameworks */,
@@ -387,6 +390,7 @@
 				3F0EE122148CC0BE00070843 /* calendar-back.png in Resources */,
 				3F0EE123148CC0BE00070843 /* calendar-forward-disable.png in Resources */,
 				3F0EE124148CC0BE00070843 /* calendar-forward.png in Resources */,
+				3FCD46C6148E15DC0056A671 /* no-photo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

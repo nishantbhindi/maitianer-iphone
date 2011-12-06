@@ -27,7 +27,13 @@
         [_photos release];
         _photos = [photos retain];
         Photo *firstPhoto = [_photos objectAtIndex:0];
-        [self setBackgroundImage:firstPhoto.b200Image forState:UIControlStateNormal];
+        UIImageView *innerImageView = [[UIImageView alloc] initWithImage:firstPhoto.b200Image];
+        innerImageView.frame = self.bounds;
+        innerImageView.layer.cornerRadius = 5;
+        innerImageView.layer.masksToBounds = YES;
+        [self addSubview:innerImageView];
+        [innerImageView release];
+        //[self setBackgroundImage:firstPhoto.b200Image forState:UIControlStateNormal];
     }
 }
 
@@ -35,7 +41,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
+        [self setBackgroundImage:[UIImage imageNamed:@"no-photo"] forState:UIControlStateNormal];
         self.backgroundColor = [UIColor whiteColor];
+        self.layer.cornerRadius = 5;
+        self.layer.shadowOffset = CGSizeMake(0, 1.5);
+        self.layer.shadowRadius = 0;
+        self.layer.shadowColor = [UIColor colorWithRed:193.0/255 green:208.0/255 blue:148.0/255 alpha:1.0].CGColor;
+        self.layer.shadowOpacity = 1;
     }
     return self;
 }
@@ -46,13 +58,14 @@
     [super dealloc];
 }
 
-
+/*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
     // Drawing code
 }
+*/
 
 
 @end

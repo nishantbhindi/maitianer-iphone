@@ -55,6 +55,10 @@ static const CGFloat kCalendarCellSideLength = 70;
         _monthBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, kDefaultMonthBarHeight)];
         _monthBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
         _monthBar.backgroundColor = [UIColor colorWithRed:235.0/255 green:242.0/255 blue:218.0/255 alpha:1.0];
+        _monthBar.layer.shadowOffset = CGSizeMake(0, 1.0);
+        _monthBar.layer.shadowRadius = 0;
+        _monthBar.layer.shadowColor = [UIColor colorWithRed:200.0/255 green:213.0/255 blue:162.0/255 alpha:1.0].CGColor;
+        _monthBar.layer.shadowOpacity = 1;
         [_monthBar addSubview:self.monthBackButton];
         [_monthBar addSubview:self.monthLabelButton];
         [_monthBar addSubview:self.monthForwardButton];
@@ -163,7 +167,7 @@ static const CGFloat kCalendarCellSideLength = 70;
     int days = [self.selectedDate daysInMonth];
     NSDate *date = [self.selectedDate beginningOfMonth];
     for (int i = 1; i <= days; i++) {
-        MTCalendarCellView *cellView = [[[MTCalendarCellView alloc] init] autorelease];
+        MTCalendarCellView *cellView = [[MTCalendarCellView alloc] initWithFrame:CGRectMake(0, 0, kCalendarCellSideLength, kCalendarCellSideLength)];
         cellView.date = date;
         //disable cell if date before minium date
         if ([date timeIntervalSince1970] < [self.miniumDate timeIntervalSince1970]) {
@@ -174,6 +178,8 @@ static const CGFloat kCalendarCellSideLength = 70;
         [cellView addTarget:self action:@selector(touchedCellView:) forControlEvents:UIControlEventTouchUpInside];
         [self.calendarScrollView addSubview:cellView];
         date = [date dateByAddingDays:1];
+        [cellView release];
+        
     }
     
     [self setNeedsLayout];
