@@ -87,6 +87,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = RGBCOLOR(229, 234, 204);
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     
     //set navigation bar background image for ios 5
@@ -260,9 +264,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.selectedIndexPath && [self.selectedIndexPath compare:indexPath] == NSOrderedSame) {
-        return self.view.frame.size.width;
+        return self.view.frame.size.width + 10;
     }
-    return 80;
+    return 80 + 10;
 }
 
 @end

@@ -140,7 +140,7 @@
     self.tableView.allowsSelection = NO;
     
     //set table view background
-    self.tableView.backgroundColor = [UIColor colorWithRed:229.0/255 green:233.0/255 blue:206.0/255 alpha:1.0];
+    self.tableView.backgroundColor = RGBCOLOR(229, 233, 206);
     
     //set navigation bar background image for ios 5
     if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
@@ -149,7 +149,7 @@
     
     //right bar button item for save baby info
     UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleDone target:self action:@selector(saveBaby)];
-    saveButtonItem.tintColor = [UIColor colorWithRed:208.0/255 green:231.0/255 blue:129.0/255 alpha:0];
+    saveButtonItem.tintColor = RGBCOLOR(208, 231, 129);
     self.navigationItem.rightBarButtonItem = saveButtonItem;
     [saveButtonItem release];
     
@@ -325,7 +325,7 @@
     
     //custom text label appearance
     cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
-    cell.textLabel.textColor = [UIColor colorWithRed:172.0/255 green:175.0/255 blue:155.0/255 alpha:1.0];
+    cell.textLabel.textColor = RGBCOLOR(172, 175, 155);
     
     return cell;
 }
@@ -392,7 +392,7 @@
         sectionTitleLabel.text = @"详细信息";
     }
     sectionTitleLabel.textAlignment = UITextAlignmentCenter;
-    sectionTitleLabel.textColor = [UIColor colorWithRed:61.0/255 green:82.0/255 blue:36.0/255 alpha:1.0];
+    sectionTitleLabel.textColor = RGBCOLOR(61, 82, 36);
     sectionTitleLabel.font = [UIFont boldSystemFontOfSize:18];
     return [sectionTitleLabel autorelease];
 }

@@ -137,7 +137,7 @@
     //init photos fetched results controller
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:[NSEntityDescription entityForName:@"Photo" inManagedObjectContext:self.managedObjectContext]];
-    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]]];
+    [request setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO], [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO], nil]];
     _photoResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"recordDateLabel" cacheName:nil];
     
     //show editing baby view controller for create a baby if baby not existed
@@ -155,25 +155,6 @@
     
     //config calendar view
     self.calendarView.delegate = self;
-    
-    //fetch lately photo
-    Photo *latelyPhoto = [self _fetchLatelyPhoto];
-    
-    //config avatar shadow
-    [self.avatarView.layer setCornerRadius:5];
-    [self.avatarView.layer setShadowOffset:CGSizeMake(0, 1.0)];
-    [self.avatarView.layer setShadowColor:[UIColor grayColor].CGColor];
-    [self.avatarView.layer setShadowRadius:0];
-    [self.avatarView.layer setShadowOpacity:0.8];
-    if (latelyPhoto) {
-        //add real avatar for masks to bounds
-        UIImageView *innerImageView = [[UIImageView alloc] initWithImage:latelyPhoto.image];
-        innerImageView.layer.cornerRadius = 5;
-        innerImageView.layer.masksToBounds = YES;
-        innerImageView.frame = self.avatarView.bounds;
-        [self.avatarView addSubview:innerImageView];
-        [innerImageView release];
-    }
     
 }
 
@@ -209,6 +190,35 @@
         //handle the error.
     }
     
+    //fetch lately photo
+    Photo *latelyPhoto = [self _fetchLatelyPhoto];
+    
+    //config avatar shadow
+    [self.avatarView.layer setCornerRadius:5];
+    [self.avatarView.layer setShadowOffset:CGSizeMake(0, 1.0)];
+    [self.avatarView.layer setShadowColor:[UIColor grayColor].CGColor];
+    [self.avatarView.layer setShadowRadius:0];
+    [self.avatarView.layer setShadowOpacity:0.8];
+    if (latelyPhoto) {
+        //add real avatar for masks to bounds
+        UIImageView *innerImageView = [[UIImageView alloc] initWithImage:latelyPhoto.image];
+        innerImageView.layer.cornerRadius = 5;
+        innerImageView.layer.masksToBounds = YES;
+        innerImageView.frame = self.avatarView.bounds;
+        [self.avatarView addSubview:innerImageView];
+        [innerImageView release];
+        
+        int days = [latelyPhoto.creationDate daysAfterDate:[NSDate date]];
+        if (days > 0) {
+            self.daysAfterRecordLabel.text = [NSString stringWithFormat:@"您已经有%d天没有记录宝宝了", days];
+        }else {
+            self.daysAfterRecordLabel.text = [NSString stringWithFormat:@"您刚刚记录过"];
+        }
+        
+    }else {
+        self.daysAfterRecordLabel.text = [NSString stringWithFormat:@"您还没有开始记录"];
+    }
+    
     //config baby info
     self.babyNameLabel.text = self.baby.nickName;
     NSString *duringBirthday = nil;
@@ -224,7 +234,6 @@
         duringBirthday = [NSString stringWithFormat:@"%d天", [[NSDate date] daysAfterDate:self.baby.birthday]];
     }
     self.daysFromBirthdayLabel.text = [NSString stringWithFormat:@"出生%@", duringBirthday];
-    self.daysAfterRecordLabel.text = [NSString stringWithFormat:@"您已经有40天没有记录宝宝了"];
     
     //reload calendar view for reset calendar cell view
     [self.calendarView reload];
@@ -248,6 +257,12 @@
         
         //set controller photos
         photosVC.photos = [cell.photos mutableCopy];
+        
+        //config back bar button item style
+        UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStyleDone target:nil action:nil];
+        backBarButtonItem.tintColor = RGBCOLOR(208, 231, 129);
+        self.navigationItem.backBarButtonItem = backBarButtonItem;
+        [backBarButtonItem release];
         
         [self.navigationController pushViewController:photosVC animated:YES];
         [photosVC release];

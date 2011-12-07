@@ -18,6 +18,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        self.imageView.layer.masksToBounds = YES;
+        self.imageView.layer.cornerRadius = 5;
     }
     return self;
 }
@@ -37,13 +39,14 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.detailTextLabel.frame = CGRectMake(0, self.frame.size.height - 20, self.frame.size.width, 20);
-    self.detailTextLabel.backgroundColor = [UIColor grayColor];
+    self.imageView.frame = CGRectMake(10, 0, self.frame.size.width - 20, self.frame.size.height - 10);
+    [self.imageView addSubview:self.detailTextLabel];
+    self.detailTextLabel.frame = CGRectMake(0, self.imageView.frame.size.height - 20, self.imageView.frame.size.width, 20);
+    self.detailTextLabel.backgroundColor = [UIColor blackColor];
     self.detailTextLabel.alpha = 0.7;
     self.detailTextLabel.textColor = [UIColor whiteColor];
     self.detailTextLabel.textAlignment = UITextAlignmentLeft;
-    self.imageView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-    NSLog(@"cell frame width: %f, height: %f", self.frame.size.width, self.frame.size.height);
+    
 }
 
 @end
