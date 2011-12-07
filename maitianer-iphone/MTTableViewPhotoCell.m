@@ -39,9 +39,12 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.imageView.frame = CGRectMake(10, 0, self.frame.size.width - 20, self.frame.size.height - 10);
-    [self.imageView addSubview:self.detailTextLabel];
-    self.detailTextLabel.frame = CGRectMake(0, self.imageView.frame.size.height - 20, self.imageView.frame.size.width, 20);
+    self.imageView.frame = CGRectMake(10, 5, self.frame.size.width - 20, self.frame.size.height - 10);
+    if (self.detailTextLabel.text != nil && ![self.detailTextLabel.text isEqualToString:@""]) {
+        [self.imageView addSubview:self.detailTextLabel];
+    }
+    NSLog(@"%@", self.detailTextLabel.text);
+    self.detailTextLabel.frame = CGRectMake(0, self.imageView.frame.size.height - 25, self.imageView.frame.size.width, 25);
     self.detailTextLabel.backgroundColor = [UIColor blackColor];
     self.detailTextLabel.alpha = 0.7;
     self.detailTextLabel.textColor = [UIColor whiteColor];

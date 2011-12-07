@@ -157,7 +157,8 @@
 {
     static NSString *CellIdentifier = @"PhotoCell";
     
-    MTTableViewPhotoCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    //MTTableViewPhotoCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    MTTableViewPhotoCell *cell = [[[MTTableViewPhotoCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     if (cell == nil) {
         cell = [[[MTTableViewPhotoCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }else {
@@ -175,6 +176,7 @@
         if (cell.removePhotoButton && [cell.contentView.subviews containsObject:cell.removePhotoButton]) {
             [cell.removePhotoButton removeFromSuperview];
         }
+        
     }
     
     Photo *photo = [self.photos objectAtIndex:indexPath.row];
@@ -188,22 +190,23 @@
         [cell.contentView addSubview:cell.addMilestoneButton];
         
         cell.editPhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [cell.editPhotoButton setTitle:@"编辑图片" forState:UIControlStateNormal];
+        [cell.editPhotoButton setTitle:@"编辑" forState:UIControlStateNormal];
         cell.editPhotoButton.frame = CGRectMake(260, 40, 50, 20);
         [cell.editPhotoButton addTarget:self action:@selector(editPhoto) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:cell.editPhotoButton];
         
         cell.removePhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [cell.removePhotoButton setTitle:@"删除照片" forState:UIControlStateNormal];
-        cell.removePhotoButton.frame = CGRectMake(260, 70, 50, 20);
+        [cell.removePhotoButton setTitle:@"删除" forState:UIControlStateNormal];
+        cell.removePhotoButton.frame = CGRectMake(20, 10, 50, 20);
         [cell.removePhotoButton addTarget:self action:@selector(removePhoto) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:cell.removePhotoButton];
     }else {
         cell.imageView.image = [photo.image imageToFitSize:CGSizeMake(320, 80) method:MGImageResizeCrop];
     }
     
-    if (photo.content) {
-        cell.detailTextLabel.text = photo.content;
+    if (photo.content && ![photo.content isEqualToString:@""]) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"    %@", photo.content];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
     }
     
     // Configure the cell...

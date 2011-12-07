@@ -172,6 +172,9 @@ static const CGFloat kCalendarCellSideLength = 70;
         if ([date timeIntervalSince1970] < [self.miniumDate timeIntervalSince1970]) {
             cellView.enabled = NO;
         }
+        if ([date isLaterThanDate:[NSDate date]]) {
+            cellView.enabled = NO;
+        }
         cellView.date = date;
         cellView.backgroundColor = [UIColor grayColor];
         cellView.tag = i;
