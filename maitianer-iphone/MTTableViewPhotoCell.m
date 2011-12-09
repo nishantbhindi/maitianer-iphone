@@ -43,7 +43,6 @@
     if (self.detailTextLabel.text != nil && ![self.detailTextLabel.text isEqualToString:@""]) {
         [self.imageView addSubview:self.detailTextLabel];
     }
-    NSLog(@"%@", self.detailTextLabel.text);
     self.detailTextLabel.frame = CGRectMake(0, self.imageView.frame.size.height - 25, self.imageView.frame.size.width, 25);
     self.detailTextLabel.backgroundColor = [UIColor blackColor];
     self.detailTextLabel.alpha = 0.7;
