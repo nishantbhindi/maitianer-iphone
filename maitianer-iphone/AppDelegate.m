@@ -13,7 +13,6 @@
 #import "PhotographViewController.h"
 
 @implementation UINavigationBar (CustomBackground)
-
 - (void)drawRect:(CGRect)rect {
     UIImage *navBackgroundImage = [UIImage imageNamed:@"NavigationBar"];
     [navBackgroundImage drawInRect:rect];
@@ -22,9 +21,7 @@
 @end
 
 
-
 @implementation AppDelegate
-
 @synthesize window = _window;
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
@@ -42,8 +39,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    
     // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
     
 //    EditingBabyViewController *editingBabyVC = [[EditingBabyViewController alloc] initWithStyle:UITableViewStyleGrouped];
 //    editingBabyVC.managedObjectContext = self.managedObjectContext;
@@ -66,6 +63,7 @@
     [milestonesVC release];
     
     tabBarController.viewControllers = [NSArray arrayWithObjects:calendarNVC, photographVC, milestonesNVC, nil];
+    [milestonesNVC release];
     self.window.rootViewController = tabBarController;
     
     // Create a custom UIButton and add it to the center of our tab bar

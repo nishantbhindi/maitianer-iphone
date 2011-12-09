@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class BCTabBarController;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
 }
 
