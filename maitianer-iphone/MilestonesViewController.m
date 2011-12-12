@@ -10,6 +10,10 @@
 
 @implementation MilestonesViewController
 
+- (NSString *)iconImageName {
+	return @"magnifying-glass.png";
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

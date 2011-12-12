@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class BCTabBarController;
+@class MTTabBarController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
+    MTTabBarController *_tabBarController;
 }
 
+@property (retain, nonatomic) MTTabBarController *tabBarController;
 @property (strong, nonatomic) UIWindow *window;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;

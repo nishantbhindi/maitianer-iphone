@@ -67,6 +67,21 @@
 		75C5D789147D584500BD84E8 /* capture-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C5D787147D584500BD84E8 /* capture-button@2x.png */; };
 		75CDB966148BADA40003923D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 75CDB965148BADA40003923D /* Default.png */; };
 		75CDB969148BADAB0003923D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75CDB968148BADAB0003923D /* Default@2x.png */; };
+		75EB9061149316E9007027F0 /* MTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EB9060149316E9007027F0 /* MTTabBarController.m */; };
+		75EB90641493170F007027F0 /* MTTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EB90631493170F007027F0 /* MTTabBar.m */; };
+		75EB906F149326E7007027F0 /* TabBarGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EB906D149326E7007027F0 /* TabBarGradient.png */; };
+		75EB9070149326E7007027F0 /* TabBarGradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EB906E149326E7007027F0 /* TabBarGradient@2x.png */; };
+		75EB907B14935989007027F0 /* MTTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EB907A14935989007027F0 /* MTTab.m */; };
+		75EB908114935D24007027F0 /* UIViewController+iconImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EB907E14935D24007027F0 /* UIViewController+iconImage.m */; };
+		75EB908214935D24007027F0 /* UINavigationController+icons.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EB908014935D24007027F0 /* UINavigationController+icons.m */; };
+		75EB908714935FEE007027F0 /* TabBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EB908314935FEE007027F0 /* TabBackground.png */; };
+		75EB908814935FEE007027F0 /* TabBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EB908414935FEE007027F0 /* TabBackground@2x.png */; };
+		75EB908914935FEE007027F0 /* TabRightBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EB908514935FEE007027F0 /* TabRightBorder.png */; };
+		75EB908A14935FEE007027F0 /* TabRightBorder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EB908614935FEE007027F0 /* TabRightBorder@2x.png */; };
+		75EB908F149360B1007027F0 /* magnifying-glass-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EB908B149360B1007027F0 /* magnifying-glass-selected.png */; };
+		75EB9090149360B1007027F0 /* magnifying-glass-selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EB908C149360B1007027F0 /* magnifying-glass-selected@2x.png */; };
+		75EB9091149360B1007027F0 /* magnifying-glass.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EB908D149360B1007027F0 /* magnifying-glass.png */; };
+		75EB9092149360B1007027F0 /* magnifying-glass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EB908E149360B1007027F0 /* magnifying-glass@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,6 +174,26 @@
 		75C5D787147D584500BD84E8 /* capture-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "capture-button@2x.png"; sourceTree = "<group>"; };
 		75CDB965148BADA40003923D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		75CDB968148BADAB0003923D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		75EB905F149316E9007027F0 /* MTTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTabBarController.h; sourceTree = "<group>"; };
+		75EB9060149316E9007027F0 /* MTTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTabBarController.m; sourceTree = "<group>"; };
+		75EB90621493170F007027F0 /* MTTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTabBar.h; sourceTree = "<group>"; };
+		75EB90631493170F007027F0 /* MTTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTabBar.m; sourceTree = "<group>"; };
+		75EB906D149326E7007027F0 /* TabBarGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TabBarGradient.png; sourceTree = "<group>"; };
+		75EB906E149326E7007027F0 /* TabBarGradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TabBarGradient@2x.png"; sourceTree = "<group>"; };
+		75EB907914935989007027F0 /* MTTab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTab.h; sourceTree = "<group>"; };
+		75EB907A14935989007027F0 /* MTTab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTab.m; sourceTree = "<group>"; };
+		75EB907D14935D24007027F0 /* UIViewController+iconImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+iconImage.h"; sourceTree = "<group>"; };
+		75EB907E14935D24007027F0 /* UIViewController+iconImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+iconImage.m"; sourceTree = "<group>"; };
+		75EB907F14935D24007027F0 /* UINavigationController+icons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+icons.h"; sourceTree = "<group>"; };
+		75EB908014935D24007027F0 /* UINavigationController+icons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+icons.m"; sourceTree = "<group>"; };
+		75EB908314935FEE007027F0 /* TabBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TabBackground.png; sourceTree = "<group>"; };
+		75EB908414935FEE007027F0 /* TabBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TabBackground@2x.png"; sourceTree = "<group>"; };
+		75EB908514935FEE007027F0 /* TabRightBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TabRightBorder.png; sourceTree = "<group>"; };
+		75EB908614935FEE007027F0 /* TabRightBorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TabRightBorder@2x.png"; sourceTree = "<group>"; };
+		75EB908B149360B1007027F0 /* magnifying-glass-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "magnifying-glass-selected.png"; sourceTree = "<group>"; };
+		75EB908C149360B1007027F0 /* magnifying-glass-selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "magnifying-glass-selected@2x.png"; sourceTree = "<group>"; };
+		75EB908D149360B1007027F0 /* magnifying-glass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "magnifying-glass.png"; sourceTree = "<group>"; };
+		75EB908E149360B1007027F0 /* magnifying-glass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "magnifying-glass@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +253,16 @@
 				7544E162148E3710009DC7AE /* date-background-enable@2x.png */,
 				7544E163148E3710009DC7AE /* date-background-today.png */,
 				7544E164148E3710009DC7AE /* date-background-today@2x.png */,
+				75EB906D149326E7007027F0 /* TabBarGradient.png */,
+				75EB906E149326E7007027F0 /* TabBarGradient@2x.png */,
+				75EB908314935FEE007027F0 /* TabBackground.png */,
+				75EB908414935FEE007027F0 /* TabBackground@2x.png */,
+				75EB908514935FEE007027F0 /* TabRightBorder.png */,
+				75EB908614935FEE007027F0 /* TabRightBorder@2x.png */,
+				75EB908B149360B1007027F0 /* magnifying-glass-selected.png */,
+				75EB908C149360B1007027F0 /* magnifying-glass-selected@2x.png */,
+				75EB908D149360B1007027F0 /* magnifying-glass.png */,
+				75EB908E149360B1007027F0 /* magnifying-glass@2x.png */,
 				3F0F85ED147B6C1600FC3FC9 /* maitianer-iphone */,
 				3F0F8609147B6C1600FC3FC9 /* maitianer-iphoneTests */,
 				3F0F85E4147B6C1600FC3FC9 /* Frameworks */,
@@ -287,6 +332,16 @@
 				3F19608B148616E9004D17AE /* EditingPhotoViewController.h */,
 				3F19608C148616E9004D17AE /* EditingPhotoViewController.m */,
 				3F19608D148616E9004D17AE /* EditingPhotoViewController.xib */,
+				75EB905F149316E9007027F0 /* MTTabBarController.h */,
+				75EB9060149316E9007027F0 /* MTTabBarController.m */,
+				75EB90621493170F007027F0 /* MTTabBar.h */,
+				75EB90631493170F007027F0 /* MTTabBar.m */,
+				75EB907914935989007027F0 /* MTTab.h */,
+				75EB907A14935989007027F0 /* MTTab.m */,
+				75EB907D14935D24007027F0 /* UIViewController+iconImage.h */,
+				75EB907E14935D24007027F0 /* UIViewController+iconImage.m */,
+				75EB907F14935D24007027F0 /* UINavigationController+icons.h */,
+				75EB908014935D24007027F0 /* UINavigationController+icons.m */,
 			);
 			path = "maitianer-iphone";
 			sourceTree = "<group>";
@@ -423,6 +478,16 @@
 				7544E16A148E3710009DC7AE /* date-background-today@2x.png in Resources */,
 				7544E16D148E3F79009DC7AE /* baby-info-bg.png in Resources */,
 				7544E16E148E3F79009DC7AE /* baby-info-bg@2x.png in Resources */,
+				75EB906F149326E7007027F0 /* TabBarGradient.png in Resources */,
+				75EB9070149326E7007027F0 /* TabBarGradient@2x.png in Resources */,
+				75EB908714935FEE007027F0 /* TabBackground.png in Resources */,
+				75EB908814935FEE007027F0 /* TabBackground@2x.png in Resources */,
+				75EB908914935FEE007027F0 /* TabRightBorder.png in Resources */,
+				75EB908A14935FEE007027F0 /* TabRightBorder@2x.png in Resources */,
+				75EB908F149360B1007027F0 /* magnifying-glass-selected.png in Resources */,
+				75EB9090149360B1007027F0 /* magnifying-glass-selected@2x.png in Resources */,
+				75EB9091149360B1007027F0 /* magnifying-glass.png in Resources */,
+				75EB9092149360B1007027F0 /* magnifying-glass@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +540,11 @@
 				7595379B1482853C007CF4D2 /* PhotosViewController.m in Sources */,
 				3F16A5A8148334CF00521446 /* MTTableViewPhotoCell.m in Sources */,
 				3F19608E148616E9004D17AE /* EditingPhotoViewController.m in Sources */,
+				75EB9061149316E9007027F0 /* MTTabBarController.m in Sources */,
+				75EB90641493170F007027F0 /* MTTabBar.m in Sources */,
+				75EB907B14935989007027F0 /* MTTab.m in Sources */,
+				75EB908114935D24007027F0 /* UIViewController+iconImage.m in Sources */,
+				75EB908214935D24007027F0 /* UINavigationController+icons.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

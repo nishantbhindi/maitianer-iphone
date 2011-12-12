@@ -25,6 +25,10 @@
 @synthesize babyInfoToggle = _babyInfoToggle;
 @synthesize calendarView = _calendarView;
 
+- (NSString *)iconImageName {
+	return @"magnifying-glass.png";
+}
+
 - (IBAction)toggleBabyInfo:(id)sender {
     UIButton *button = sender;
     CGRect babyInfoFrame = self.babyInfoView.frame;

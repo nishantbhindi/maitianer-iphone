@@ -11,6 +11,7 @@
 #import "CalendarViewController.h"
 #import "MilestonesViewController.h"
 #import "PhotographViewController.h"
+#import "MTTabBarController.h"
 
 @implementation UINavigationBar (CustomBackground)
 - (void)drawRect:(CGRect)rect {
@@ -22,6 +23,7 @@
 
 
 @implementation AppDelegate
+@synthesize tabBarController = _tabBarController;
 @synthesize window = _window;
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
@@ -29,6 +31,7 @@
 
 - (void)dealloc
 {
+    [_tabBarController release];
     [_window release];
     [__managedObjectContext release];
     [__managedObjectModel release];
@@ -39,7 +42,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    
+    self.tabBarController = [[[MTTabBarController alloc] init] autorelease];
     // Override point for customization after application launch.
     
 //    EditingBabyViewController *editingBabyVC = [[EditingBabyViewController alloc] initWithStyle:UITableViewStyleGrouped];
@@ -74,7 +77,7 @@
     button.frame = CGRectMake(0.0, 0.0, buttonImage.size.width, buttonImage.size.height);
     [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [button setBackgroundImage:highlightImage forState:UIControlStateHighlighted];
-    [button addTarget:photographVC action:@selector(photoLibraryAction:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:photographVC action:@selector(cameraAction:) forControlEvents:UIControlEventTouchUpInside];
     
     CGFloat heightDifference = buttonImage.size.height - tabBarController.tabBar.frame.size.height;
     if (heightDifference < 0)
