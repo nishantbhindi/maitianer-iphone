@@ -2,14 +2,14 @@
 //  Baby.h
 //  maitianer-iphone
 //
-//  Created by 张 朝 on 11-11-25.
+//  Created by 张 朝 on 11-12-15.
 //  Copyright (c) 2011年 麦田儿. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Photo;
+@class Milestone, Photo;
 
 @interface Baby : NSManagedObject
 
@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSString * realName;
 @property (nonatomic, retain) NSNumber * sex;
 @property (nonatomic, retain) NSSet *photos;
+@property (nonatomic, retain) NSSet *milestones;
 @end
 
 @interface Baby (CoreDataGeneratedAccessors)
@@ -29,4 +30,8 @@
 - (void)removePhotosObject:(Photo *)value;
 - (void)addPhotos:(NSSet *)values;
 - (void)removePhotos:(NSSet *)values;
+- (void)addMilestonesObject:(Milestone *)value;
+- (void)removeMilestonesObject:(Milestone *)value;
+- (void)addMilestones:(NSSet *)values;
+- (void)removeMilestones:(NSSet *)values;
 @end

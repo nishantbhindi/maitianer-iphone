@@ -158,6 +158,13 @@ static const CGFloat kCalendarCellSideLength = 70;
         self.monthBackButton.enabled = YES;
     }
     
+    //disable month forward button when current month
+    if (self.selectedDate.month >= [[NSDate date] month]) {
+        self.monthForwardButton.enabled = NO;
+    }else {
+        self.monthForwardButton.enabled = YES;
+    }
+    
     //remove all calendar cell views from the scroll view
     for (MTCalendarCellView *cellView in self.calendarScrollView.subviews) {
         [cellView removeFromSuperview];

@@ -13,12 +13,10 @@
     MTTabBar *_tabBar;
     NSArray *_viewControllers;
     UIViewController *_selectedViewController;
-    UIView *_contentView;
 }
 
 @property (nonatomic, retain) MTTabBar *tabBar;
 @property (nonatomic, retain) NSArray *viewControllers;
 @property (nonatomic, retain) UIViewController *selectedViewController;
-@property (nonatomic, retain) UIView *contentView;
 
 @end

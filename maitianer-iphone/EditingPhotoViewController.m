@@ -8,11 +8,13 @@
 
 #import "EditingPhotoViewController.h"
 #import "Photo.h"
+#import "Milestone.h"
 #import "AppDelegate.h"
 #import "NSDate-Utilities.h"
 
 @implementation EditingPhotoViewController
-@synthesize textView = _textView;
+@synthesize milestoneText = _milestoneText;
+@synthesize photoText = _photoText;
 @synthesize imageView = _imageView;
 @synthesize photo = _photo;
 
@@ -21,7 +23,7 @@
         [_photo release];
         _photo = [photo retain];
         
-        self.textView.text = [_photo.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        self.photoText.text = [_photo.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         self.imageView.image = _photo.image;
     }
 }
@@ -31,9 +33,21 @@
 }
 
 - (void)saveEditing {
-    self.photo.content = self.textView.text;
+    self.photo.content = self.photoText.text;
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     [appDelegate saveContext];
+    
+    self.milestoneText.text = [self.milestoneText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if (self.photo.milestone == nil && ![@"" isEqualToString:self.milestoneText.text]) {
+        
+        Milestone *milestone = [NSEntityDescription insertNewObjectForEntityForName:@"Milestone" inManagedObjectContext:appDelegate.managedObjectContext];
+        milestone.photo = self.photo;
+        milestone.content = self.milestoneText.text;
+        milestone.recordDate = self.photo.recordDate;
+        milestone.creationDate = [NSDate date];
+        [appDelegate saveContext];
+    }
     
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -56,7 +70,8 @@
 }
 
 - (void)dealloc {
-    [_textView release];
+    [_milestoneText release];
+    [_photoText release];
     [_imageView release];
     [_photo release];
     [super dealloc];
@@ -83,11 +98,6 @@
     saveBarButtonItem.tintColor = RGBCOLOR(208, 231, 129);
     [self.navigationItem setRightBarButtonItem:saveBarButtonItem];
     
-    //custom text edit view appearance
-    self.textView.backgroundColor = [UIColor whiteColor];
-    self.textView.layer.cornerRadius = 5;
-    self.textView.layer.borderWidth = 1;
-    self.textView.layer.borderColor = [UIColor grayColor].CGColor;
 }
 
 - (void)viewDidUnload
@@ -100,8 +110,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if (self.photo) {
-        self.textView.text = self.photo.content;
+        self.photoText.text = self.photo.content;
         self.imageView.image = self.photo.image;
+        self.milestoneText.text = self.photo.milestone.content;
     }
 }
 

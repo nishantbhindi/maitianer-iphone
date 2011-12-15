@@ -14,7 +14,6 @@
 @synthesize tabBar = _tabBar;
 @synthesize viewControllers = _viewControllers;
 @synthesize selectedViewController = _selectedViewController;
-@synthesize contentView = _contentView;
 
 - (void)setSelectedViewController:(UIViewController *)selectedViewController {
     if (_selectedViewController != selectedViewController) {
@@ -43,7 +42,6 @@
     [_tabBar release];
     [_viewControllers release];
     [_selectedViewController release];
-    [_contentView release];
     [super dealloc];
 }
 
@@ -64,9 +62,6 @@
     self.tabBar = [[[MTTabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - tabBarGradient.size.height * 2, self.view.frame.size.width, tabBarGradient.size.height * 2)] autorelease];
     self.tabBar.delegate = self;
     [self.view addSubview:self.tabBar];
-    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - tabBarGradient.size.height * 2)];
-    self.contentView.backgroundColor = [UIColor whiteColor];
-    [self.view sendSubviewToBack:self.contentView];
     [self _loadTabs];
 }
 

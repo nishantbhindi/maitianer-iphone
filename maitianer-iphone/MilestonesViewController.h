@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MilestonesViewController : UIViewController
+@interface MilestonesViewController : UITableViewController {
+    NSMutableArray *_milestones;
+}
+
+@property (nonatomic, retain) NSMutableArray *milestones;
 
 @end

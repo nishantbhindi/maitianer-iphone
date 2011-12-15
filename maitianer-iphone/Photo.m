@@ -8,6 +8,7 @@
 
 #import "Photo.h"
 #import "Baby.h"
+#import "Milestone.h"
 #import "DKFile.h"
 
 typedef enum PhotoImageVersionT {
@@ -25,6 +26,7 @@ typedef enum PhotoImageVersionT {
 @dynamic shared;
 @dynamic title;
 @dynamic baby;
+@dynamic milestone;
 
 @synthesize originImage;
 @synthesize image;

@@ -12,12 +12,14 @@
 @class Photo;
 
 @interface EditingPhotoViewController : UIViewController {
-    IBOutlet UITextView *_textView;
+    IBOutlet UITextField *_milestoneText;
+    IBOutlet UITextField *_photoText;
     IBOutlet UIImageView *_imageView;
     Photo *_photo;
 }
 
-@property (nonatomic, retain) UITextView *textView;
+@property (nonatomic, retain) UITextField *milestoneText;
+@property (nonatomic, retain) UITextField *photoText;
 @property (nonatomic, retain) UIImageView *imageView;
 @property (nonatomic, retain) Photo *photo;
 

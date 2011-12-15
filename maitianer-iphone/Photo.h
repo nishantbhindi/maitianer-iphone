@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Baby;
+@class Baby, Milestone;
 
 @interface Photo : NSManagedObject
 
@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSNumber * shared;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) Baby *baby;
+@property (nonatomic, retain) Milestone *milestone;
 
 @property (nonatomic, readonly) UIImage *originImage;
 @property (nonatomic, readonly) UIImage *image;
