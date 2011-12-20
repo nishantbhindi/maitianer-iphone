@@ -165,6 +165,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    UIView *button = [self.tabBarController.view viewWithTag:9999];
+    [button setHidden:NO];
+    
     self.navigationController.navigationBarHidden = YES;
     
     //set baby and show baby info after create baby
@@ -264,7 +267,6 @@
         
         //config back bar button item style
         UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStyleDone target:nil action:nil];
-        backBarButtonItem.tintColor = RGBCOLOR(208, 231, 129);
         self.navigationItem.backBarButtonItem = backBarButtonItem;
         [backBarButtonItem release];
         

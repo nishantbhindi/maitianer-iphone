@@ -92,10 +92,8 @@
     self.title = [NSString stringWithFormat:@"%d年%02d月%02d日", self.photo.recordDate.year, self.photo.recordDate.month, self.photo.recordDate.day];
     
     UIBarButtonItem *cancelBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEditing)];
-    cancelBarButtonItem.tintColor = RGBCOLOR(208, 231, 129);
     [self.navigationItem setLeftBarButtonItem:cancelBarButtonItem];
     UIBarButtonItem *saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(saveEditing)];
-    saveBarButtonItem.tintColor = RGBCOLOR(208, 231, 129);
     [self.navigationItem setRightBarButtonItem:saveBarButtonItem];
     
 }

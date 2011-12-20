@@ -117,6 +117,8 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [self.tableView reloadData];
+    UIView *button = [self.tabBarController.view viewWithTag:9999];
+    [button setHidden:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated

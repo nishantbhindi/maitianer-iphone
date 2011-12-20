@@ -149,7 +149,6 @@
     
     //right bar button item for save baby info
     UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleDone target:self action:@selector(saveBaby)];
-    saveButtonItem.tintColor = RGBCOLOR(208, 231, 129);
     self.navigationItem.rightBarButtonItem = saveButtonItem;
     [saveButtonItem release];
     
@@ -384,7 +383,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UILabel *sectionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)];
+    UILabel *sectionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 44)];
     sectionTitleLabel.backgroundColor = [UIColor clearColor];
     if (section == 0) {
         sectionTitleLabel.text = @"基本信息";
@@ -395,6 +394,10 @@
     sectionTitleLabel.textColor = RGBCOLOR(61, 82, 36);
     sectionTitleLabel.font = [UIFont boldSystemFontOfSize:18];
     return [sectionTitleLabel autorelease];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 44;
 }
 
 #pragma mark - Text field delegate

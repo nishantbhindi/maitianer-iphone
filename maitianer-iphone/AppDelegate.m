@@ -41,6 +41,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [UIApplication sharedApplication].statusBarHidden = NO;
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     self.tabBarController = [[[MTTabBarController alloc] init] autorelease];
     // Override point for customization after application launch.
@@ -73,6 +75,7 @@
     UIImage *buttonImage = [UIImage imageNamed:@"capture-button.png"];
     UIImage *highlightImage = [UIImage imageNamed:@"capture-button.png"];
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.tag = 9999;
     button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
     button.frame = CGRectMake(0.0, 0.0, buttonImage.size.width, buttonImage.size.height);
     [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
@@ -82,8 +85,7 @@
     CGFloat heightDifference = buttonImage.size.height - tabBarController.tabBar.frame.size.height;
     if (heightDifference < 0)
         button.center = tabBarController.tabBar.center;
-    else
-    {
+    else {
         CGPoint center = tabBarController.tabBar.center;
         center.y = center.y - heightDifference/2.0;
         button.center = center;
