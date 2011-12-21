@@ -1,48 +1,38 @@
 //
-//  EditingPhotoViewController.m
+//  EditingMilestoneViewController.m
 //  maitianer-iphone
 //
-//  Created by 张 朝 on 11-11-30.
+//  Created by 张 朝 on 11-12-21.
 //  Copyright (c) 2011年 麦田儿. All rights reserved.
 //
 
-#import "EditingPhotoViewController.h"
-#import "Photo.h"
-#import "Milestone.h"
+#import "EditingMilestoneViewController.h"
 #import "AppDelegate.h"
-#import "NSDate-Utilities.h"
 
-@implementation EditingPhotoViewController
-@synthesize photoText = _photoText;
-@synthesize imageView = _imageView;
+@implementation EditingMilestoneViewController
+@synthesize milestoneText = _milestoneText;
+@synthesize milestone = _milestone;
 @synthesize photo = _photo;
-
-- (void)setPhoto:(Photo *)photo {
-    if (_photo != photo) {
-        [_photo release];
-        _photo = [photo retain];
-        
-        self.photoText.text = [_photo.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        self.imageView.image = _photo.image;
-    }
-}
 
 - (void)cancelEditing {
     [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)saveEditing {
-    self.photo.content = self.photoText.text;
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    self.milestoneText.text = [self.milestoneText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (self.milestone == nil && self.photo != nil) {
+        _milestone = [NSEntityDescription insertNewObjectForEntityForName:@"Milestone" inManagedObjectContext:appDelegate.managedObjectContext];
+        self.milestone.content = self.milestoneText.text;
+        self.milestone.photo = self.photo;
+        self.milestone.recordDate = self.photo.recordDate;
+        self.milestone.creationDate = [NSDate date];
+        
+    }else {
+        self.milestone.content = self.milestoneText.text;
+    }
     [appDelegate saveContext];
-    
     [self dismissModalViewControllerAnimated:YES];
-}
-
-- (IBAction)removePhoto {
-    UIAlertView *confirmAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确认删除照片？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [confirmAlert show];
-    [confirmAlert release];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -63,8 +53,8 @@
 }
 
 - (void)dealloc {
-    [_photoText release];
-    [_imageView release];
+    [_milestoneText release];
+    [_milestone release];
     [_photo release];
     [super dealloc];
 }
@@ -74,6 +64,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+    
+    //custom text view appearance
+    self.milestoneText.layer.borderWidth = 1;
+    self.milestoneText.layer.borderColor = [UIColor blackColor].CGColor;
+    self.milestoneText.layer.cornerRadius = 5;
+    //show keyboard
+    [self.milestoneText becomeFirstResponder];
     
     //set navigation bar background image for ios 5
     if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
@@ -81,13 +79,11 @@
     }
     
     self.view.backgroundColor = RGBCOLOR(229, 234, 204);
-    self.title = [NSString stringWithFormat:@"%d年%02d月%02d日", self.photo.recordDate.year, self.photo.recordDate.month, self.photo.recordDate.day];
     
     UIBarButtonItem *cancelBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEditing)];
     [self.navigationItem setLeftBarButtonItem:cancelBarButtonItem];
     UIBarButtonItem *saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(saveEditing)];
     [self.navigationItem setRightBarButtonItem:saveBarButtonItem];
-    
 }
 
 - (void)viewDidUnload
@@ -97,37 +93,10 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if (self.photo) {
-        self.photoText.text = self.photo.content;
-        self.imageView.image = self.photo.image;
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [self.photoText becomeFirstResponder];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-#pragma mark - Text field delegate
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    return YES;
-}
-
-#pragma mark - Alert view delegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-        [appDelegate.managedObjectContext deleteObject:self.photo];
-        [appDelegate saveContext];
-    }
 }
 
 @end

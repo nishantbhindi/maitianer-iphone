@@ -11,6 +11,7 @@
 #import "MTTableViewPhotoCell.h"
 #import "UIImage+ProportionalFill.h"
 #import "EditingPhotoViewController.h"
+#import "EditingMilestoneViewController.h"
 #import "AppDelegate.h"
 
 @implementation PhotosViewController
@@ -26,7 +27,15 @@
 }
 
 - (void)addMilestone {
-    NSLog(@"add milestone!");
+    if (self.selectedPhoto) {
+        EditingMilestoneViewController *editingMilestoneVC = [[EditingMilestoneViewController alloc] initWithNibName:@"EditingMilestoneViewController" bundle:[NSBundle mainBundle]];
+        editingMilestoneVC.photo = self.selectedPhoto;
+        editingMilestoneVC.title = @"添加里程碑";
+        UINavigationController *editingMilestoneNVC = [[UINavigationController alloc] initWithRootViewController:editingMilestoneVC];
+        [self presentModalViewController:editingMilestoneNVC animated:YES];
+        [editingMilestoneVC release];
+        [editingMilestoneNVC release];
+    }
 }
 
 - (void)editPhoto {
@@ -38,12 +47,10 @@
         [editingPhotoVC release];
         [editingPhotoNVC release];
     }
-    NSLog(@"edit photo!");
 }
 
 - (void)removePhoto {
     if (self.selectedPhoto) {
-        
         AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
         [appDelegate.managedObjectContext deleteObject:self.selectedPhoto];
         [appDelegate saveContext];
@@ -175,34 +182,26 @@
             [cell.editPhotoButton removeFromSuperview];
         }
         
-        //remove photo button from cell when reuse the cell
-        if (cell.removePhotoButton && [cell.contentView.subviews containsObject:cell.removePhotoButton]) {
-            [cell.removePhotoButton removeFromSuperview];
-        }
-        
     }
     
     Photo *photo = [self.photos objectAtIndex:indexPath.row];
     if (self.selectedIndexPath && [self.selectedIndexPath compare:indexPath] == NSOrderedSame) {
         cell.imageView.image = photo.image;
         
-        cell.addMilestoneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        cell.addMilestoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        cell.addMilestoneButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [cell.addMilestoneButton setTitle:@"添加里程碑" forState:UIControlStateNormal];
-        cell.addMilestoneButton.frame = CGRectMake(260, 10, 50, 20);
+        cell.addMilestoneButton.frame = CGRectMake(10, 10, 80, 20);
         [cell.addMilestoneButton addTarget:self action:@selector(addMilestone) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:cell.addMilestoneButton];
         
-        cell.editPhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        cell.editPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        cell.editPhotoButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [cell.editPhotoButton setTitle:@"编辑" forState:UIControlStateNormal];
-        cell.editPhotoButton.frame = CGRectMake(260, 40, 50, 20);
+        cell.editPhotoButton.frame = CGRectMake(260, 303, 50, 20);
         [cell.editPhotoButton addTarget:self action:@selector(editPhoto) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:cell.editPhotoButton];
         
-        cell.removePhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [cell.removePhotoButton setTitle:@"删除" forState:UIControlStateNormal];
-        cell.removePhotoButton.frame = CGRectMake(20, 10, 50, 20);
-        [cell.removePhotoButton addTarget:self action:@selector(removePhoto) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:cell.removePhotoButton];
     }else {
         cell.imageView.image = [photo.image imageToFitSize:CGSizeMake(320, 80) method:MGImageResizeCrop];
     }

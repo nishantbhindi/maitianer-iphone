@@ -11,19 +11,18 @@
 
 @class Photo;
 
-@interface EditingPhotoViewController : UIViewController {
-    IBOutlet UITextField *_milestoneText;
+@interface EditingPhotoViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate> {
     IBOutlet UITextField *_photoText;
     IBOutlet UIImageView *_imageView;
     Photo *_photo;
 }
 
-@property (nonatomic, retain) UITextField *milestoneText;
 @property (nonatomic, retain) UITextField *photoText;
 @property (nonatomic, retain) UIImageView *imageView;
 @property (nonatomic, retain) Photo *photo;
 
 - (void)cancelEditing;
 - (void)saveEditing;
+- (IBAction)removePhoto;
 
 @end
