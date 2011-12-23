@@ -81,7 +81,8 @@
     }
     
     self.view.backgroundColor = RGBCOLOR(229, 234, 204);
-    self.title = [NSString stringWithFormat:@"%d年%02d月%02d日", self.photo.recordDate.year, self.photo.recordDate.month, self.photo.recordDate.day];
+    //self.title = [NSString stringWithFormat:@"%d年%02d月%02d日", self.photo.recordDate.year, self.photo.recordDate.month, self.photo.recordDate.day];
+    self.title = @"编辑照片";
     
     UIBarButtonItem *cancelBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEditing)];
     [self.navigationItem setLeftBarButtonItem:cancelBarButtonItem];

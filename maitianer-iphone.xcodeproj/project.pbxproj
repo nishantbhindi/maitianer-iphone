@@ -43,6 +43,7 @@
 		3F8B4396147C9D9F00D544CF /* MTCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F8B4395147C9D9F00D544CF /* MTCalendarView.m */; };
 		3F8B439A147C9DB200D544CF /* MTCalendarCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F8B4399147C9DB200D544CF /* MTCalendarCellView.m */; };
 		3F8CE9A5147C8D11000E1277 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F8CE9A4147C8D11000E1277 /* QuartzCore.framework */; };
+		3FA575B414A4730C00FE3AAF /* MTTableViewMilestoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA575B314A4730C00FE3AAF /* MTTableViewMilestoneCell.m */; };
 		3FCD46C6148E15DC0056A671 /* no-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FCD46C5148E15DC0056A671 /* no-photo.png */; };
 		3FED97611499E1A50067E2F4 /* Baby.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FED97601499E1A50067E2F4 /* Baby.m */; };
 		3FED97641499E4CB0067E2F4 /* Milestone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FED97631499E4CB0067E2F4 /* Milestone.m */; };
@@ -146,6 +147,8 @@
 		3F8B4398147C9DB200D544CF /* MTCalendarCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTCalendarCellView.h; sourceTree = "<group>"; };
 		3F8B4399147C9DB200D544CF /* MTCalendarCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTCalendarCellView.m; sourceTree = "<group>"; };
 		3F8CE9A4147C8D11000E1277 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		3FA575B214A4730C00FE3AAF /* MTTableViewMilestoneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTableViewMilestoneCell.h; sourceTree = "<group>"; };
+		3FA575B314A4730C00FE3AAF /* MTTableViewMilestoneCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTableViewMilestoneCell.m; sourceTree = "<group>"; };
 		3FCD46C5148E15DC0056A671 /* no-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-photo.png"; sourceTree = "<group>"; };
 		3FED975F1499E1A50067E2F4 /* Baby.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Baby.h; sourceTree = "<group>"; };
 		3FED97601499E1A50067E2F4 /* Baby.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Baby.m; sourceTree = "<group>"; };
@@ -329,6 +332,8 @@
 				75BFE3E0147BE18900BF3522 /* CalendarViewController.xib */,
 				75BFE3E4147BE1BA00BF3522 /* MilestonesViewController.h */,
 				75BFE3E5147BE1BA00BF3522 /* MilestonesViewController.m */,
+				3FA575B214A4730C00FE3AAF /* MTTableViewMilestoneCell.h */,
+				3FA575B314A4730C00FE3AAF /* MTTableViewMilestoneCell.m */,
 				75BFE3E7147BE22700BF3522 /* PhotographViewController.h */,
 				75BFE3E8147BE22700BF3522 /* PhotographViewController.m */,
 				3F8B4394147C9D9F00D544CF /* MTCalendarView.h */,
@@ -561,6 +566,7 @@
 				3FED97611499E1A50067E2F4 /* Baby.m in Sources */,
 				3FED97641499E4CB0067E2F4 /* Milestone.m in Sources */,
 				3F33C53614A1CDEE00286B5A /* EditingMilestoneViewController.m in Sources */,
+				3FA575B414A4730C00FE3AAF /* MTTableViewMilestoneCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

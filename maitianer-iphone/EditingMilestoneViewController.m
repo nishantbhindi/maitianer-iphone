@@ -64,7 +64,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    //set navigation bar background image for ios 5
+    if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
+    }
+    
+    UIBarButtonItem *cancelBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEditing)];
+    [self.navigationItem setLeftBarButtonItem:cancelBarButtonItem];
+    UIBarButtonItem *saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(saveEditing)];
+    [self.navigationItem setRightBarButtonItem:saveBarButtonItem];
+    
+    self.view.backgroundColor = RGBCOLOR(229, 234, 204);
     
     //custom text view appearance
     self.milestoneText.layer.borderWidth = 1;
@@ -73,17 +83,7 @@
     //show keyboard
     [self.milestoneText becomeFirstResponder];
     
-    //set navigation bar background image for ios 5
-    if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
-    }
     
-    self.view.backgroundColor = RGBCOLOR(229, 234, 204);
-    
-    UIBarButtonItem *cancelBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEditing)];
-    [self.navigationItem setLeftBarButtonItem:cancelBarButtonItem];
-    UIBarButtonItem *saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(saveEditing)];
-    [self.navigationItem setRightBarButtonItem:saveBarButtonItem];
 }
 
 - (void)viewDidUnload

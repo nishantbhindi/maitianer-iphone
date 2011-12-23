@@ -8,8 +8,10 @@
 
 #import "MilestonesViewController.h"
 #import "Milestone.h"
+#import "Photo.h"
 #import "AppDelegate.h"
-
+#import "MTTableViewMilestoneCell.h"
+#import "NSDate-Utilities.h"
 
 @implementation MilestonesViewController
 
@@ -72,6 +74,11 @@
     if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
     }
+    
+    self.view.backgroundColor = RGBCOLOR(229, 234, 204);
+    self.tableView.backgroundColor = RGBCOLOR(229, 234, 204);
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -112,12 +119,14 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[MTTableViewMilestoneCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Configure the cell...
     Milestone *milestone = [self.milestones objectAtIndex:indexPath.row];
-    cell.textLabel.text = milestone.content;
+    cell.detailTextLabel.text = milestone.content;
+    cell.imageView.image = milestone.photo.b200Image;
+    cell.textLabel.text = [NSString stringWithFormat:@"%d-%02d-%02d", milestone.recordDate.year, milestone.recordDate.month, milestone.recordDate.day];
     
     
     return cell;
@@ -173,6 +182,10 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 70;
 }
 
 @end

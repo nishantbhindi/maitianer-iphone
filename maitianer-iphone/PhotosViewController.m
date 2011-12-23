@@ -69,7 +69,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        // Must put here
         self.hidesBottomBarWhenPushed = YES;
     }
     return self;
