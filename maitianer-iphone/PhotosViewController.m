@@ -8,16 +8,25 @@
 
 #import "PhotosViewController.h"
 #import "Photo.h"
-#import "MTTableViewPhotoCell.h"
 #import "UIImage+ProportionalFill.h"
 #import "EditingPhotoViewController.h"
 #import "EditingMilestoneViewController.h"
 #import "AppDelegate.h"
+#import "PhotographViewController.h"
+
+#define PHOTO_TAG 1
+#define DETAIL_LABEL_TAG 2
+#define DATE_LABEL_TAG 3
+#define ADD_MILESTONE_BUTTON_TAG 4
+#define EDIT_PHOTO_BUTTON_TAG 5
+#define PHOTO_WIDTH 300
+#define SMALL_PHOTO_HEIGHT 80
 
 @implementation PhotosViewController
 @synthesize photos = _photos;
 @synthesize milestones = _milestones;
 @synthesize selectedIndexPath = _selectedIndexPath;
+@synthesize photographVC = _photographVC;
 
 - (Photo *)selectedPhoto {
     if (self.selectedIndexPath) {
@@ -87,6 +96,7 @@
     [_photos release];
     [_milestones release];
     [_selectedIndexPath release];
+    [_photographVC release];
     [super dealloc];
 }
 
@@ -106,11 +116,7 @@
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
     }
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self.photographVC action:@selector(photoLibraryAction:)];
 }
 
 - (void)viewDidUnload
@@ -167,96 +173,134 @@
 {
     static NSString *CellIdentifier = @"PhotoCell";
     
-    //MTTableViewPhotoCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    MTTableViewPhotoCell *cell = [[[MTTableViewPhotoCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+    UIImageView *photoView;
+    UILabel *detailLabel;
+    UIButton *addMilestoneButton;
+    UIButton *editPhotoButton;
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[MTTableViewPhotoCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        
+        photoView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, PHOTO_WIDTH, PHOTO_WIDTH)];
+        photoView.tag = PHOTO_TAG;
+        [cell.contentView addSubview:photoView];
+        [photoView release];
+        
+        detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, PHOTO_WIDTH - 10, PHOTO_WIDTH, 25)];
+        detailLabel.tag = DETAIL_LABEL_TAG;
+        detailLabel.backgroundColor = [UIColor blackColor];
+        detailLabel.alpha = 0.7;
+        detailLabel.textColor = [UIColor whiteColor];
+        detailLabel.textAlignment = UITextAlignmentLeft;
+        [cell.contentView addSubview:detailLabel];
+        [detailLabel release];
+        
+        addMilestoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        addMilestoneButton.tag = ADD_MILESTONE_BUTTON_TAG;
+        addMilestoneButton.frame = CGRectMake(10, 10, 80, 20);
+        [addMilestoneButton setTitle:@"添加里程碑" forState:UIControlStateNormal];
+        addMilestoneButton.titleLabel.font = [UIFont systemFontOfSize:12];
+        [addMilestoneButton addTarget:self action:@selector(addMilestone) forControlEvents:UIControlEventTouchUpInside];
+        [cell.contentView addSubview:addMilestoneButton];
+        
+        editPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        editPhotoButton.tag = EDIT_PHOTO_BUTTON_TAG;
+        editPhotoButton.frame = CGRectMake(260, 283, 50, 20);
+        [editPhotoButton setTitle:@"编辑" forState:UIControlStateNormal];
+        editPhotoButton.titleLabel.font = [UIFont systemFontOfSize:12];
+        [editPhotoButton addTarget:self action:@selector(editPhoto) forControlEvents:UIControlEventTouchUpInside];
+        [cell.contentView addSubview:editPhotoButton];
     }else {
-        //remove add milestone button from cell when reuse the cell
-        if (cell.addMilestoneButton && [cell.contentView.subviews containsObject:cell.addMilestoneButton]) {
-            [cell.addMilestoneButton removeFromSuperview];
-        }
-        
-        //edit photo button from cell when reuse the cell
-        if (cell.editPhotoButton && [cell.contentView.subviews containsObject:cell.editPhotoButton]) {
-            [cell.editPhotoButton removeFromSuperview];
-        }
-        
-    }
-    
-    Photo *photo = [self.photos objectAtIndex:indexPath.row];
-    if (self.selectedIndexPath && [self.selectedIndexPath compare:indexPath] == NSOrderedSame) {
-        cell.imageView.image = photo.image;
-        
-        cell.addMilestoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        cell.addMilestoneButton.titleLabel.font = [UIFont systemFontOfSize:12];
-        [cell.addMilestoneButton setTitle:@"添加里程碑" forState:UIControlStateNormal];
-        cell.addMilestoneButton.frame = CGRectMake(10, 10, 80, 20);
-        [cell.addMilestoneButton addTarget:self action:@selector(addMilestone) forControlEvents:UIControlEventTouchUpInside];
-        if (photo.milestone == nil) {
-            [cell.contentView addSubview:cell.addMilestoneButton];
-        }
-        
-        
-        cell.editPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        cell.editPhotoButton.titleLabel.font = [UIFont systemFontOfSize:12];
-        [cell.editPhotoButton setTitle:@"编辑" forState:UIControlStateNormal];
-        cell.editPhotoButton.frame = CGRectMake(260, 303, 50, 20);
-        [cell.editPhotoButton addTarget:self action:@selector(editPhoto) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:cell.editPhotoButton];
-        
-    }else {
-        cell.imageView.image = [photo.image imageToFitSize:CGSizeMake(320, 80) method:MGImageResizeCrop];
-    }
-    
-    if (photo.content && ![photo.content isEqualToString:@""]) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"    %@", photo.content];
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
+        photoView = (UIImageView *)[cell.contentView viewWithTag:PHOTO_TAG];
+        detailLabel = (UILabel *)[cell.contentView viewWithTag:DETAIL_LABEL_TAG];
+        addMilestoneButton = (UIButton *)[cell.contentView viewWithTag:ADD_MILESTONE_BUTTON_TAG];
+        editPhotoButton = (UIButton *)[cell.contentView viewWithTag:EDIT_PHOTO_BUTTON_TAG];
     }
     
     // Configure the cell...
+    Photo *photo = [self.photos objectAtIndex:indexPath.row];
+    if (photo.milestone == nil) {
+        addMilestoneButton.hidden = NO;
+    }else {
+        addMilestoneButton.hidden = YES;
+    }
+    
+    if (self.selectedIndexPath && [self.selectedIndexPath compare:indexPath] == NSOrderedSame) {
+        addMilestoneButton.hidden = NO;
+        editPhotoButton.hidden = NO;
+        
+        photoView.image = photo.image;
+        CGRect photoViewFrame = photoView.frame;
+        photoViewFrame.size = CGSizeMake(PHOTO_WIDTH, PHOTO_WIDTH);
+        photoView.frame = photoViewFrame;
+        
+        CGRect detailLabelFrame = detailLabel.frame;
+        detailLabelFrame.origin = CGPointMake(10, PHOTO_WIDTH - 20);
+        detailLabel.frame = detailLabelFrame;
+    }else {
+        addMilestoneButton.hidden = YES;
+        editPhotoButton.hidden = YES;
+        
+        photoView.image = [photo.image imageToFitSize:CGSizeMake(PHOTO_WIDTH, 80) method:MGImageResizeCrop];
+        CGRect photoViewFrame = photoView.frame;
+        photoViewFrame.size = CGSizeMake(PHOTO_WIDTH, 80);
+        photoView.frame = photoViewFrame;
+        
+        CGRect detailLabelFrame = detailLabel.frame;
+        detailLabelFrame.origin = CGPointMake(10, photoViewFrame.size.height - 20);
+        detailLabel.frame = detailLabelFrame;
+    }
+    
+    if (photo.content && ![photo.content isEqualToString:@""]) {
+        detailLabel.text = [NSString stringWithFormat:@"   %@", photo.content];
+        detailLabel.font = [UIFont systemFontOfSize:12];
+        detailLabel.hidden = NO;
+    }else {
+        detailLabel.hidden = YES;
+    }
     
     return cell;
 }
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ }   
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }   
+ }
+ */
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+ {
+ }
+ */
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 #pragma mark - Table view delegate
 
@@ -272,9 +316,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.selectedIndexPath && [self.selectedIndexPath compare:indexPath] == NSOrderedSame) {
-        return self.view.frame.size.width + 10;
+        return PHOTO_WIDTH + 10;
     }
-    return 80 + 10;
+    return SMALL_PHOTO_HEIGHT + 10;
 }
 
 @end

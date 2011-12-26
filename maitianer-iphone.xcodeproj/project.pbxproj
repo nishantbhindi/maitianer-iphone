@@ -61,6 +61,8 @@
 		7544E16D148E3F79009DC7AE /* baby-info-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7544E16B148E3F79009DC7AE /* baby-info-bg.png */; };
 		7544E16E148E3F79009DC7AE /* baby-info-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7544E16C148E3F79009DC7AE /* baby-info-bg@2x.png */; };
 		7595379B1482853C007CF4D2 /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7595379A1482853C007CF4D2 /* PhotosViewController.m */; };
+		75A39F0514A8BF440081AF30 /* first-show@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 75A39F0414A8BF440081AF30 /* first-show@2x.jpg */; };
+		75A39F0714A8BF4E0081AF30 /* first-show.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 75A39F0614A8BF4E0081AF30 /* first-show.jpg */; };
 		75BFE3E1147BE18900BF3522 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BFE3DF147BE18900BF3522 /* CalendarViewController.m */; };
 		75BFE3E2147BE18900BF3522 /* CalendarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75BFE3E0147BE18900BF3522 /* CalendarViewController.xib */; };
 		75BFE3E6147BE1BA00BF3522 /* MilestonesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BFE3E5147BE1BA00BF3522 /* MilestonesViewController.m */; };
@@ -173,6 +175,8 @@
 		7544E16C148E3F79009DC7AE /* baby-info-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "baby-info-bg@2x.png"; sourceTree = "<group>"; };
 		759537991482853C007CF4D2 /* PhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosViewController.h; sourceTree = "<group>"; };
 		7595379A1482853C007CF4D2 /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
+		75A39F0414A8BF440081AF30 /* first-show@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "first-show@2x.jpg"; sourceTree = "<group>"; };
+		75A39F0614A8BF4E0081AF30 /* first-show.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "first-show.jpg"; sourceTree = "<group>"; };
 		75BFE3DE147BE18900BF3522 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
 		75BFE3DF147BE18900BF3522 /* CalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
 		75BFE3E0147BE18900BF3522 /* CalendarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarViewController.xib; sourceTree = "<group>"; };
@@ -265,6 +269,8 @@
 				7544E16B148E3F79009DC7AE /* baby-info-bg.png */,
 				7544E16C148E3F79009DC7AE /* baby-info-bg@2x.png */,
 				3FCD46C5148E15DC0056A671 /* no-photo.png */,
+				75A39F0614A8BF4E0081AF30 /* first-show.jpg */,
+				75A39F0414A8BF440081AF30 /* first-show@2x.jpg */,
 				7544E15F148E3710009DC7AE /* date-background-disable.png */,
 				7544E160148E3710009DC7AE /* date-background-disable@2x.png */,
 				7544E161148E3710009DC7AE /* date-background-enable.png */,
@@ -518,6 +524,8 @@
 				3F0802A114A80F1600425420 /* Icon.png in Resources */,
 				3F0802A414A80FFD00425420 /* milestone-bg.png in Resources */,
 				3F0802A514A80FFD00425420 /* milestone-bg@2x.png in Resources */,
+				75A39F0514A8BF440081AF30 /* first-show@2x.jpg in Resources */,
+				75A39F0714A8BF4E0081AF30 /* first-show.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

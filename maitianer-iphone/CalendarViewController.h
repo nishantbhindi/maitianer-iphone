@@ -20,6 +20,8 @@
     
     PhotographViewController *_photographVC;
     
+    UIButton *_firstShow;
+    
     IBOutlet UIView *_babyInfoView;
     IBOutlet UIImageView *_avatarView;
     IBOutlet UILabel *_babyNameLabel;

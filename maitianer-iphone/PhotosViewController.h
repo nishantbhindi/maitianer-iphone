@@ -8,18 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@class Photo;
+@class Photo, PhotographViewController;
 
 @interface PhotosViewController : UITableViewController {
     NSMutableArray *_photos;
     NSArray *_milestones;
     NSIndexPath *_selectedIndexPath;
+    PhotographViewController *_photographVC;
 }
 
 @property (nonatomic, retain) NSMutableArray *photos;
 @property (nonatomic, retain) NSArray *milestones;
 @property (nonatomic, retain) NSIndexPath *selectedIndexPath;
 @property (nonatomic, readonly) Photo *selectedPhoto;
+@property (nonatomic, retain) PhotographViewController *photographVC;
 
 - (void)addMilestone;
 - (void)editPhoto;

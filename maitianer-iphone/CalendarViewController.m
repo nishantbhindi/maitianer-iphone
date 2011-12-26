@@ -187,6 +187,14 @@
     //fetch lately photo
     Photo *latelyPhoto = [self _fetchLatelyPhoto];
     
+    if (latelyPhoto == nil) {
+        _firstShow = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 410)];
+        [self.view addSubview:_firstShow];
+        [_firstShow setBackgroundImage:[UIImage imageNamed:@"first-show.jpg"] forState:UIControlStateNormal];
+        [_firstShow addTarget:_firstShow action:@selector(removeFromSuperview) forControlEvents:UIControlEventTouchUpInside];
+        [_firstShow release];
+    }
+    
     //config avatar shadow
     [self.avatarView.layer setCornerRadius:5];
     [self.avatarView.layer setShadowOffset:CGSizeMake(0, 1.0)];
@@ -264,6 +272,9 @@
         
         //set controller photos
         photosVC.photos = [cell.photos mutableCopy];
+        
+        self.photographVC.recordDate = date;
+        photosVC.photographVC = self.photographVC;
         
         //config back bar button item style
         UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStyleDone target:nil action:nil];
