@@ -10,8 +10,12 @@
 #import "Milestone.h"
 #import "Photo.h"
 #import "AppDelegate.h"
-#import "MTTableViewMilestoneCell.h"
 #import "NSDate-Utilities.h"
+#import "EditingMilestoneViewController.h"
+
+#define DETAIL_LABEL_TAG 1
+#define DATE_LABEL_TAG 2
+#define PHOTO_TAG 3
 
 @implementation MilestonesViewController
 
@@ -75,9 +79,14 @@
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
     }
     
+    //set table view appearence
     self.view.backgroundColor = RGBCOLOR(229, 234, 204);
     self.tableView.backgroundColor = RGBCOLOR(229, 234, 204);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    //set editing button
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tableView.allowsSelectionDuringEditing = YES;
     
 }
 
@@ -117,17 +126,58 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
+    UIImageView *photoView;
+    UILabel *detailLabel;
+    UILabel *dateLabel;
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[MTTableViewMilestoneCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        UIView *detailBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(85, 5, 205, 52)];
+        detailBackgroundView.backgroundColor = RGBCOLOR(242, 244, 230);
+        detailBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
+        detailBackgroundView.layer.cornerRadius = 5.0;
+        [cell.contentView addSubview:detailBackgroundView];
+        [detailBackgroundView release];
+        
+        photoView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 65, 65)];
+        photoView.tag = PHOTO_TAG;
+        [cell.contentView addSubview:photoView];
+        [photoView release];
+        
+        detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 5, 200, 52)];
+        detailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
+        detailLabel.tag = DETAIL_LABEL_TAG;
+        detailLabel.textColor = RGBCOLOR(175, 183, 147);
+        detailLabel.numberOfLines = 2;
+        detailLabel.font = [UIFont systemFontOfSize:12];
+        detailLabel.backgroundColor = [UIColor clearColor];
+        [cell.contentView addSubview:detailLabel];
+        [detailLabel release];
+        
+        dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(140, 60, 150, 12)];
+        dateLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        dateLabel.tag = DATE_LABEL_TAG;
+        dateLabel.font = [UIFont systemFontOfSize:12];
+        dateLabel.textAlignment = UITextAlignmentRight;
+        dateLabel.textColor = [UIColor grayColor];
+        dateLabel.backgroundColor = [UIColor clearColor];
+        [cell.contentView addSubview:dateLabel];
+        [dateLabel release];
+         
+    }else {
+        photoView = (UIImageView *)[cell.contentView viewWithTag:PHOTO_TAG];
+        detailLabel = (UILabel *)[cell.contentView viewWithTag:DETAIL_LABEL_TAG];
+        dateLabel = (UILabel *)[cell.contentView viewWithTag:DATE_LABEL_TAG];
     }
     
     // Configure the cell...
-    Milestone *milestone = [self.milestones objectAtIndex:indexPath.row];
-    cell.detailTextLabel.text = milestone.content;
-    cell.imageView.image = milestone.photo.b200Image;
-    cell.textLabel.text = [NSString stringWithFormat:@"%d-%02d-%02d", milestone.recordDate.year, milestone.recordDate.month, milestone.recordDate.day];
+    //cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
+    Milestone *milestone = [self.milestones objectAtIndex:indexPath.row];
+    detailLabel.text = milestone.content;
+    photoView.image = milestone.photo.b200Image;
+    dateLabel.text = [NSString stringWithFormat:@"%d-%02d-%02d", milestone.recordDate.year, milestone.recordDate.month, milestone.recordDate.day];
     
     return cell;
 }
@@ -174,6 +224,14 @@
 #pragma mark - Table view delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.editing) {
+        EditingMilestoneViewController *editingMilestoneVC = [[EditingMilestoneViewController alloc] initWithNibName:@"EditingMilestoneViewController" bundle:[NSBundle mainBundle]];
+        editingMilestoneVC.title = @"编辑里程碑";
+        editingMilestoneVC.milestone = [self.milestones objectAtIndex:indexPath.row];
+        editingMilestoneVC.editing = YES;
+        [self.navigationController pushViewController:editingMilestoneVC animated:YES];
+        [editingMilestoneVC release];
+    }
     // Navigation logic may go here. Create and push another view controller.
     /*
      <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
@@ -185,7 +243,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 70;
+    return 75;
 }
 
 @end

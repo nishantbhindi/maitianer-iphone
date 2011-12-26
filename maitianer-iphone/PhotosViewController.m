@@ -193,7 +193,10 @@
         [cell.addMilestoneButton setTitle:@"添加里程碑" forState:UIControlStateNormal];
         cell.addMilestoneButton.frame = CGRectMake(10, 10, 80, 20);
         [cell.addMilestoneButton addTarget:self action:@selector(addMilestone) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:cell.addMilestoneButton];
+        if (photo.milestone == nil) {
+            [cell.contentView addSubview:cell.addMilestoneButton];
+        }
+        
         
         cell.editPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
         cell.editPhotoButton.titleLabel.font = [UIFont systemFontOfSize:12];

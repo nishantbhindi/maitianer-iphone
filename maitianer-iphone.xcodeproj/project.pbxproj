@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F08029E14A80F0000425420 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F08029D14A80F0000425420 /* Icon@2x.png */; };
+		3F0802A114A80F1600425420 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0802A014A80F1600425420 /* Icon.png */; };
+		3F0802A414A80FFD00425420 /* milestone-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0802A214A80FFD00425420 /* milestone-bg.png */; };
+		3F0802A514A80FFD00425420 /* milestone-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0802A314A80FFD00425420 /* milestone-bg@2x.png */; };
 		3F0EE110148CA08000070843 /* NavigationBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE10E148CA08000070843 /* NavigationBar@2x.png */; };
 		3F0EE111148CA08000070843 /* NavigationBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE10F148CA08000070843 /* NavigationBar.png */; };
 		3F0EE114148CB04D00070843 /* EditingBabyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F0EE113148CB04D00070843 /* EditingBabyViewController.xib */; };
@@ -43,7 +47,6 @@
 		3F8B4396147C9D9F00D544CF /* MTCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F8B4395147C9D9F00D544CF /* MTCalendarView.m */; };
 		3F8B439A147C9DB200D544CF /* MTCalendarCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F8B4399147C9DB200D544CF /* MTCalendarCellView.m */; };
 		3F8CE9A5147C8D11000E1277 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F8CE9A4147C8D11000E1277 /* QuartzCore.framework */; };
-		3FA575B414A4730C00FE3AAF /* MTTableViewMilestoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA575B314A4730C00FE3AAF /* MTTableViewMilestoneCell.m */; };
 		3FCD46C6148E15DC0056A671 /* no-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FCD46C5148E15DC0056A671 /* no-photo.png */; };
 		3FED97611499E1A50067E2F4 /* Baby.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FED97601499E1A50067E2F4 /* Baby.m */; };
 		3FED97641499E4CB0067E2F4 /* Milestone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FED97631499E4CB0067E2F4 /* Milestone.m */; };
@@ -99,6 +102,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F08029D14A80F0000425420 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		3F0802A014A80F1600425420 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		3F0802A214A80FFD00425420 /* milestone-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "milestone-bg.png"; sourceTree = "<group>"; };
+		3F0802A314A80FFD00425420 /* milestone-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "milestone-bg@2x.png"; sourceTree = "<group>"; };
 		3F0EE10E148CA08000070843 /* NavigationBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NavigationBar@2x.png"; sourceTree = "<group>"; };
 		3F0EE10F148CA08000070843 /* NavigationBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavigationBar.png; sourceTree = "<group>"; };
 		3F0EE113148CB04D00070843 /* EditingBabyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditingBabyViewController.xib; sourceTree = "<group>"; };
@@ -147,8 +154,6 @@
 		3F8B4398147C9DB200D544CF /* MTCalendarCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTCalendarCellView.h; sourceTree = "<group>"; };
 		3F8B4399147C9DB200D544CF /* MTCalendarCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTCalendarCellView.m; sourceTree = "<group>"; };
 		3F8CE9A4147C8D11000E1277 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		3FA575B214A4730C00FE3AAF /* MTTableViewMilestoneCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTableViewMilestoneCell.h; sourceTree = "<group>"; };
-		3FA575B314A4730C00FE3AAF /* MTTableViewMilestoneCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTableViewMilestoneCell.m; sourceTree = "<group>"; };
 		3FCD46C5148E15DC0056A671 /* no-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-photo.png"; sourceTree = "<group>"; };
 		3FED975F1499E1A50067E2F4 /* Baby.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Baby.h; sourceTree = "<group>"; };
 		3FED97601499E1A50067E2F4 /* Baby.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Baby.m; sourceTree = "<group>"; };
@@ -237,6 +242,8 @@
 		3F0F85D6147B6C1600FC3FC9 = {
 			isa = PBXGroup;
 			children = (
+				3F0802A014A80F1600425420 /* Icon.png */,
+				3F08029D14A80F0000425420 /* Icon@2x.png */,
 				75CDB968148BADAB0003923D /* Default@2x.png */,
 				75CDB965148BADA40003923D /* Default.png */,
 				75C5D786147D584500BD84E8 /* capture-button.png */,
@@ -264,6 +271,8 @@
 				7544E162148E3710009DC7AE /* date-background-enable@2x.png */,
 				7544E163148E3710009DC7AE /* date-background-today.png */,
 				7544E164148E3710009DC7AE /* date-background-today@2x.png */,
+				3F0802A214A80FFD00425420 /* milestone-bg.png */,
+				3F0802A314A80FFD00425420 /* milestone-bg@2x.png */,
 				75EB906D149326E7007027F0 /* TabBarGradient.png */,
 				75EB906E149326E7007027F0 /* TabBarGradient@2x.png */,
 				75EB908314935FEE007027F0 /* TabBackground.png */,
@@ -332,8 +341,9 @@
 				75BFE3E0147BE18900BF3522 /* CalendarViewController.xib */,
 				75BFE3E4147BE1BA00BF3522 /* MilestonesViewController.h */,
 				75BFE3E5147BE1BA00BF3522 /* MilestonesViewController.m */,
-				3FA575B214A4730C00FE3AAF /* MTTableViewMilestoneCell.h */,
-				3FA575B314A4730C00FE3AAF /* MTTableViewMilestoneCell.m */,
+				3F33C53314A1CDEE00286B5A /* EditingMilestoneViewController.h */,
+				3F33C53414A1CDEE00286B5A /* EditingMilestoneViewController.m */,
+				3F33C53514A1CDEE00286B5A /* EditingMilestoneViewController.xib */,
 				75BFE3E7147BE22700BF3522 /* PhotographViewController.h */,
 				75BFE3E8147BE22700BF3522 /* PhotographViewController.m */,
 				3F8B4394147C9D9F00D544CF /* MTCalendarView.h */,
@@ -347,9 +357,6 @@
 				3F19608B148616E9004D17AE /* EditingPhotoViewController.h */,
 				3F19608C148616E9004D17AE /* EditingPhotoViewController.m */,
 				3F19608D148616E9004D17AE /* EditingPhotoViewController.xib */,
-				3F33C53314A1CDEE00286B5A /* EditingMilestoneViewController.h */,
-				3F33C53414A1CDEE00286B5A /* EditingMilestoneViewController.m */,
-				3F33C53514A1CDEE00286B5A /* EditingMilestoneViewController.xib */,
 				75EB905F149316E9007027F0 /* MTTabBarController.h */,
 				75EB9060149316E9007027F0 /* MTTabBarController.m */,
 				75EB90621493170F007027F0 /* MTTabBar.h */,
@@ -507,6 +514,10 @@
 				75EB9091149360B1007027F0 /* magnifying-glass.png in Resources */,
 				75EB9092149360B1007027F0 /* magnifying-glass@2x.png in Resources */,
 				3F33C53714A1CDEE00286B5A /* EditingMilestoneViewController.xib in Resources */,
+				3F08029E14A80F0000425420 /* Icon@2x.png in Resources */,
+				3F0802A114A80F1600425420 /* Icon.png in Resources */,
+				3F0802A414A80FFD00425420 /* milestone-bg.png in Resources */,
+				3F0802A514A80FFD00425420 /* milestone-bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -566,7 +577,6 @@
 				3FED97611499E1A50067E2F4 /* Baby.m in Sources */,
 				3FED97641499E4CB0067E2F4 /* Milestone.m in Sources */,
 				3F33C53614A1CDEE00286B5A /* EditingMilestoneViewController.m in Sources */,
-				3FA575B414A4730C00FE3AAF /* MTTableViewMilestoneCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

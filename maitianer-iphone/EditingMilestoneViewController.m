@@ -13,6 +13,7 @@
 @synthesize milestoneText = _milestoneText;
 @synthesize milestone = _milestone;
 @synthesize photo = _photo;
+@synthesize editing = _editing;
 
 - (void)cancelEditing {
     [self dismissModalViewControllerAnimated:YES];
@@ -27,12 +28,16 @@
         self.milestone.photo = self.photo;
         self.milestone.recordDate = self.photo.recordDate;
         self.milestone.creationDate = [NSDate date];
-        
     }else {
         self.milestone.content = self.milestoneText.text;
     }
     [appDelegate saveContext];
-    [self dismissModalViewControllerAnimated:YES];
+    if (self.editing) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else {
+        [self dismissModalViewControllerAnimated:YES];
+    }
+    
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -68,11 +73,15 @@
     if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
     }
+    if (!self.editing) {
+        UIBarButtonItem *cancelBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEditing)];
+        [self.navigationItem setLeftBarButtonItem:cancelBarButtonItem];
+        [cancelBarButtonItem release];
+    }
     
-    UIBarButtonItem *cancelBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEditing)];
-    [self.navigationItem setLeftBarButtonItem:cancelBarButtonItem];
     UIBarButtonItem *saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(saveEditing)];
     [self.navigationItem setRightBarButtonItem:saveBarButtonItem];
+    [saveBarButtonItem release];
     
     self.view.backgroundColor = RGBCOLOR(229, 234, 204);
     
@@ -82,6 +91,9 @@
     self.milestoneText.layer.cornerRadius = 5;
     //show keyboard
     [self.milestoneText becomeFirstResponder];
+    
+    //set milestone text when editing
+    self.milestoneText.text = self.milestone.content;
     
     
 }
