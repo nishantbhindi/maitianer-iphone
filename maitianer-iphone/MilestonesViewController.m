@@ -34,18 +34,6 @@
     return milestonesArray;
 }
 
-- (NSArray *)_fetchPhotosByDate:(NSDate *)date {
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Photo"];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"recordDate = %@", date]];
-    NSError *error = nil;
-    NSArray *photosArray = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
-    if (error) {
-        //Handle the error
-    }
-    return photosArray;
-}
-
 - (NSString *)iconImageName {
 	return @"magnifying-glass.png";
 }
@@ -149,7 +137,7 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
         UIView *detailBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(85, 5, 225, 52)];
         detailBackgroundView.backgroundColor = RGBCOLOR(242, 244, 230);
-        detailBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
+        detailBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         detailBackgroundView.layer.cornerRadius = 5.0;
         [cell.contentView addSubview:detailBackgroundView];
         [detailBackgroundView release];
@@ -162,7 +150,7 @@
         [photoView release];
         
         detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 5, 220, 52)];
-        detailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
+        detailLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         detailLabel.tag = DETAIL_LABEL_TAG;
         detailLabel.textColor = RGBCOLOR(175, 183, 147);
         detailLabel.numberOfLines = 2;
@@ -172,7 +160,7 @@
         [detailLabel release];
         
         dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(140, 60, 170, 12)];
-        dateLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        dateLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         dateLabel.tag = DATE_LABEL_TAG;
         dateLabel.font = [UIFont systemFontOfSize:12];
         dateLabel.textAlignment = UITextAlignmentRight;
@@ -208,19 +196,25 @@
  }
  */
 
-/*
+
  // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+        Milestone *milestone = [self.milestones objectAtIndex:indexPath.row];
+        [appDelegate.managedObjectContext deleteObject:milestone];
+        [appDelegate saveContext];
+        [self.milestones removeObject:milestone];
+        [self.tableView beginUpdates];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
+}
+
 
 /*
  // Override to support rearranging the table view.
@@ -251,12 +245,7 @@
         [editingMilestoneVC release];
     }else {
         PhotosViewController *photosVC = [[PhotosViewController alloc] initWithStyle:UITableViewStylePlain];
-        //set controller title
-        NSDateFormatter *dateFormattor = [[NSDateFormatter alloc] init];
-        dateFormattor.dateFormat = @"yyyy年MM月dd日";
-        photosVC.title = [dateFormattor stringFromDate:milestone.recordDate];
-        [dateFormattor release];
-        photosVC.photos = [[self _fetchPhotosByDate:milestone.recordDate] mutableCopy];
+        photosVC.recordDate = milestone.recordDate;
         [self.navigationController pushViewController:photosVC animated:YES];
         [photosVC release];
     }

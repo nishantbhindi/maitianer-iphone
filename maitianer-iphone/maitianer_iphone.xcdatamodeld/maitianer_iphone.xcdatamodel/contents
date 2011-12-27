@@ -27,11 +27,11 @@
         <attribute name="shared" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="baby" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Baby" inverseName="photos" inverseEntity="Baby" syncable="YES"/>
-        <relationship name="milestone" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Milestone" inverseName="photo" inverseEntity="Milestone" syncable="YES"/>
+        <relationship name="milestone" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Milestone" inverseName="photo" inverseEntity="Milestone" syncable="YES"/>
     </entity>
     <elements>
         <element name="Baby" positionX="160" positionY="192" width="128" height="165"/>
-        <element name="Photo" positionX="367" positionY="201" width="128" height="165"/>
         <element name="Milestone" positionX="160" positionY="192" width="128" height="135"/>
+        <element name="Photo" positionX="367" positionY="201" width="128" height="165"/>
     </elements>
 </model>

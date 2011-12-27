@@ -128,6 +128,7 @@
         AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
         [appDelegate.managedObjectContext deleteObject:self.photo];
         [appDelegate saveContext];
+        [self dismissModalViewControllerAnimated:YES];
     }
 }
 

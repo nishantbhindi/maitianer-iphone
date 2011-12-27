@@ -271,7 +271,8 @@
         [dateFormattor release];
         
         //set controller photos
-        photosVC.photos = [cell.photos mutableCopy];
+        //photosVC.photos = [cell.photos mutableCopy];
+        photosVC.recordDate = date;
         
         self.photographVC.recordDate = date;
         photosVC.photographVC = self.photographVC;

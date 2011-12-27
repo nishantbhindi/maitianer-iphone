@@ -27,6 +27,19 @@
 @synthesize milestones = _milestones;
 @synthesize selectedIndexPath = _selectedIndexPath;
 @synthesize photographVC = _photographVC;
+@synthesize recordDate = _recordDate;
+
+- (NSArray *)_fetchPhotosByDate:(NSDate *)date {
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Photo"];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"recordDate = %@", date]];
+    NSError *error = nil;
+    NSArray *photosArray = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
+    if (error) {
+        //Handle the error
+    }
+    return photosArray;
+}
 
 - (Photo *)selectedPhoto {
     if (self.selectedIndexPath) {
@@ -80,6 +93,7 @@
     if (self) {
         // Must put here
         self.hidesBottomBarWhenPushed = YES;
+        self.recordDate = [NSDate date];
     }
     return self;
 }
@@ -97,6 +111,7 @@
     [_milestones release];
     [_selectedIndexPath release];
     [_photographVC release];
+    [_recordDate release];
     [super dealloc];
 }
 
@@ -117,6 +132,12 @@
     }
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self.photographVC action:@selector(photoLibraryAction:)];
+    
+    //set controller title
+    NSDateFormatter *dateFormattor = [[NSDateFormatter alloc] init];
+    dateFormattor.dateFormat = @"yyyy年MM月dd日";
+    self.title = [dateFormattor stringFromDate:self.recordDate];
+    [dateFormattor release];
 }
 
 - (void)viewDidUnload
@@ -129,7 +150,15 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
-    [self.tableView reloadData];
+    self.photos = [[self _fetchPhotosByDate:self.recordDate] mutableCopy];
+    
+    if (self.photos && [self.photos count] > 0) {
+        [self.tableView reloadData];
+    }else {
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+    
+    //hidden button
     UIView *button = [self.tabBarController.view viewWithTag:9999];
     [button setHidden:YES];
 }
@@ -184,16 +213,18 @@
         
         photoView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, PHOTO_WIDTH, PHOTO_WIDTH)];
         photoView.tag = PHOTO_TAG;
+        photoView.layer.cornerRadius = 5;
+        photoView.layer.masksToBounds = YES;
         [cell.contentView addSubview:photoView];
         [photoView release];
         
-        detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, PHOTO_WIDTH - 10, PHOTO_WIDTH, 25)];
+        detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, PHOTO_WIDTH - 25, PHOTO_WIDTH, 25)];
         detailLabel.tag = DETAIL_LABEL_TAG;
         detailLabel.backgroundColor = [UIColor blackColor];
         detailLabel.alpha = 0.7;
         detailLabel.textColor = [UIColor whiteColor];
         detailLabel.textAlignment = UITextAlignmentLeft;
-        [cell.contentView addSubview:detailLabel];
+        [photoView addSubview:detailLabel];
         [detailLabel release];
         
         addMilestoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -213,19 +244,15 @@
         [cell.contentView addSubview:editPhotoButton];
     }else {
         photoView = (UIImageView *)[cell.contentView viewWithTag:PHOTO_TAG];
-        detailLabel = (UILabel *)[cell.contentView viewWithTag:DETAIL_LABEL_TAG];
+        detailLabel = (UILabel *)[photoView viewWithTag:DETAIL_LABEL_TAG];
         addMilestoneButton = (UIButton *)[cell.contentView viewWithTag:ADD_MILESTONE_BUTTON_TAG];
         editPhotoButton = (UIButton *)[cell.contentView viewWithTag:EDIT_PHOTO_BUTTON_TAG];
     }
     
     // Configure the cell...
     Photo *photo = [self.photos objectAtIndex:indexPath.row];
-    if (photo.milestone == nil) {
-        addMilestoneButton.hidden = NO;
-    }else {
-        addMilestoneButton.hidden = YES;
-    }
     
+    // is image selected
     if (self.selectedIndexPath && [self.selectedIndexPath compare:indexPath] == NSOrderedSame) {
         addMilestoneButton.hidden = NO;
         editPhotoButton.hidden = NO;
@@ -236,7 +263,7 @@
         photoView.frame = photoViewFrame;
         
         CGRect detailLabelFrame = detailLabel.frame;
-        detailLabelFrame.origin = CGPointMake(10, PHOTO_WIDTH - 20);
+        detailLabelFrame.origin = CGPointMake(0, PHOTO_WIDTH - 25);
         detailLabel.frame = detailLabelFrame;
     }else {
         addMilestoneButton.hidden = YES;
@@ -248,10 +275,18 @@
         photoView.frame = photoViewFrame;
         
         CGRect detailLabelFrame = detailLabel.frame;
-        detailLabelFrame.origin = CGPointMake(10, photoViewFrame.size.height - 20);
+        detailLabelFrame.origin = CGPointMake(0, photoViewFrame.size.height - 25);
         detailLabel.frame = detailLabelFrame;
     }
     
+    // is image had milestone
+    if (photo.milestone == nil) {
+        addMilestoneButton.hidden = NO;
+    }else {
+        addMilestoneButton.hidden = YES;
+    }
+    
+    // is image had content
     if (photo.content && ![photo.content isEqualToString:@""]) {
         detailLabel.text = [NSString stringWithFormat:@"   %@", photo.content];
         detailLabel.font = [UIFont systemFontOfSize:12];

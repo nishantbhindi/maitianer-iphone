@@ -15,6 +15,7 @@
     NSArray *_milestones;
     NSIndexPath *_selectedIndexPath;
     PhotographViewController *_photographVC;
+    NSDate *_recordDate;
 }
 
 @property (nonatomic, retain) NSMutableArray *photos;
@@ -22,6 +23,7 @@
 @property (nonatomic, retain) NSIndexPath *selectedIndexPath;
 @property (nonatomic, readonly) Photo *selectedPhoto;
 @property (nonatomic, retain) PhotographViewController *photographVC;
+@property (nonatomic, retain) NSDate *recordDate;
 
 - (void)addMilestone;
 - (void)editPhoto;
