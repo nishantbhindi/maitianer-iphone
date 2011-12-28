@@ -14,7 +14,6 @@
 @class PhotographViewController;
 
 @interface CalendarViewController : UIViewController <MTCalendarViewDelegate> {
-    NSManagedObjectContext *_managedObjectContext;
     NSFetchedResultsController *_photoResultsController;
     Baby *_baby;
     
@@ -33,7 +32,6 @@
     IBOutlet MTCalendarView *_calendarView;
 }
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *photoResultsController;
 @property (nonatomic, retain) Baby *baby;
 

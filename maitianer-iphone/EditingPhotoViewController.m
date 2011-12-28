@@ -15,7 +15,17 @@
 @implementation EditingPhotoViewController
 @synthesize photoText = _photoText;
 @synthesize imageView = _imageView;
+@synthesize shareSwitch = _shareSwitch;
 @synthesize photo = _photo;
+@synthesize weibo = _weibo;
+
+- (IBAction)shareSwitchValueChanged:(UISwitch *)sender {
+    if (sender.on && ![self.photo.shared boolValue]) {
+        if(!self.weibo.isUserLoggedin) {
+            [self.weibo startAuthorize];
+        }
+    }
+}
 
 - (void)setPhoto:(Photo *)photo {
     if (_photo != photo) {
@@ -24,6 +34,7 @@
         
         self.photoText.text = [_photo.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         self.imageView.image = _photo.image;
+        self.shareSwitch.on = [_photo.shared boolValue];
     }
 }
 
@@ -65,7 +76,9 @@
 - (void)dealloc {
     [_photoText release];
     [_imageView release];
+    [_shareSwitch release];
     [_photo release];
+    [_weibo release];
     [super dealloc];
 }
 
@@ -89,6 +102,8 @@
     UIBarButtonItem *saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(saveEditing)];
     [self.navigationItem setRightBarButtonItem:saveBarButtonItem];
     
+    _weibo = [[WeiBo alloc] initWithAppKey:SinaWeiBoSDKDemo_APPKey withAppSecret:SinaWeiBoSDKDemo_APPSecret];
+    
 }
 
 - (void)viewDidUnload
@@ -103,6 +118,7 @@
     if (self.photo) {
         self.photoText.text = self.photo.content;
         self.imageView.image = self.photo.image;
+        self.shareSwitch.on = [self.photo.shared boolValue];
     }
 }
 

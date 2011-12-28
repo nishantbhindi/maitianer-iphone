@@ -13,9 +13,17 @@
 #import "PhotographViewController.h"
 #import "MTTabBarController.h"
 
+#if !defined(SinaWeiBoSDKDemo_APPKey)
+#error "You must define SinaWeiBoSDKDemo_APPKey as your APP Key"
+#endif
+
+#if !defined(SinaWeiBoSDKDemo_APPSecret)
+#error "You must define SinaWeiBoSDKDemo_APPSecret as your APP Secret"
+#endif
+
 @implementation UINavigationBar (CustomBackground)
 - (void)drawRect:(CGRect)rect {
-    UIImage *navBackgroundImage = [UIImage imageNamed:@"NavigationBar"];
+    UIImage *navBackgroundImage = [UIImage imageNamed:@"NavigationBar.png"];
     [navBackgroundImage drawInRect:rect];
 }
 
@@ -23,40 +31,34 @@
 
 
 @implementation AppDelegate
-@synthesize tabBarController = _tabBarController;
 @synthesize window = _window;
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
+@synthesize weibo = _weibo;
 
 - (void)dealloc
 {
-    [_tabBarController release];
     [_window release];
     [__managedObjectContext release];
     [__managedObjectModel release];
     [__persistentStoreCoordinator release];
+    [_weibo release];
     [super dealloc];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // Override point for customization after application launch.
     [UIApplication sharedApplication].statusBarHidden = NO;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    self.tabBarController = [[[MTTabBarController alloc] init] autorelease];
-    // Override point for customization after application launch.
     
-//    EditingBabyViewController *editingBabyVC = [[EditingBabyViewController alloc] initWithStyle:UITableViewStyleGrouped];
-//    editingBabyVC.managedObjectContext = self.managedObjectContext;
-//    UINavigationController *editingBabyNVC = [[UINavigationController alloc] initWithRootViewController:editingBabyVC];
-//    self.window.rootViewController = editingBabyNVC;
-//    [editingBabyVC release];
-//    [editingBabyNVC release];
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    _weibo = [[WeiBo alloc] initWithAppKey:SinaWeiBoSDKDemo_APPKey withAppSecret:SinaWeiBoSDKDemo_APPSecret];
+    
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     
     CalendarViewController *calendarVC = [[CalendarViewController alloc] initWithNibName:@"CalendarViewController" bundle:[NSBundle mainBundle]];
-    calendarVC.managedObjectContext = self.managedObjectContext;
     UINavigationController *calendarNVC = [[UINavigationController alloc] initWithRootViewController:calendarVC];
     calendarNVC.navigationBarHidden = YES;
     
@@ -247,6 +249,24 @@
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+//for ios version below 4.2
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+	if( [self.weibo handleOpenURL:url] )
+		return TRUE;
+	
+	return TRUE;
+}
+
+//for ios version is or above 4.2
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+	if( [self.weibo handleOpenURL:url] )
+		return TRUE;
+	
+	return TRUE;
 }
 
 @end

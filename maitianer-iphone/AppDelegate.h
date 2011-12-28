@@ -7,19 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WBConnect.h"
 
 @class MTTabBarController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
-    MTTabBarController *_tabBarController;
+    WeiBo *_weibo;
 }
 
-@property (retain, nonatomic) MTTabBarController *tabBarController;
 @property (strong, nonatomic) UIWindow *window;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (readonly, retain, nonatomic) WeiBo *weibo;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;

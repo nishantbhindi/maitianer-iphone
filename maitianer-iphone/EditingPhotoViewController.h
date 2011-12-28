@@ -8,21 +8,29 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "WBConnect.h"
 
 @class Photo;
 
 @interface EditingPhotoViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate> {
     IBOutlet UITextField *_photoText;
     IBOutlet UIImageView *_imageView;
+    IBOutlet UISwitch *_shareSwitch;
     Photo *_photo;
+    
+    WeiBo *_weibo;
 }
 
 @property (nonatomic, retain) UITextField *photoText;
 @property (nonatomic, retain) UIImageView *imageView;
+@property (nonatomic, retain) UISwitch *shareSwitch;
 @property (nonatomic, retain) Photo *photo;
+
+@property (nonatomic, retain) WeiBo *weibo;
 
 - (void)cancelEditing;
 - (void)saveEditing;
 - (IBAction)removePhoto;
+- (IBAction)shareSwitchValueChanged:(UISwitch *)sender;
 
 @end

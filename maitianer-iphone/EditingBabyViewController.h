@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EditingBabyViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
+@interface EditingBabyViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
     IBOutlet UITableView *_tableView;
     IBOutlet UILabel *_promptLabel;
     IBOutlet UIButton *_detailInfoButton;
@@ -20,7 +20,7 @@
     UITextField *_fatherNameField;
     UITextField *_motherNameField;
     
-    NSManagedObjectContext *_managedObjectContext;
+    NSArray *_sexArray;
 }
 
 @property (nonatomic, retain) UITableView *tableView;
@@ -32,8 +32,6 @@
 @property (nonatomic, retain) UITextField *birthWeightField;
 @property (nonatomic, retain) UITextField *fatherNameField;
 @property (nonatomic, retain) UITextField *motherNameField;
-
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
 - (void)saveBaby;
 - (void)birthdayPickerChange:(UIDatePicker *)datePicker;

@@ -22,7 +22,31 @@
 @synthesize fatherNameField = _fatherNameField;
 @synthesize motherNameField = _motherNameField;
 
-@synthesize managedObjectContext = _managedObjectContext;
+- (void)_keyboardWillShow:(NSNotification *)notification {
+    NSDictionary* userInfo = [notification userInfo];
+    
+    // we don't use SDK constants here to be universally compatible with all SDKs ≥ 3.0
+    NSValue* keyboardFrameValue = [userInfo objectForKey:@"UIKeyboardBoundsUserInfoKey"];
+    if (!keyboardFrameValue) {
+        keyboardFrameValue = [userInfo objectForKey:@"UIKeyboardFrameEndUserInfoKey"];
+    }
+    
+
+    CGFloat keyboardHeight = [keyboardFrameValue CGRectValue].size.height;
+
+    CGRect frame = self.view.frame;
+    frame.size.height -= keyboardHeight;
+        
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:0.3f];
+    self.tableView.frame = frame;
+    [UIView commitAnimations];
+}
+
+- (void)_keyboardWillHide:(NSNotification *)notification {
+    NSLog(@"hide");
+}
 
 - (void)toggleDetailInfo:(UIButton *)sender {
     if (sender.selected) {
@@ -72,8 +96,8 @@
     [_birthWeightField release];
     [_fatherNameField release];
     [_motherNameField release];
-    
-    [_managedObjectContext release];
+
+    [_sexArray release];
     [super dealloc];
 }
 
@@ -95,7 +119,8 @@
         return;
     }
     
-    Baby *baby = (Baby *)[NSEntityDescription insertNewObjectForEntityForName:@"Baby" inManagedObjectContext:self.managedObjectContext];
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    Baby *baby = (Baby *)[NSEntityDescription insertNewObjectForEntityForName:@"Baby" inManagedObjectContext:appDelegate.managedObjectContext];
     baby.nickName = self.nameField.text;
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -112,13 +137,9 @@
     }
     
     baby.fatherName = self.fatherNameField.text;
-    
     baby.motherName = self.motherNameField.text;
     
-    NSError *error = nil;
-    if (![self.managedObjectContext save:&error]) {
-        //Handle the error
-    }
+    [appDelegate saveContext];
     
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -177,6 +198,14 @@
     _sexField = [[UITextField alloc] initWithFrame:incellFieldRect];
     _sexField.delegate = self;
     _sexField.placeholder = @"可选";
+    //init baby sex picker
+    UIPickerView *sexPicker = [[UIPickerView alloc] init];
+    sexPicker.dataSource = self;
+    sexPicker.delegate = self;
+    sexPicker.showsSelectionIndicator = YES;
+    _sexField.inputView = sexPicker;
+    [sexPicker release];
+    
     
     _birthWeightField = [[UITextField alloc] initWithFrame:incellFieldRect];
     _birthWeightField.delegate = self;
@@ -190,6 +219,7 @@
     _motherNameField.delegate = self;
     _motherNameField.placeholder = @"如：麦麦他妈";
 
+    _sexArray = [[NSArray arrayWithObjects:@"小帅哥", @"小美女", @"保密", nil] retain];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -205,24 +235,22 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(_keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(_keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -408,6 +436,24 @@
     }
     
     return YES;
+}
+
+#pragma mark - Picker view datasource
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return [_sexArray count];
+}
+
+#pragma mark - Picker view delete
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return [_sexArray objectAtIndex:row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    self.sexField.text = [_sexArray objectAtIndex:row];
 }
 
 @end

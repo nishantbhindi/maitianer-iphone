@@ -11,9 +11,9 @@
 #import "NSDate-Utilities.h"
 #import "PhotographViewController.h"
 #import "PhotosViewController.h"
+#import "AppDelegate.h"
 
 @implementation CalendarViewController
-@synthesize managedObjectContext = _managedObjectContext;
 @synthesize photoResultsController = _photoResultsController;
 @synthesize baby = _baby;
 @synthesize photographVC = _photographVC;
@@ -55,10 +55,11 @@
 }
 
 - (NSArray *)_fetchBabies {
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     //fetch babies from database
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Baby"];
     NSError *error = nil;
-    NSArray *babiesArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    NSArray *babiesArray = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
     if (babiesArray == nil) {
         //Handle the error.
     }
@@ -67,12 +68,13 @@
 }
 
 - (Photo *)_fetchLatelyPhoto {
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     //fetch photos from database
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
     request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO]];
     request.fetchLimit = 1;
     NSError *error = nil;
-    NSArray *photosArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    NSArray *photosArray = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
     if (photosArray == nil || [photosArray count] == 0) {
         return nil;
     }
@@ -116,7 +118,6 @@
 }
 
 - (void)dealloc {
-    [_managedObjectContext release];
     [_photoResultsController release];
     [_baby release];
     [_photographVC release];
@@ -138,17 +139,17 @@
     
     NSArray *babiesArray = [self _fetchBabies];
     
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     //init photos fetched results controller
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:[NSEntityDescription entityForName:@"Photo" inManagedObjectContext:self.managedObjectContext]];
+    [request setEntity:[NSEntityDescription entityForName:@"Photo" inManagedObjectContext:appDelegate.managedObjectContext]];
     [request setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO], [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO], nil]];
-    _photoResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"recordDateLabel" cacheName:nil];
+    _photoResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:appDelegate.managedObjectContext sectionNameKeyPath:@"recordDateLabel" cacheName:nil];
     
     //show editing baby view controller for create a baby if baby not existed
     if ([babiesArray count] == 0) {
         EditingBabyViewController *editingBabyVC = [[EditingBabyViewController alloc] initWithNibName:@"EditingBabyViewController" bundle:[NSBundle mainBundle]];
         editingBabyVC.title = @"添加宝宝信息";
-        editingBabyVC.managedObjectContext = self.managedObjectContext;
         UINavigationController *editingBabyNVC = [[UINavigationController alloc] initWithRootViewController:editingBabyVC];
         [self presentModalViewController:editingBabyNVC animated:YES];
         [editingBabyVC release];
@@ -188,7 +189,7 @@
     Photo *latelyPhoto = [self _fetchLatelyPhoto];
     
     if (latelyPhoto == nil) {
-        _firstShow = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 410)];
+        _firstShow = [[UIButton alloc] initWithFrame:self.view.bounds];
         [self.view addSubview:_firstShow];
         [_firstShow setBackgroundImage:[UIImage imageNamed:@"first-show.jpg"] forState:UIControlStateNormal];
         [_firstShow addTarget:_firstShow action:@selector(removeFromSuperview) forControlEvents:UIControlEventTouchUpInside];
