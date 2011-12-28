@@ -27,8 +27,8 @@
 @synthesize delegate;
 
 static const CGFloat kDefaultMonthBarHeight = 36;
-static const CGFloat kDefaultMonthBarButtonHeight = 20;
-static const CGFloat kDefaultMonthBarButtonWidth = 17.5;
+static const CGFloat kDefaultMonthBarButtonHeight = 36;
+static const CGFloat kDefaultMonthBarButtonWidth = 36;
 static const CGFloat kCalendarCellSideLength = 70;
 
 - (void)setSelectedDate:(NSDate *)selectedDate {
@@ -69,9 +69,9 @@ static const CGFloat kCalendarCellSideLength = 70;
 
 - (UIButton *)monthBackButton {
     if (!_monthBackButton) {
-        _monthBackButton = [[UIButton alloc] initWithFrame:CGRectMake(10, (kDefaultMonthBarHeight -kDefaultMonthBarButtonHeight)/2, kDefaultMonthBarButtonWidth, kDefaultMonthBarButtonHeight)];
-        [_monthBackButton setBackgroundImage:[UIImage imageNamed:@"calendar-back"] forState:UIControlStateNormal];
-        [_monthBackButton setBackgroundImage:[UIImage imageNamed:@"calendar-back-disable"] forState:UIControlStateDisabled];
+        _monthBackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, (kDefaultMonthBarHeight - kDefaultMonthBarButtonHeight)/2, kDefaultMonthBarButtonWidth, kDefaultMonthBarButtonHeight)];
+        [_monthBackButton setBackgroundImage:[UIImage imageNamed:@"calendar-back.png"] forState:UIControlStateNormal];
+        //[_monthBackButton setBackgroundImage:[UIImage imageNamed:@"calendar-back-disable"] forState:UIControlStateDisabled];
         //[_monthBackButton setTitle:@"<" forState:UIControlStateNormal];
         [_monthBackButton setTitleColor:RGBCOLOR(99, 159, 40) forState:UIControlStateNormal];
         [_monthBackButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
@@ -84,9 +84,9 @@ static const CGFloat kCalendarCellSideLength = 70;
 - (UIButton *)monthForwardButton {
     if (!_monthForwardButton) {
         float x = self.monthBar.frame.size.width - kDefaultMonthBarButtonWidth;
-        _monthForwardButton = [[UIButton alloc] initWithFrame:CGRectMake(x - 10, (kDefaultMonthBarHeight -kDefaultMonthBarButtonHeight)/2, kDefaultMonthBarButtonWidth, kDefaultMonthBarButtonHeight)];
-        [_monthForwardButton setBackgroundImage:[UIImage imageNamed:@"calendar-forward"] forState:UIControlStateNormal];
-        [_monthForwardButton setBackgroundImage:[UIImage imageNamed:@"calendar-forward-disable"] forState:UIControlStateDisabled];
+        _monthForwardButton = [[UIButton alloc] initWithFrame:CGRectMake(x, (kDefaultMonthBarHeight - kDefaultMonthBarButtonHeight)/2, kDefaultMonthBarButtonWidth, kDefaultMonthBarButtonHeight)];
+        [_monthForwardButton setBackgroundImage:[UIImage imageNamed:@"calendar-forward.png"] forState:UIControlStateNormal];
+        //[_monthForwardButton setBackgroundImage:[UIImage imageNamed:@"calendar-forward-disable"] forState:UIControlStateDisabled];
         //[_monthForwardButton setTitle:@">" forState:UIControlStateNormal];
         [_monthForwardButton setTitleColor:RGBCOLOR(99, 159, 40) forState:UIControlStateNormal];
         [_monthForwardButton addTarget:self action:@selector(monthForward) forControlEvents:UIControlEventTouchUpInside];
@@ -178,9 +178,11 @@ static const CGFloat kCalendarCellSideLength = 70;
         //disable cell if date before minium date
         if ([date timeIntervalSince1970] < [self.miniumDate timeIntervalSince1970]) {
             cellView.enabled = NO;
+            cellView.alpha = 0.5;
         }
         if ([date isLaterThanDate:[NSDate date]]) {
             cellView.enabled = NO;
+            cellView.alpha = 0.5;
         }
         cellView.date = date;
         cellView.backgroundColor = [UIColor grayColor];

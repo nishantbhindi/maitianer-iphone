@@ -30,8 +30,8 @@
         <relationship name="milestone" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Milestone" inverseName="photo" inverseEntity="Milestone" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Baby" positionX="160" positionY="192" width="128" height="165"/>
-        <element name="Milestone" positionX="160" positionY="192" width="128" height="135"/>
-        <element name="Photo" positionX="367" positionY="201" width="128" height="165"/>
+        <element name="Baby" positionX="-308" positionY="117" width="128" height="165"/>
+        <element name="Milestone" positionX="171" positionY="252" width="128" height="135"/>
+        <element name="Photo" positionX="-74" positionY="441" width="128" height="165"/>
     </elements>
 </model>

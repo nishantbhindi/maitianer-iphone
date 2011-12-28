@@ -95,6 +95,12 @@
     [super viewWillAppear:animated];
     _milestones = [[self _fetchMilestones] mutableCopy];
     [self.tableView reloadData];
+    
+    if ([self.milestones count] > 0) {
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }else {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    }
 }
 
 

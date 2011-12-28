@@ -11,6 +11,10 @@
 #import "Milestone.h"
 #import "AppDelegate.h"
 #import "NSDate-Utilities.h"
+#import "SVProgressHUD.h"
+
+#define DELETE_ALERT_TAG 1
+#define SHARE_ALERT_TAG 2
 
 @implementation EditingPhotoViewController
 @synthesize photoText = _photoText;
@@ -22,7 +26,10 @@
 - (IBAction)shareSwitchValueChanged:(UISwitch *)sender {
     if (sender.on && ![self.photo.shared boolValue]) {
         if(!self.weibo.isUserLoggedin) {
-            [self.weibo startAuthorize];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您还没有绑定微博帐号，马上绑定？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            alertView.tag = SHARE_ALERT_TAG;
+            [alertView show];
+            [alertView release];
         }
     }
 }
@@ -47,11 +54,18 @@
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     [appDelegate saveContext];
     
-    [self dismissModalViewControllerAnimated:YES];
+    if (self.weibo.isUserLoggedin && ![self.photo.shared boolValue] && self.shareSwitch.on) {
+        [self.weibo postWeiboRequestWithText:self.photo.content andImage:self.photo.image andDelegate:self];
+    }else {
+        [SVProgressHUD show];
+        [SVProgressHUD dismissWithSuccess:@"编辑成功"];
+        [self dismissModalViewControllerAnimated:YES];
+    }
 }
 
 - (IBAction)removePhoto {
     UIAlertView *confirmAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确认删除照片？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    confirmAlert.tag = DELETE_ALERT_TAG;
     [confirmAlert show];
     [confirmAlert release];
 }
@@ -102,7 +116,9 @@
     UIBarButtonItem *saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(saveEditing)];
     [self.navigationItem setRightBarButtonItem:saveBarButtonItem];
     
-    _weibo = [[WeiBo alloc] initWithAppKey:SinaWeiBoSDKDemo_APPKey withAppSecret:SinaWeiBoSDKDemo_APPSecret];
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    self.weibo = appDelegate.weibo;
+    self.weibo.delegate = self;
     
 }
 
@@ -140,12 +156,49 @@
 
 #pragma mark - Alert view delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-        [appDelegate.managedObjectContext deleteObject:self.photo];
-        [appDelegate saveContext];
-        [self dismissModalViewControllerAnimated:YES];
+    if (alertView.tag == DELETE_ALERT_TAG) {
+        if (buttonIndex == 1) {
+            AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+            [appDelegate.managedObjectContext deleteObject:self.photo];
+            [appDelegate saveContext];
+            [self dismissModalViewControllerAnimated:YES];
+        }
+    }else if (alertView.tag == SHARE_ALERT_TAG) {
+        if (buttonIndex == 1) {
+            [self.weibo startAuthorize];
+        }
     }
+    
+}
+
+#pragma mark - Weibo session delegate
+- (void)weiboDidLogin {
+    [SVProgressHUD show];
+    [SVProgressHUD dismissWithSuccess:@"绑定成功" afterDelay:2];
+}
+
+- (void)weiboLoginFailed:(BOOL)userCancelled withError:(NSError *)error {
+    NSLog(@"帐号绑定失败！错误信息：%@", [error description]);
+    [SVProgressHUD show];
+    [SVProgressHUD dismissWithError:userCancelled?@"用户取消":@"绑定失败" afterDelay:2];
+}
+
+#pragma mark - Weibo request delegate
+- (void)requestLoading:(WBRequest *)request {
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeGradient networkIndicator:YES];
+}
+
+- (void)request:(WBRequest *)request didFailWithError:(NSError *)error {
+    [SVProgressHUD dismissWithError:@"分享失败，请重试" afterDelay:1];
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)request:(WBRequest *)request didLoad:(id)result {
+    self.photo.shared = [NSNumber numberWithBool:YES];
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    [appDelegate saveContext];
+    [SVProgressHUD dismissWithSuccess:@"保存，并分享成功" afterDelay:1];
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end

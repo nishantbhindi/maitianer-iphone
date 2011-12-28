@@ -12,7 +12,7 @@
 
 @class Photo;
 
-@interface EditingPhotoViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate> {
+@interface EditingPhotoViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate, WBRequestDelegate, WBSessionDelegate> {
     IBOutlet UITextField *_photoText;
     IBOutlet UIImageView *_imageView;
     IBOutlet UISwitch *_shareSwitch;
