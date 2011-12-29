@@ -241,6 +241,9 @@
             self.daysAfterRecordLabel.text = [NSString stringWithFormat:@"您刚刚记录过"];
         }
         
+        _firstShow = (UIButton *)[self.view viewWithTag:FIRST_SHOW_BUTTON_TAG];
+        [_firstShow removeFromSuperview];
+        
     }else {
         self.daysAfterRecordLabel.text = [NSString stringWithFormat:@"您还没有开始记录"];
     }
@@ -318,6 +321,7 @@
 
 - (void)monthDidChangeOnCalendarView:(MTCalendarView *)calendarView {
     [self _showPhotosInCalendar];
+    [self.calendarView.calendarScrollView scrollsToTop];
 }
 
 - (void)didTouchDateBar {
@@ -328,7 +332,7 @@
     _datePicker.minimumDate = self.calendarView.miniumDate;
     _datePicker.maximumDate = [NSDate date];
     [actionSheet addSubview:_datePicker];
-    [actionSheet showInView:self.view];
+    [actionSheet showFromTabBar:self.tabBarController.tabBar];
     [actionSheet release];
 }
 
@@ -337,6 +341,7 @@
     if (buttonIndex == 0) {
         self.calendarView.selectedDate = _datePicker.date;
         [_datePicker release];
+        [self _showPhotosInCalendar];
     }
 }
 

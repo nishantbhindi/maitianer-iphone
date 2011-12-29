@@ -42,6 +42,20 @@
         UIImageView *innerImageView = [[UIImageView alloc] initWithImage:firstPhoto.b140Image];
         self.innerImageView = innerImageView;
         [innerImageView release];
+        BOOL flag = NO;
+        for (Photo *photo in _photos) {
+            if (photo.milestone != nil) {
+                flag = YES;
+                break;
+            }
+        }
+        if (flag) {
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-4, -5.5, 30, 30)];
+            imageView.image = [UIImage imageNamed:@"date-background-milestone.png"];
+            self.dateImageView = imageView;
+            [imageView release];
+        }
+        
         //[self setBackgroundImage:firstPhoto.b200Image forState:UIControlStateNormal];
     }
 }
@@ -65,15 +79,16 @@
         _dateImageView = [dateImageView retain];
         _dateImageView.layer.masksToBounds = YES;
         _dateImageView.layer.cornerRadius = 5;
-        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(-1, 2, 20, 10)];
+        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(-1, 3, 20, 10)];
         dateLabel.textAlignment = UITextAlignmentCenter;
         dateLabel.text = [NSString stringWithFormat:@"%d", _date.day];
         dateLabel.backgroundColor = [UIColor clearColor];
         dateLabel.font = [UIFont systemFontOfSize:10];
         dateLabel.textColor = [UIColor whiteColor];
-        [_dateImageView addSubview:dateLabel];
-        [dateLabel release];
+        [self addSubview:dateLabel];
         [self addSubview:self.dateImageView];
+        [self bringSubviewToFront:dateLabel];
+        [dateLabel release];
     }
 }
 

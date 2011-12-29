@@ -83,7 +83,7 @@
     button.frame = CGRectMake(0.0, 0.0, buttonImage.size.width, buttonImage.size.height);
     [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [button setBackgroundImage:highlightImage forState:UIControlStateHighlighted];
-    [button addTarget:photographVC action:@selector(photoLibraryAction:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:photographVC action:@selector(cameraAction:) forControlEvents:UIControlEventTouchUpInside];
     
     CGFloat heightDifference = buttonImage.size.height - tabBarController.tabBar.frame.size.height;
     if (heightDifference < 0)

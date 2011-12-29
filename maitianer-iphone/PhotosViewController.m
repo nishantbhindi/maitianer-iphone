@@ -234,15 +234,16 @@
         
         addMilestoneButton = [UIButton buttonWithType:UIButtonTypeCustom];
         addMilestoneButton.tag = ADD_MILESTONE_BUTTON_TAG;
-        addMilestoneButton.frame = CGRectMake(10, 10, 80, 20);
-        [addMilestoneButton setTitle:@"添加里程碑" forState:UIControlStateNormal];
+        addMilestoneButton.frame = CGRectMake(3, 1, 76, 70);
+        [addMilestoneButton setBackgroundImage:[UIImage imageNamed:@"add-milestone-button.png"] forState:UIControlStateNormal];
         addMilestoneButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [addMilestoneButton addTarget:self action:@selector(addMilestone) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:addMilestoneButton];
         
         editPhotoButton = [UIButton buttonWithType:UIButtonTypeCustom];
         editPhotoButton.tag = EDIT_PHOTO_BUTTON_TAG;
-        editPhotoButton.frame = CGRectMake(260, 283, 50, 20);
+        editPhotoButton.frame = CGRectMake(255, 283.5, 50, 18);
+        [editPhotoButton setBackgroundImage:[UIImage imageNamed:@"edit-photo-button.png"] forState:UIControlStateNormal];
         [editPhotoButton setTitle:@"编辑" forState:UIControlStateNormal];
         editPhotoButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [editPhotoButton addTarget:self action:@selector(editPhoto) forControlEvents:UIControlEventTouchUpInside];
@@ -255,8 +256,12 @@
         milestoneView.layer.cornerRadius = 5;
         [cell.contentView addSubview:milestoneView];
         [milestoneView release];
+        UIImageView *starImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 30, 30)];
+        starImageView.image = [UIImage imageNamed:@"milestone-star.png"];
+        [milestoneView addSubview:starImageView];
+        [starImageView release];
         
-        milestoneLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 220, 40)];
+        milestoneLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 0, 240, 40)];
         milestoneLabel.tag = MILESTONE_LABEL_TAG;
         milestoneLabel.backgroundColor = [UIColor clearColor];
         milestoneLabel.font = [UIFont systemFontOfSize:14];
@@ -270,7 +275,7 @@
         detailLabel = (UILabel *)[photoView viewWithTag:DETAIL_LABEL_TAG];
         addMilestoneButton = (UIButton *)[cell.contentView viewWithTag:ADD_MILESTONE_BUTTON_TAG];
         editPhotoButton = (UIButton *)[cell.contentView viewWithTag:EDIT_PHOTO_BUTTON_TAG];
-        editPhotoButton.frame = CGRectMake(260, 283, 50, 20);
+        editPhotoButton.frame = CGRectMake(255, 283.5, 50, 18);
         milestoneView = (UIView *)[cell.contentView viewWithTag:MILESTONE_VIEW_TAG];
         milestoneLabel = (UILabel *)[milestoneView viewWithTag:MILESTONE_LABEL_TAG];
     }

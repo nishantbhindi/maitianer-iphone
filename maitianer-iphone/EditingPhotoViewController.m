@@ -139,7 +139,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [self.photoText becomeFirstResponder];
+    //[self.photoText becomeFirstResponder];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
