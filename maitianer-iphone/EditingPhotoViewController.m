@@ -181,6 +181,7 @@
     NSLog(@"帐号绑定失败！错误信息：%@", [error description]);
     [SVProgressHUD show];
     [SVProgressHUD dismissWithError:userCancelled?@"用户取消":@"绑定失败" afterDelay:2];
+    self.shareSwitch.on = NO;
 }
 
 #pragma mark - Weibo request delegate

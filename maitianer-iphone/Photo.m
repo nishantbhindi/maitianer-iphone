@@ -14,7 +14,8 @@
 typedef enum PhotoImageVersionT {
     PhotoImageVersionOrigin,
     PhotoImageVersionNormal,
-    PhotoImageVersionB200
+    PhotoImageVersionB200,
+    PhotoImageVersionB140
 }PhotoImageVersion;
 
 @implementation Photo
@@ -31,6 +32,7 @@ typedef enum PhotoImageVersionT {
 @synthesize originImage;
 @synthesize image;
 @synthesize b200Image;
+@synthesize b140Image;
 
 - (NSString *)recordDateLabel {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -50,6 +52,8 @@ typedef enum PhotoImageVersionT {
         versionString = @"-origin";
     }else if (photoImageVersion == PhotoImageVersionB200) {
         versionString = @"-b200";
+    }else if (photoImageVersion == PhotoImageVersionB140) {
+        versionString = @"-b140";
     }else {
         versionString = @"";
     }
@@ -69,6 +73,10 @@ typedef enum PhotoImageVersionT {
 
 - (UIImage *)b200Image {
     return [self _imageForVersion:PhotoImageVersionB200];
+}
+
+- (UIImage *)b140Image {
+    return [self _imageForVersion:PhotoImageVersionB140];
 }
 
 @end

@@ -25,6 +25,7 @@
 @property (nonatomic, readonly) UIImage *originImage;
 @property (nonatomic, readonly) UIImage *image;
 @property (nonatomic, readonly) UIImage *b200Image;
+@property (nonatomic, readonly) UIImage *b140Image;
 
 - (NSString *)recordDateLabel;
 

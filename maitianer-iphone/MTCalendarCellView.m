@@ -39,7 +39,7 @@
         [_photos release];
         _photos = [photos retain];
         Photo *firstPhoto = [_photos objectAtIndex:0];
-        UIImageView *innerImageView = [[UIImageView alloc] initWithImage:firstPhoto.b200Image];
+        UIImageView *innerImageView = [[UIImageView alloc] initWithImage:firstPhoto.b140Image];
         self.innerImageView = innerImageView;
         [innerImageView release];
         //[self setBackgroundImage:firstPhoto.b200Image forState:UIControlStateNormal];

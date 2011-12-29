@@ -42,7 +42,8 @@
 
 @protocol MTCalendarViewDelegate <NSObject>
 
+- (void) didTouchDateBar;
 - (void) calendarView:(MTCalendarView *)calendarView didSelectDate:(NSDate *)date;
-- (void) monthDidChangeOnCalendarview:(MTCalendarView *)calendarView;
+- (void) monthDidChangeOnCalendarView:(MTCalendarView *)calendarView;
 
 @end

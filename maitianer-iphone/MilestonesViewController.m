@@ -2,7 +2,7 @@
 //  MilestonesViewController.m
 //  maitianer-iphone
 //
-//  Created by lee rock on 11-11-22.
+//  Created by 张 朝 on 11-11-22.
 //  Copyright (c) 2011年 麦田儿. All rights reserved.
 //
 
@@ -101,6 +101,10 @@
     }else {
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
+    
+    //show button
+    UIView *button = [self.tabBarController.view viewWithTag:9999];
+    [button setHidden:NO];
 }
 
 

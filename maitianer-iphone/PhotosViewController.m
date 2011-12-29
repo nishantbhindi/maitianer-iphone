@@ -2,7 +2,7 @@
 //  PhotosViewController.m
 //  maitianer-iphone
 //
-//  Created by lee rock on 11-11-27.
+//  Created by 张 朝 on 11-11-27.
 //  Copyright (c) 2011年 麦田儿. All rights reserved.
 //
 
@@ -19,6 +19,8 @@
 #define DATE_LABEL_TAG 3
 #define ADD_MILESTONE_BUTTON_TAG 4
 #define EDIT_PHOTO_BUTTON_TAG 5
+#define MILESTONE_VIEW_TAG 6
+#define MILESTONE_LABEL_TAG 7
 #define PHOTO_WIDTH 300
 #define SMALL_PHOTO_HEIGHT 80
 
@@ -33,6 +35,7 @@
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Photo"];
     [request setPredicate:[NSPredicate predicateWithFormat:@"recordDate = %@", date]];
+    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]]];
     NSError *error = nil;
     NSArray *photosArray = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
     if (error) {
@@ -206,6 +209,8 @@
     UILabel *detailLabel;
     UIButton *addMilestoneButton;
     UIButton *editPhotoButton;
+    UIView *milestoneView;
+    UILabel *milestoneLabel;
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -242,11 +247,32 @@
         editPhotoButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [editPhotoButton addTarget:self action:@selector(editPhoto) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:editPhotoButton];
+        
+        milestoneView = [[UIView alloc] initWithFrame:CGRectMake(10, 5, 300, 40)];
+        milestoneView.tag = MILESTONE_VIEW_TAG;
+        milestoneView.backgroundColor = RGBCOLOR(254, 253, 223);
+        milestoneView.hidden = YES;
+        milestoneView.layer.cornerRadius = 5;
+        [cell.contentView addSubview:milestoneView];
+        [milestoneView release];
+        
+        milestoneLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 220, 40)];
+        milestoneLabel.tag = MILESTONE_LABEL_TAG;
+        milestoneLabel.backgroundColor = [UIColor clearColor];
+        milestoneLabel.font = [UIFont systemFontOfSize:14];
+        milestoneLabel.textColor = RGBCOLOR(90, 86, 18);
+        milestoneLabel.numberOfLines = 2;
+        [milestoneView addSubview:milestoneLabel];
+        [milestoneLabel release];
     }else {
         photoView = (UIImageView *)[cell.contentView viewWithTag:PHOTO_TAG];
+        photoView.frame = CGRectMake(10, 5, PHOTO_WIDTH, PHOTO_WIDTH);
         detailLabel = (UILabel *)[photoView viewWithTag:DETAIL_LABEL_TAG];
         addMilestoneButton = (UIButton *)[cell.contentView viewWithTag:ADD_MILESTONE_BUTTON_TAG];
         editPhotoButton = (UIButton *)[cell.contentView viewWithTag:EDIT_PHOTO_BUTTON_TAG];
+        editPhotoButton.frame = CGRectMake(260, 283, 50, 20);
+        milestoneView = (UIView *)[cell.contentView viewWithTag:MILESTONE_VIEW_TAG];
+        milestoneLabel = (UILabel *)[milestoneView viewWithTag:MILESTONE_LABEL_TAG];
     }
     
     // Configure the cell...
@@ -282,8 +308,19 @@
     // is image had milestone
     if (photo.milestone == nil) {
         addMilestoneButton.hidden = NO;
+        milestoneView.hidden = YES;
     }else {
         addMilestoneButton.hidden = YES;
+        milestoneView.hidden = NO;
+        CGRect photoViewFrame = photoView.frame;
+        photoViewFrame.origin.y += 45;
+        photoView.frame = photoViewFrame;
+        
+        CGRect editPhotoButtonFrame = editPhotoButton.frame;
+        editPhotoButtonFrame.origin.y += 45;
+        editPhotoButton.frame = editPhotoButtonFrame;
+        
+        milestoneLabel.text = photo.milestone.content;
     }
     
     // is image had content
@@ -350,10 +387,18 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat photoHeight = SMALL_PHOTO_HEIGHT;
     if (self.selectedIndexPath && [self.selectedIndexPath compare:indexPath] == NSOrderedSame) {
-        return PHOTO_WIDTH + 10;
+        photoHeight = PHOTO_WIDTH;
     }
-    return SMALL_PHOTO_HEIGHT + 10;
+    photoHeight += 10;
+    
+    Photo *photo = [self.photos objectAtIndex:indexPath.row];
+    if (photo.milestone) {
+        photoHeight += 45;
+    }
+    
+    return photoHeight;
 }
 
 @end

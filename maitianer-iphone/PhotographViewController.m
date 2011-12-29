@@ -172,6 +172,10 @@
     [self _saveImage:[editedImage imageScaledToFitSize:CGSizeMake(200, 200)] 
               toPath:[storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-b200.jpg", fileNameUUID]]];
     
+    //resize the origin image for thumbnail 140x140 and store it
+    [self _saveImage:[editedImage imageScaledToFitSize:CGSizeMake(140, 140)] 
+              toPath:[storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-b140.jpg", fileNameUUID]]];
+    
     //save the photo record use core data
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:appDelegate.managedObjectContext];

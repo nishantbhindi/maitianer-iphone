@@ -2,7 +2,7 @@
 //  CalendarViewController.h
 //  maitianer-iphone
 //
-//  Created by lee rock on 11-11-22.
+//  Created by 张 朝 on 11-11-22.
 //  Copyright (c) 2011年 麦田儿. All rights reserved.
 //
 
@@ -13,13 +13,15 @@
 
 @class PhotographViewController;
 
-@interface CalendarViewController : UIViewController <MTCalendarViewDelegate> {
+@interface CalendarViewController : UIViewController <MTCalendarViewDelegate, UIActionSheetDelegate> {
     NSFetchedResultsController *_photoResultsController;
     Baby *_baby;
     
     PhotographViewController *_photographVC;
     
     UIButton *_firstShow;
+    
+    UIDatePicker *_datePicker;
     
     IBOutlet UIView *_babyInfoView;
     IBOutlet UIImageView *_avatarView;

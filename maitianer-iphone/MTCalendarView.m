@@ -94,11 +94,18 @@ static const CGFloat kCalendarCellSideLength = 70;
     return _monthForwardButton;
 }
 
+- (void)_showMonthPicker {
+    if ([self.delegate respondsToSelector:@selector(didTouchDateBar)]) {
+        [self.delegate didTouchDateBar];
+    }
+}
+
 - (UIButton *)monthLabelButton {
     if (!_monthLabelButton) {
         _monthLabelButton = [[UIButton alloc] initWithFrame:CGRectMake(self.monthBar.frame.size.width / 4, 0, self.monthBar.frame.size.width / 2, kDefaultMonthBarHeight)];
         [_monthLabelButton setTitleColor:RGBCOLOR(99, 159, 40) forState:UIControlStateNormal];
         _monthLabelButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+        [_monthLabelButton addTarget:self action:@selector(_showMonthPicker) forControlEvents:UIControlEventTouchUpInside];
     }
     return _monthLabelButton;
 }
@@ -130,19 +137,25 @@ static const CGFloat kCalendarCellSideLength = 70;
 }
 
 - (void)monthBack {
+    if ([[self.selectedDate beginningOfMonth] timeIntervalSince1970] <= [self.miniumDate timeIntervalSince1970]) {
+        return;
+    }
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *monthStep = [[NSDateComponents new] autorelease];
     monthStep.month = -1;
     self.selectedDate = [calendar dateByAddingComponents: monthStep toDate: self.selectedDate options: 0];
-    [self.delegate monthDidChangeOnCalendarview:self];
+    [self.delegate monthDidChangeOnCalendarView:self];
 }
 
 - (void)monthForward {
+    if ([[self.selectedDate beginningOfMonth] timeIntervalSince1970] >= [[[NSDate date] beginningOfMonth] timeIntervalSince1970]) { 
+        return;
+    }
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *monthStep = [[NSDateComponents new] autorelease];
     monthStep.month = 1;
     self.selectedDate = [calendar dateByAddingComponents: monthStep toDate: self.selectedDate options: 0];
-    [self.delegate monthDidChangeOnCalendarview:self];
+    [self.delegate monthDidChangeOnCalendarView:self];
 }
 
 - (void)reload {
@@ -159,7 +172,8 @@ static const CGFloat kCalendarCellSideLength = 70;
     }
     
     //disable month forward button when current month
-    if (self.selectedDate.month >= [[NSDate date] month]) {
+    NSDate *now = [NSDate date];
+    if ([[self.selectedDate beginningOfMonth] timeIntervalSince1970] >= [[now beginningOfMonth] timeIntervalSince1970]) {
         self.monthForwardButton.enabled = NO;
     }else {
         self.monthForwardButton.enabled = YES;

@@ -2,7 +2,7 @@
 //  CalendarViewController.m
 //  maitianer-iphone
 //
-//  Created by lee rock on 11-11-22.
+//  Created by 张 朝 on 11-11-22.
 //  Copyright (c) 2011年 麦田儿. All rights reserved.
 //
 
@@ -12,6 +12,8 @@
 #import "PhotographViewController.h"
 #import "PhotosViewController.h"
 #import "AppDelegate.h"
+
+#define FIRST_SHOW_BUTTON_TAG 100
 
 @implementation CalendarViewController
 @synthesize photoResultsController = _photoResultsController;
@@ -29,27 +31,31 @@
 	return @"magnifying-glass.png";
 }
 
+- (void)swipeCalendar {
+    NSLog(@"swipe");
+}
+
 - (IBAction)toggleBabyInfo:(id)sender {
-    UIButton *button = sender;
+    //UIButton *button = sender;
     CGRect babyInfoFrame = self.babyInfoView.frame;
-    CGRect buttonFrame = button.frame;
+    //CGRect buttonFrame = button.frame;
     CGRect calendarViewFrame = self.calendarView.frame;
     [UIView beginAnimations:@"Baby Info Move in/out" context:nil];
     if (babyInfoFrame.origin.y >= 0) {
         babyInfoFrame.origin.y = -babyInfoFrame.size.height;
-        buttonFrame.origin.y -= babyInfoFrame.size.height;
-        [button setTitle:@"打开" forState:UIControlStateNormal];
+        //buttonFrame.origin.y -= babyInfoFrame.size.height;
+        //[button setTitle:@"打开" forState:UIControlStateNormal];
         calendarViewFrame.size.height += babyInfoFrame.size.height;
         calendarViewFrame.origin.y -= babyInfoFrame.size.height;
     }else {
         babyInfoFrame.origin.y = 0;
-        buttonFrame.origin.y += babyInfoFrame.size.height;
-        [button setTitle:@"收起" forState:UIControlStateNormal];
+        //buttonFrame.origin.y += babyInfoFrame.size.height;
+        //[button setTitle:@"收起" forState:UIControlStateNormal];
         calendarViewFrame.size.height -= babyInfoFrame.size.height;
         calendarViewFrame.origin.y += babyInfoFrame.size.height;
     }
     self.babyInfoView.frame = babyInfoFrame;
-    button.frame = buttonFrame;
+    //button.frame = buttonFrame;
     self.calendarView.frame = calendarViewFrame;
     [UIView commitAnimations];
 }
@@ -71,7 +77,7 @@
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     //fetch photos from database
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO]];
+    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO], [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO], nil];
     request.fetchLimit = 1;
     NSError *error = nil;
     NSArray *photosArray = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
@@ -161,6 +167,21 @@
     //config calendar view
     self.calendarView.delegate = self;
     
+    //add guesture
+    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleBabyInfo:)];
+    [self.calendarView.monthLabelButton addGestureRecognizer:recognizer];
+    recognizer.numberOfTapsRequired = 2;
+    [recognizer release];
+    
+    UISwipeGestureRecognizer *swipeLeftGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self.calendarView action:@selector(monthForward)];
+    swipeLeftGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.calendarView addGestureRecognizer:swipeLeftGestureRecognizer];
+    [swipeLeftGestureRecognizer release];
+    
+    UISwipeGestureRecognizer *swipeRightGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self.calendarView action:@selector(monthBack)];
+    swipeRightGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.calendarView addGestureRecognizer:swipeRightGestureRecognizer];
+    [swipeRightGestureRecognizer release];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -188,8 +209,10 @@
     //fetch lately photo
     Photo *latelyPhoto = [self _fetchLatelyPhoto];
     
-    if (latelyPhoto == nil) {
+    if (latelyPhoto == nil && [self.view viewWithTag:FIRST_SHOW_BUTTON_TAG] == nil) {
         _firstShow = [[UIButton alloc] initWithFrame:self.view.bounds];
+        _firstShow.tag = FIRST_SHOW_BUTTON_TAG;
+        _firstShow.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         [self.view addSubview:_firstShow];
         [_firstShow setBackgroundImage:[UIImage imageNamed:@"first-show.jpg"] forState:UIControlStateNormal];
         [_firstShow addTarget:_firstShow action:@selector(removeFromSuperview) forControlEvents:UIControlEventTouchUpInside];
@@ -293,8 +316,28 @@
     
 }
 
-- (void)monthDidChangeOnCalendarview:(MTCalendarView *)calendarView {
+- (void)monthDidChangeOnCalendarView:(MTCalendarView *)calendarView {
     [self _showPhotosInCalendar];
+}
+
+- (void)didTouchDateBar {
+    NSString *title = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation) ? @"\n\n\n\n\n\n\n\n\n" : @"\n\n\n\n\n\n\n\n\n\n\n\n" ;
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"设置" otherButtonTitles:nil, nil];
+    _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, 320, 216)];
+    _datePicker.datePickerMode = UIDatePickerModeDate;
+    _datePicker.minimumDate = self.calendarView.miniumDate;
+    _datePicker.maximumDate = [NSDate date];
+    [actionSheet addSubview:_datePicker];
+    [actionSheet showInView:self.view];
+    [actionSheet release];
+}
+
+#pragma mark - action sheet delegate
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        self.calendarView.selectedDate = _datePicker.date;
+        [_datePicker release];
+    }
 }
 
 @end
