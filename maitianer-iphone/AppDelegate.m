@@ -11,7 +11,6 @@
 #import "CalendarViewController.h"
 #import "MilestonesViewController.h"
 #import "PhotographViewController.h"
-#import "MTTabBarController.h"
 
 #if !defined(SinaWeiBoSDKDemo_APPKey)
 #error "You must define SinaWeiBoSDKDemo_APPKey as your APP Key"
@@ -26,7 +25,6 @@
     UIImage *navBackgroundImage = [UIImage imageNamed:@"NavigationBar.png"];
     [navBackgroundImage drawInRect:rect];
 }
-
 @end
 
 
@@ -49,7 +47,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    //show the status bar with black opaque style
     [UIApplication sharedApplication].statusBarHidden = NO;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
     
@@ -60,6 +58,7 @@
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     
     CalendarViewController *calendarVC = [[CalendarViewController alloc] initWithNibName:@"CalendarViewController" bundle:[NSBundle mainBundle]];
+    calendarVC.managedObjectContext = self.managedObjectContext;
     UINavigationController *calendarNVC = [[UINavigationController alloc] initWithRootViewController:calendarVC];
     calendarNVC.navigationBarHidden = YES;
     
@@ -252,6 +251,8 @@
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
+
+#pragma mark - Weibo API return URL handle method
 
 //for ios version below 4.2
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url

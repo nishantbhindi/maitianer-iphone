@@ -9,9 +9,9 @@
 #import "EditingPhotoViewController.h"
 #import "Photo.h"
 #import "Milestone.h"
-#import "AppDelegate.h"
 #import "NSDate-Utilities.h"
 #import "SVProgressHUD.h"
+#import "AppDelegate.h"
 
 #define DELETE_ALERT_TAG 1
 #define SHARE_ALERT_TAG 2
@@ -51,8 +51,12 @@
 
 - (void)saveEditing {
     self.photo.content = self.photoText.text;
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    [appDelegate saveContext];
+    NSManagedObjectContext *context = self.photo.managedObjectContext;
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
     
     if (self.weibo.isUserLoggedin && ![self.photo.shared boolValue] && self.shareSwitch.on) {
         [self.weibo postWeiboRequestWithText:self.photo.content andImage:self.photo.image andDelegate:self];
@@ -158,9 +162,13 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == DELETE_ALERT_TAG) {
         if (buttonIndex == 1) {
-            AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-            [appDelegate.managedObjectContext deleteObject:self.photo];
-            [appDelegate saveContext];
+            NSManagedObjectContext *context = self.photo.managedObjectContext;
+            [context deleteObject:self.photo];
+            NSError *error;
+            if (![context save:&error]) {
+                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
             [self dismissModalViewControllerAnimated:YES];
         }
     }else if (alertView.tag == SHARE_ALERT_TAG) {

@@ -31,7 +31,6 @@
         keyboardFrameValue = [userInfo objectForKey:@"UIKeyboardFrameEndUserInfoKey"];
     }
     
-
     CGFloat keyboardHeight = [keyboardFrameValue CGRectValue].size.height;
 
     CGRect frame = self.view.frame;

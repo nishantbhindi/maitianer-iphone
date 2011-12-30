@@ -34,10 +34,6 @@
     return milestonesArray;
 }
 
-- (NSString *)iconImageName {
-	return @"magnifying-glass.png";
-}
-
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];

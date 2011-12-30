@@ -38,6 +38,7 @@
     [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]]];
     NSError *error = nil;
     NSArray *photosArray = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
+    [request release];
     if (error) {
         //Handle the error
     }

@@ -11,11 +11,11 @@
 #import "NSDate-Utilities.h"
 #import "PhotographViewController.h"
 #import "PhotosViewController.h"
-#import "AppDelegate.h"
 
 #define FIRST_SHOW_BUTTON_TAG 100
 
 @implementation CalendarViewController
+@synthesize managedObjectContext = _managedObjectContext;
 @synthesize photoResultsController = _photoResultsController;
 @synthesize baby = _baby;
 @synthesize photographVC = _photographVC;
@@ -26,14 +26,6 @@
 @synthesize daysAfterRecordLabel = _daysAfterRecordLabel;
 @synthesize babyInfoToggle = _babyInfoToggle;
 @synthesize calendarView = _calendarView;
-
-- (NSString *)iconImageName {
-	return @"magnifying-glass.png";
-}
-
-- (void)swipeCalendar {
-    NSLog(@"swipe");
-}
 
 - (IBAction)toggleBabyInfo:(id)sender {
     //UIButton *button = sender;
@@ -61,11 +53,10 @@
 }
 
 - (NSArray *)_fetchBabies {
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     //fetch babies from database
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Baby"];
     NSError *error = nil;
-    NSArray *babiesArray = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
+    NSArray *babiesArray = [self.managedObjectContext executeFetchRequest:request error:&error];
     if (babiesArray == nil) {
         //Handle the error.
     }
@@ -74,13 +65,12 @@
 }
 
 - (Photo *)_fetchLatelyPhoto {
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     //fetch photos from database
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
     request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO], [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO], nil];
     request.fetchLimit = 1;
     NSError *error = nil;
-    NSArray *photosArray = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
+    NSArray *photosArray = [self.managedObjectContext executeFetchRequest:request error:&error];
     if (photosArray == nil || [photosArray count] == 0) {
         return nil;
     }
@@ -124,6 +114,7 @@
 }
 
 - (void)dealloc {
+    [_managedObjectContext release];
     [_photoResultsController release];
     [_baby release];
     [_photographVC release];
@@ -144,13 +135,6 @@
     [super viewDidLoad];
     
     NSArray *babiesArray = [self _fetchBabies];
-    
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    //init photos fetched results controller
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:[NSEntityDescription entityForName:@"Photo" inManagedObjectContext:appDelegate.managedObjectContext]];
-    [request setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO], [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO], nil]];
-    _photoResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:appDelegate.managedObjectContext sectionNameKeyPath:@"recordDateLabel" cacheName:nil];
     
     //show editing baby view controller for create a baby if baby not existed
     if ([babiesArray count] == 0) {
@@ -200,23 +184,9 @@
     self.calendarView.miniumDate = self.baby.birthday;
     
     //fetch photos per day from database
-    NSError *error = nil;
-    BOOL success = [self.photoResultsController performFetch:&error];
-    if (error != nil || !success) {
+    NSError *error;
+    if (![self.photoResultsController performFetch:&error]) {
         //handle the error.
-    }
-    
-    //fetch lately photo
-    Photo *latelyPhoto = [self _fetchLatelyPhoto];
-    
-    if (latelyPhoto == nil && [self.view viewWithTag:FIRST_SHOW_BUTTON_TAG] == nil) {
-        _firstShow = [[UIButton alloc] initWithFrame:self.view.bounds];
-        _firstShow.tag = FIRST_SHOW_BUTTON_TAG;
-        _firstShow.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-        [self.view addSubview:_firstShow];
-        [_firstShow setBackgroundImage:[UIImage imageNamed:@"first-show.jpg"] forState:UIControlStateNormal];
-        [_firstShow addTarget:_firstShow action:@selector(removeFromSuperview) forControlEvents:UIControlEventTouchUpInside];
-        [_firstShow release];
     }
     
     //config avatar shadow
@@ -225,9 +195,12 @@
     [self.avatarView.layer setShadowColor:[UIColor grayColor].CGColor];
     [self.avatarView.layer setShadowRadius:0];
     [self.avatarView.layer setShadowOpacity:0.8];
+    
+    //fetch lately photo
+    Photo *latelyPhoto = [self _fetchLatelyPhoto];
     if (latelyPhoto) {
         //add real avatar for masks to bounds
-        UIImageView *innerImageView = [[UIImageView alloc] initWithImage:latelyPhoto.image];
+        UIImageView *innerImageView = [[UIImageView alloc] initWithImage:latelyPhoto.b140Image];
         innerImageView.layer.cornerRadius = 5;
         innerImageView.layer.masksToBounds = YES;
         innerImageView.frame = self.avatarView.bounds;
@@ -246,6 +219,16 @@
         
     }else {
         self.daysAfterRecordLabel.text = [NSString stringWithFormat:@"您还没有开始记录"];
+        
+        if ([self.view viewWithTag:FIRST_SHOW_BUTTON_TAG] == nil) {
+            _firstShow = [[UIButton alloc] initWithFrame:self.view.bounds];
+            _firstShow.tag = FIRST_SHOW_BUTTON_TAG;
+            _firstShow.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+            [self.view addSubview:_firstShow];
+            [_firstShow setBackgroundImage:[UIImage imageNamed:@"first-show.jpg"] forState:UIControlStateNormal];
+            [_firstShow addTarget:_firstShow action:@selector(removeFromSuperview) forControlEvents:UIControlEventTouchUpInside];
+            [_firstShow release];
+        }
     }
     
     //config baby info
@@ -282,6 +265,24 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - fetched result controller
+- (NSFetchedResultsController *)photoResultsController {
+    if (_photoResultsController != nil) {
+        return _photoResultsController;
+    }
+    
+    //create and configure a fetch request for Photo entity
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:[NSEntityDescription entityForName:@"Photo" inManagedObjectContext:self.managedObjectContext]];
+    [request setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO], [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO], nil]];
+    
+    //create and init fetched result controller with section
+    _photoResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"recordDateLabel" cacheName:nil];
+    
+    [request release];
+    return _photoResultsController;
 }
 
 #pragma mark - calendar view delegate methods
@@ -325,7 +326,7 @@
 }
 
 - (void)didTouchDateBar {
-    NSString *title = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation) ? @"\n\n\n\n\n\n\n\n\n" : @"\n\n\n\n\n\n\n\n\n\n\n\n" ;
+    NSString *title = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation) ? @"\n\n\n\n\n\n\n\n\n" : @"\n\n\n\n\n\n\n\n\n\n\n" ;
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"设置" otherButtonTitles:nil, nil];
     _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, 320, 216)];
     _datePicker.datePickerMode = UIDatePickerModeDate;
