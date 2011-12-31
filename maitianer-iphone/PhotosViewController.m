@@ -11,7 +11,6 @@
 #import "UIImage+ProportionalFill.h"
 #import "EditingPhotoViewController.h"
 #import "EditingMilestoneViewController.h"
-#import "AppDelegate.h"
 #import "PhotographViewController.h"
 
 #define PHOTO_TAG 1
@@ -25,29 +24,14 @@
 #define SMALL_PHOTO_HEIGHT 80
 
 @implementation PhotosViewController
-@synthesize photos = _photos;
-@synthesize milestones = _milestones;
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize fetchedRequestController = _fetchedRequestController;
 @synthesize selectedIndexPath = _selectedIndexPath;
-@synthesize photographVC = _photographVC;
 @synthesize recordDate = _recordDate;
-
-- (NSArray *)_fetchPhotosByDate:(NSDate *)date {
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Photo"];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"recordDate = %@", date]];
-    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]]];
-    NSError *error = nil;
-    NSArray *photosArray = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
-    [request release];
-    if (error) {
-        //Handle the error
-    }
-    return photosArray;
-}
 
 - (Photo *)selectedPhoto {
     if (self.selectedIndexPath) {
-        return [self.photos objectAtIndex:self.selectedIndexPath.row];
+        return [self.fetchedRequestController objectAtIndexPath:self.selectedIndexPath];
     }
     return nil;
 }
@@ -55,7 +39,9 @@
 - (void)addMilestone {
     if (self.selectedPhoto) {
         EditingMilestoneViewController *editingMilestoneVC = [[EditingMilestoneViewController alloc] initWithNibName:@"EditingMilestoneViewController" bundle:[NSBundle mainBundle]];
-        editingMilestoneVC.photo = self.selectedPhoto;
+        Milestone *milestone = [NSEntityDescription insertNewObjectForEntityForName:@"Milestone" inManagedObjectContext:self.managedObjectContext];
+        milestone.photo = self.selectedPhoto;
+        editingMilestoneVC.milestone = milestone;
         editingMilestoneVC.title = @"添加里程碑";
         UINavigationController *editingMilestoneNVC = [[UINavigationController alloc] initWithRootViewController:editingMilestoneVC];
         [self presentModalViewController:editingMilestoneNVC animated:YES];
@@ -72,22 +58,6 @@
         [self presentModalViewController:editingPhotoNVC animated:YES];
         [editingPhotoVC release];
         [editingPhotoNVC release];
-    }
-}
-
-- (void)removePhoto {
-    if (self.selectedPhoto) {
-        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-        [appDelegate.managedObjectContext deleteObject:self.selectedPhoto];
-        [appDelegate saveContext];
-        [self.photos removeObjectAtIndex:self.selectedIndexPath.row];
-        [self.tableView beginUpdates];
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.selectedIndexPath] withRowAnimation:UITableViewRowAnimationRight];
-        [self.tableView endUpdates];
-        if ([self.photos count] == 0) {
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-        NSLog(@"photo removed!");
     }
 }
 
@@ -111,10 +81,9 @@
 }
 
 - (void)dealloc {
-    [_photos release];
-    [_milestones release];
+    [_managedObjectContext release];
+    [_fetchedRequestController release];
     [_selectedIndexPath release];
-    [_photographVC release];
     [_recordDate release];
     [super dealloc];
 }
@@ -135,13 +104,15 @@
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
     }
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self.photographVC action:@selector(photoLibraryAction:)];
+    PhotographViewController *photographVC = [self.tabBarController.viewControllers objectAtIndex:1];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:photographVC action:@selector(photoLibraryAction:)];
     
     //set controller title
     NSDateFormatter *dateFormattor = [[NSDateFormatter alloc] init];
     dateFormattor.dateFormat = @"yyyy年MM月dd日";
     self.title = [dateFormattor stringFromDate:self.recordDate];
     [dateFormattor release];
+    
 }
 
 - (void)viewDidUnload
@@ -154,9 +125,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
-    self.photos = [[self _fetchPhotosByDate:self.recordDate] mutableCopy];
     
-    if (self.photos && [self.photos count] > 0) {
+    NSError *error;
+    if (![self.fetchedRequestController performFetch:&error]) {
+        //handle the error
+    }
+    
+    if ([self.fetchedRequestController.fetchedObjects count] > 0) {
         [self.tableView reloadData];
     }else {
         [self.navigationController popViewControllerAnimated:NO];
@@ -188,6 +163,21 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark - fetched request controller
+- (NSFetchedResultsController *)fetchedRequestController {
+    if (_fetchedRequestController) {
+        return _fetchedRequestController;
+    }
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:[NSEntityDescription entityForName:@"Photo" inManagedObjectContext:self.managedObjectContext]];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"recordDate = %@", self.recordDate]];
+    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]]];
+    _fetchedRequestController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    [request release];
+    return _fetchedRequestController;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -199,7 +189,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.photos count];
+    return [self.fetchedRequestController.fetchedObjects count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -237,7 +227,6 @@
         addMilestoneButton.tag = ADD_MILESTONE_BUTTON_TAG;
         addMilestoneButton.frame = CGRectMake(3, 1, 76, 70);
         [addMilestoneButton setBackgroundImage:[UIImage imageNamed:@"add-milestone-button.png"] forState:UIControlStateNormal];
-        addMilestoneButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [addMilestoneButton addTarget:self action:@selector(addMilestone) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:addMilestoneButton];
         
@@ -282,7 +271,7 @@
     }
     
     // Configure the cell...
-    Photo *photo = [self.photos objectAtIndex:indexPath.row];
+    Photo *photo = [self.fetchedRequestController objectAtIndexPath:indexPath];
     
     // is image selected
     if (self.selectedIndexPath && [self.selectedIndexPath compare:indexPath] == NSOrderedSame) {
@@ -313,7 +302,6 @@
     
     // is image had milestone
     if (photo.milestone == nil) {
-        addMilestoneButton.hidden = NO;
         milestoneView.hidden = YES;
     }else {
         addMilestoneButton.hidden = YES;
@@ -399,7 +387,7 @@
     }
     photoHeight += 10;
     
-    Photo *photo = [self.photos objectAtIndex:indexPath.row];
+    Photo *photo = [self.fetchedRequestController objectAtIndexPath:indexPath];
     if (photo.milestone) {
         photoHeight += 45;
     }

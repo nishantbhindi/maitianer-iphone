@@ -34,26 +34,14 @@
     }
 }
 
-- (void)setPhoto:(Photo *)photo {
-    if (_photo != photo) {
-        [_photo release];
-        _photo = [photo retain];
-        
-        self.photoText.text = [_photo.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        self.imageView.image = _photo.image;
-        self.shareSwitch.on = [_photo.shared boolValue];
-    }
-}
-
 - (void)cancelEditing {
     [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)saveEditing {
     self.photo.content = self.photoText.text;
-    NSManagedObjectContext *context = self.photo.managedObjectContext;
     NSError *error = nil;
-    if (![context save:&error]) {
+    if (![self.photo.managedObjectContext save:&error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
@@ -162,10 +150,9 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == DELETE_ALERT_TAG) {
         if (buttonIndex == 1) {
-            NSManagedObjectContext *context = self.photo.managedObjectContext;
-            [context deleteObject:self.photo];
+            [self.photo.managedObjectContext deleteObject:self.photo];
             NSError *error;
-            if (![context save:&error]) {
+            if (![self.photo.managedObjectContext save:&error]) {
                 NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                 abort();
             }
@@ -174,6 +161,8 @@
     }else if (alertView.tag == SHARE_ALERT_TAG) {
         if (buttonIndex == 1) {
             [self.weibo startAuthorize];
+        }else {
+            [self.shareSwitch setOn:NO animated:YES];
         }
     }
     

@@ -33,6 +33,7 @@ static const CGFloat kCalendarCellSideLength = 70;
 
 - (void)setSelectedDate:(NSDate *)selectedDate {
     if (![selectedDate isEqualToDate:_selectedDate]) {
+        NSDate *oldDate = [_selectedDate copy];
         NSCalendar *calendar = [NSCalendar currentCalendar];
         int oldMonth = [calendar components:NSMonthCalendarUnit fromDate:self.selectedDate].month;
         int newMonth = [calendar components:NSMonthCalendarUnit fromDate:selectedDate].month;
@@ -47,6 +48,18 @@ static const CGFloat kCalendarCellSideLength = 70;
         }
         
         [self.monthLabelButton setTitle:[NSString stringWithFormat:@"%d年%02d月", year, newMonth] forState:UIControlStateNormal];
+        
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:1];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        if ([oldDate isEarlierThanDate:_selectedDate]) {
+            [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:self.calendarScrollView cache:YES]; 
+        }else {
+            [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:self.calendarScrollView cache:YES]; 
+        }
+        [oldDate release];
+        [UIView commitAnimations];
+        
     }
 }
 
@@ -113,9 +126,10 @@ static const CGFloat kCalendarCellSideLength = 70;
 - (UIScrollView *)calendarScrollView {
     if (!_calendarScrollView) {
         CGRect rect = self.bounds;
-        rect.size.height -= self.monthBar.frame.size.height;
-        rect.origin.y = self.monthBar.frame.size.height;
+        rect.size.height -= kDefaultMonthBarHeight;
+        rect.origin.y = kDefaultMonthBarHeight;
         _calendarScrollView = [[UIScrollView alloc] initWithFrame:rect];
+        _calendarScrollView.backgroundColor = RGBCOLOR(226, 236, 203);
         _calendarScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     }
     return _calendarScrollView;
@@ -145,6 +159,7 @@ static const CGFloat kCalendarCellSideLength = 70;
     monthStep.month = -1;
     self.selectedDate = [calendar dateByAddingComponents: monthStep toDate: self.selectedDate options: 0];
     [self.delegate monthDidChangeOnCalendarView:self];
+    
 }
 
 - (void)monthForward {
@@ -179,6 +194,7 @@ static const CGFloat kCalendarCellSideLength = 70;
         self.monthForwardButton.enabled = YES;
     }
     
+
     //remove all calendar cell views from the scroll view
     for (MTCalendarCellView *cellView in self.calendarScrollView.subviews) {
         [cellView removeFromSuperview];
@@ -208,6 +224,21 @@ static const CGFloat kCalendarCellSideLength = 70;
         
     }
     
+    CGFloat marginWidth = (self.frame.size.width - 4 * kCalendarCellSideLength) / 5;
+    self.calendarScrollView.contentSize = CGSizeMake(self.frame.size.width, (kCalendarCellSideLength + marginWidth) * ceil([self.selectedDate daysInMonth] / 4.0) + marginWidth);
+    CGRect cellFrame = CGRectMake(0, 0, kCalendarCellSideLength, kCalendarCellSideLength);
+    
+    int i = 0;
+    for (MTCalendarCellView *cellView in self.calendarScrollView.subviews) {
+        if (cellView.tag > 0) {
+            cellFrame.origin.x = (kCalendarCellSideLength + marginWidth) * (i % 4) + marginWidth;
+            cellFrame.origin.y = (kCalendarCellSideLength + marginWidth) * (i / 4) + marginWidth;
+            cellView.frame = cellFrame;
+        }
+        
+        i++;
+    }
+    
     [self setNeedsLayout];
 }
 
@@ -227,6 +258,8 @@ static const CGFloat kCalendarCellSideLength = 70;
         
         i++;
     }
+    
+    
 }
 
 - (id)init {

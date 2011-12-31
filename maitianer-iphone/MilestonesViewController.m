@@ -9,7 +9,6 @@
 #import "MilestonesViewController.h"
 #import "Milestone.h"
 #import "Photo.h"
-#import "AppDelegate.h"
 #import "NSDate-Utilities.h"
 #import "EditingMilestoneViewController.h"
 #import "PhotosViewController.h"
@@ -19,20 +18,8 @@
 #define PHOTO_TAG 3
 
 @implementation MilestonesViewController
-
-@synthesize milestones = _milestones;
-
-- (NSArray *)_fetchMilestones {
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Milestone"];
-    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO]]];
-    NSError *error = nil;
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    NSArray *milestonesArray = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
-    if (error) {
-        //Handle the error
-    }
-    return milestonesArray;
-}
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize fetchedResultsController = _fetchedResultsController;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -53,7 +40,8 @@
 }
 
 - (void)dealloc {
-    [_milestones release];
+    [_managedObjectContext release];
+    [_fetchedResultsController release];
     [super dealloc];
 }
 
@@ -89,10 +77,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    _milestones = [[self _fetchMilestones] mutableCopy];
+    
+    NSError *error;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        //handler the error
+    }
     [self.tableView reloadData];
     
-    if ([self.milestones count] > 0) {
+    if ([self.fetchedResultsController.fetchedObjects count] > 0) {
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }else {
         self.navigationItem.rightBarButtonItem.enabled = NO;
@@ -117,6 +109,48 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark - fetched result controller
+
+- (NSFetchedResultsController *)fetchedResultsController {
+    if (_fetchedResultsController) {
+        return _fetchedResultsController;
+    }
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:[NSEntityDescription entityForName:@"Milestone" inManagedObjectContext:self.managedObjectContext]];
+    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO]]];
+    
+    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    _fetchedResultsController.delegate = self;
+
+    [request release];
+    
+    return _fetchedResultsController;
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView beginUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+
+    switch (type) {
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        case NSFetchedResultsChangeUpdate:
+            break;
+        default:
+            break;
+    }
+    
+
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView endUpdates];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -127,7 +161,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.milestones count];
+    return [self.fetchedResultsController.fetchedObjects count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -185,7 +219,7 @@
     //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     //cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    Milestone *milestone = [self.milestones objectAtIndex:indexPath.row];
+    Milestone *milestone = [self.fetchedResultsController objectAtIndexPath:indexPath];
     detailLabel.text = milestone.content;
     photoView.image = milestone.photo.b200Image;
     dateLabel.text = [NSString stringWithFormat:@"%d-%02d-%02d", milestone.recordDate.year, milestone.recordDate.month, milestone.recordDate.day];
@@ -208,14 +242,14 @@
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-        Milestone *milestone = [self.milestones objectAtIndex:indexPath.row];
-        [appDelegate.managedObjectContext deleteObject:milestone];
-        [appDelegate saveContext];
-        [self.milestones removeObject:milestone];
-        [self.tableView beginUpdates];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self.tableView endUpdates];
+        NSManagedObjectContext *context = self.fetchedResultsController.managedObjectContext;
+        Milestone *milestone = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        [context deleteObject:milestone];
+        NSError *error;
+        if (![context save:&error]) {
+            //handle the error
+        }
+        
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
@@ -241,7 +275,7 @@
 #pragma mark - Table view delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Milestone *milestone = [self.milestones objectAtIndex:indexPath.row];
+    Milestone *milestone = [self.fetchedResultsController objectAtIndexPath:indexPath];
     if (self.editing) {
         EditingMilestoneViewController *editingMilestoneVC = [[EditingMilestoneViewController alloc] initWithNibName:@"EditingMilestoneViewController" bundle:[NSBundle mainBundle]];
         editingMilestoneVC.title = @"编辑里程碑";
@@ -252,6 +286,7 @@
     }else {
         PhotosViewController *photosVC = [[PhotosViewController alloc] initWithStyle:UITableViewStylePlain];
         photosVC.recordDate = milestone.recordDate;
+        photosVC.managedObjectContext = self.managedObjectContext;
         [self.navigationController pushViewController:photosVC animated:YES];
         [photosVC release];
     }

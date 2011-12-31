@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface MilestonesViewController : UITableViewController {
-    NSMutableArray *_milestones;
+@interface MilestonesViewController : UITableViewController <NSFetchedResultsControllerDelegate> {
+    NSManagedObjectContext *_managedObjectContext;
+    NSFetchedResultsController *_fetchedResultsController;
 }
 
-@property (nonatomic, retain) NSMutableArray *milestones;
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 
 @end

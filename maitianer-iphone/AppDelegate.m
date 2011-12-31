@@ -66,6 +66,7 @@
     calendarVC.photographVC = photographVC;
     
     MilestonesViewController *milestonesVC = [[MilestonesViewController alloc] init];
+    milestonesVC.managedObjectContext = self.managedObjectContext;
     UINavigationController *milestonesNVC = [[UINavigationController alloc] initWithRootViewController:milestonesVC];
     [milestonesVC release];
     
@@ -175,7 +176,6 @@
     {
         __managedObjectContext = [[NSManagedObjectContext alloc] init];
         [__managedObjectContext setPersistentStoreCoordinator:coordinator];
-        [__managedObjectContext setRetainsRegisteredObjects:YES];
     }
     return __managedObjectContext;
 }

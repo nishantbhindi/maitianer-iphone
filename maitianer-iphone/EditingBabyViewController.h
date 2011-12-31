@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class Baby;
+
 @interface EditingBabyViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
+    Baby *_baby;
+    
     IBOutlet UITableView *_tableView;
     IBOutlet UILabel *_promptLabel;
     IBOutlet UIButton *_detailInfoButton;
@@ -23,6 +27,7 @@
     NSArray *_sexArray;
 }
 
+@property (nonatomic, retain) Baby *baby;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UILabel *promptLabel;
 @property (nonatomic, retain) UIButton *detailInfoButton;

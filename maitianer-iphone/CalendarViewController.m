@@ -9,6 +9,7 @@
 #import "CalendarViewController.h"
 #import "EditingBabyViewController.h"
 #import "NSDate-Utilities.h"
+#import "NSDate+Calculations.h"
 #import "PhotographViewController.h"
 #import "PhotosViewController.h"
 
@@ -52,16 +53,20 @@
     [UIView commitAnimations];
 }
 
-- (NSArray *)_fetchBabies {
-    //fetch babies from database
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Baby"];
-    NSError *error = nil;
-    NSArray *babiesArray = [self.managedObjectContext executeFetchRequest:request error:&error];
-    if (babiesArray == nil) {
-        //Handle the error.
+- (Baby *)baby {
+    if (_baby) {
+        return _baby;
     }
-    NSLog(@"babies count: %d", [babiesArray count]);
-    return babiesArray;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Baby"];
+    NSError *error;
+    NSArray *babiesArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    if (error) {
+        //handle the error
+    }
+    if ([babiesArray count] > 0) {
+        _baby = [[babiesArray objectAtIndex:0] retain];
+    }
+    return _baby;
 }
 
 - (Photo *)_fetchLatelyPhoto {
@@ -134,20 +139,6 @@
 {
     [super viewDidLoad];
     
-    NSArray *babiesArray = [self _fetchBabies];
-    
-    //show editing baby view controller for create a baby if baby not existed
-    if ([babiesArray count] == 0) {
-        EditingBabyViewController *editingBabyVC = [[EditingBabyViewController alloc] initWithNibName:@"EditingBabyViewController" bundle:[NSBundle mainBundle]];
-        editingBabyVC.title = @"添加宝宝信息";
-        UINavigationController *editingBabyNVC = [[UINavigationController alloc] initWithRootViewController:editingBabyVC];
-        [self presentModalViewController:editingBabyNVC animated:YES];
-        [editingBabyVC release];
-        [editingBabyNVC release];
-    }else {
-        self.baby = [babiesArray objectAtIndex:0];
-    }
-    
     //config calendar view
     self.calendarView.delegate = self;
     
@@ -176,11 +167,17 @@
     
     self.navigationController.navigationBarHidden = YES;
     
-    //set baby and show baby info after create baby
+    //show editing baby view controller for create a baby if baby not existed
     if (self.baby == nil) {
-        NSArray *babiesArray = [self _fetchBabies];
-        self.baby = [babiesArray objectAtIndex:0];
+        EditingBabyViewController *editingBabyVC = [[EditingBabyViewController alloc] initWithNibName:@"EditingBabyViewController" bundle:[NSBundle mainBundle]];
+        editingBabyVC.title = @"添加宝宝信息";
+        editingBabyVC.baby = [NSEntityDescription insertNewObjectForEntityForName:@"Baby" inManagedObjectContext:self.managedObjectContext];
+        UINavigationController *editingBabyNVC = [[UINavigationController alloc] initWithRootViewController:editingBabyVC];
+        [self presentModalViewController:editingBabyNVC animated:YES];
+        [editingBabyVC release];
+        [editingBabyNVC release];
     }
+    
     self.calendarView.miniumDate = self.baby.birthday;
     
     //fetch photos per day from database
@@ -241,7 +238,9 @@
         monthsAfter = 12 + monthsAfter;
     }
     if (yearsAfter > 0) {
-        duringBirthday = [NSString stringWithFormat:@"%d年%d个月", yearsAfter, monthsAfter];
+        int daysFromBeginningOfYear = [[self.baby.birthday yearsSince:yearsAfter] daysBeforeDate:[NSDate date]];
+        //duringBirthday = [NSString stringWithFormat:@"%d年%d个月", yearsAfter, monthsAfter];
+        duringBirthday = [NSString stringWithFormat:@"%d年%d天", yearsAfter, daysFromBeginningOfYear];
     }else {
         duringBirthday = [NSString stringWithFormat:@"%d天", [[NSDate date] daysAfterDate:self.baby.birthday]];
     }
@@ -300,10 +299,10 @@
         
         //set controller photos
         //photosVC.photos = [cell.photos mutableCopy];
+        photosVC.managedObjectContext = self.managedObjectContext;
         photosVC.recordDate = date;
         
         self.photographVC.recordDate = date;
-        photosVC.photographVC = self.photographVC;
         
         //config back bar button item style
         UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStyleDone target:nil action:nil];
@@ -322,7 +321,6 @@
 
 - (void)monthDidChangeOnCalendarView:(MTCalendarView *)calendarView {
     [self _showPhotosInCalendar];
-    [self.calendarView.calendarScrollView scrollsToTop];
 }
 
 - (void)didTouchDateBar {

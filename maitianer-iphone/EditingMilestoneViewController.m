@@ -12,26 +12,32 @@
 @implementation EditingMilestoneViewController
 @synthesize milestoneText = _milestoneText;
 @synthesize milestone = _milestone;
-@synthesize photo = _photo;
 @synthesize editing = _editing;
 
 - (void)cancelEditing {
+    [self.milestone.managedObjectContext deleteObject:self.milestone];
+    NSError *error;
+    if (![self.milestone.managedObjectContext save:&error]) {
+        //handle the error
+    };
+    
     [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)saveEditing {
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.milestoneText.text = [self.milestoneText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if (self.milestone == nil && self.photo != nil) {
-        _milestone = [NSEntityDescription insertNewObjectForEntityForName:@"Milestone" inManagedObjectContext:appDelegate.managedObjectContext];
+    if (self.editing) {
         self.milestone.content = self.milestoneText.text;
-        self.milestone.photo = self.photo;
-        self.milestone.recordDate = self.photo.recordDate;
-        self.milestone.creationDate = [NSDate date];
     }else {
         self.milestone.content = self.milestoneText.text;
+        self.milestone.recordDate = self.milestone.photo.recordDate;
+        self.milestone.creationDate = [NSDate date];
+        
     }
-    [appDelegate saveContext];
+    NSError *error;
+    if ([self.milestone.managedObjectContext save:&error]) {
+        //handle the error
+    }
     if (self.editing) {
         [self.navigationController popViewControllerAnimated:YES];
     }else {
@@ -60,7 +66,6 @@
 - (void)dealloc {
     [_milestoneText release];
     [_milestone release];
-    [_photo release];
     [super dealloc];
 }
 

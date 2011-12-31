@@ -18,10 +18,6 @@
 @synthesize imagePickerController = _imagePickerController;
 @synthesize recordDate = _recordDate;
 
-- (NSString *)iconImageName {
-	return @"magnifying-glass.png";
-}
-
 - (void)_showImagePicker:(UIImagePickerControllerSourceType)sourceType {
     if ([UIImagePickerController isSourceTypeAvailable:sourceType]) {
         self.imagePickerController.sourceType = sourceType;

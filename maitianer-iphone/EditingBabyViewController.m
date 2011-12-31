@@ -8,10 +8,9 @@
 
 #import "EditingBabyViewController.h"
 #import "Baby.h"
-#import "AppDelegate.h"
-
 
 @implementation EditingBabyViewController
+@synthesize baby = _baby;
 @synthesize tableView = _tableView;
 @synthesize promptLabel = _promptLabel;
 @synthesize detailInfoButton = _detailInfoButton;
@@ -86,6 +85,7 @@
 }
 
 - (void)dealloc {
+    [_baby release];
     [_tableView release];
     [_promptLabel release];
     [_detailInfoButton release];
@@ -118,27 +118,28 @@
         return;
     }
     
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    Baby *baby = (Baby *)[NSEntityDescription insertNewObjectForEntityForName:@"Baby" inManagedObjectContext:appDelegate.managedObjectContext];
-    baby.nickName = self.nameField.text;
+    self.baby.nickName = self.nameField.text;
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"yyyy-MM-dd";
-    baby.birthday  =[dateFormatter dateFromString:self.birthdayField.text];
+    self.baby.birthday  =[dateFormatter dateFromString:self.birthdayField.text];
     [dateFormatter release];
     
     if (self.sexField.text == @"小帅哥") {
-        baby.sex = [NSNumber numberWithInt:1];
+        self.baby.sex = [NSNumber numberWithInt:1];
     }else if (self.sexField.text == @"小美女") {
-        baby.sex = [NSNumber numberWithInt:2];
+        self.baby.sex = [NSNumber numberWithInt:2];
     }else {
-        baby.sex = [NSNumber numberWithInt:0];
+        self.baby.sex = [NSNumber numberWithInt:0];
     }
     
-    baby.fatherName = self.fatherNameField.text;
-    baby.motherName = self.motherNameField.text;
+    self.baby.fatherName = self.fatherNameField.text;
+    self.baby.motherName = self.motherNameField.text;
     
-    [appDelegate saveContext];
+    NSError *error;
+    if ([self.baby.managedObjectContext save:&error]) {
+        //handle the error
+    }
     
     [self dismissModalViewControllerAnimated:YES];
 }

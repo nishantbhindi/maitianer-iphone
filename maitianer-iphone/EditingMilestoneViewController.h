@@ -14,13 +14,11 @@
 @interface EditingMilestoneViewController : UIViewController {
     UITextView *_milestoneText;
     Milestone *_milestone;
-    Photo *_photo;
     BOOL _editing;
 }
 
 @property (nonatomic, retain) IBOutlet UITextView *milestoneText;
 @property (nonatomic, retain) Milestone *milestone;
-@property (nonatomic, retain) Photo *photo;
 @property (nonatomic, assign) BOOL editing;
 
 - (void)cancelEditing;
