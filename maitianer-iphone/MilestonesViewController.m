@@ -110,7 +110,6 @@
 }
 
 #pragma mark - fetched result controller
-
 - (NSFetchedResultsController *)fetchedResultsController {
     if (_fetchedResultsController) {
         return _fetchedResultsController;
@@ -138,8 +137,15 @@
         case NSFetchedResultsChangeDelete:
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
-        case NSFetchedResultsChangeUpdate:
+            
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
             break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            break;
+            
         default:
             break;
     }

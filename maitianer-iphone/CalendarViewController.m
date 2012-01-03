@@ -12,6 +12,7 @@
 #import "NSDate+Calculations.h"
 #import "PhotographViewController.h"
 #import "PhotosViewController.h"
+#import "SettingsViewController.h"
 
 #define FIRST_SHOW_BUTTON_TAG 100
 
@@ -27,6 +28,15 @@
 @synthesize daysAfterRecordLabel = _daysAfterRecordLabel;
 @synthesize babyInfoToggle = _babyInfoToggle;
 @synthesize calendarView = _calendarView;
+
+- (IBAction)showSettings:(id)sender {
+    SettingsViewController *settingsVC = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:[NSBundle mainBundle]];
+    settingsVC.title = @"设置";
+    UINavigationController *settingsNVC = [[[UINavigationController alloc] initWithRootViewController:settingsVC] autorelease];
+    [settingsVC release];
+    settingsNVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentModalViewController:settingsNVC animated:YES];
+}
 
 - (IBAction)toggleBabyInfo:(id)sender {
     //UIButton *button = sender;

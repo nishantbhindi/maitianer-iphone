@@ -50,7 +50,7 @@ static const CGFloat kCalendarCellSideLength = 70;
         [self.monthLabelButton setTitle:[NSString stringWithFormat:@"%d年%02d月", year, newMonth] forState:UIControlStateNormal];
         
         [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:1];
+        [UIView setAnimationDuration:1.0];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
         if ([oldDate isEarlierThanDate:_selectedDate]) {
             [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:self.calendarScrollView cache:YES]; 
@@ -138,7 +138,7 @@ static const CGFloat kCalendarCellSideLength = 70;
 - (MTCalendarCellView *)cellForDate:(NSDate *)date {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDate *startDate = [self.selectedDate beginningOfMonth];
-    int dayInCalendar = [calendar components:NSDayCalendarUnit fromDate:startDate toDate:date options:0].day;
+    int dayInCalendar = [calendar components:NSDayCalendarUnit fromDate:startDate toDate:date options:0].day + 1;
     if (dayInCalendar > 0 && dayInCalendar <= [self.selectedDate daysInMonth]) {
         return (MTCalendarCellView *)[self.calendarScrollView viewWithTag:date.day];
     }

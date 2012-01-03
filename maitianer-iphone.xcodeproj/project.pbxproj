@@ -86,6 +86,8 @@
 		7544E16D148E3F79009DC7AE /* baby-info-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7544E16B148E3F79009DC7AE /* baby-info-bg.png */; };
 		7544E16E148E3F79009DC7AE /* baby-info-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7544E16C148E3F79009DC7AE /* baby-info-bg@2x.png */; };
 		7595379B1482853C007CF4D2 /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7595379A1482853C007CF4D2 /* PhotosViewController.m */; };
+		759872B914B0241100B8D0E3 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 759872B714B0241000B8D0E3 /* SettingsViewController.m */; };
+		759872BA14B0241100B8D0E3 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 759872B814B0241000B8D0E3 /* SettingsViewController.xib */; };
 		759C195D14ACC45E007EC347 /* date-background-disable.png in Resources */ = {isa = PBXBuildFile; fileRef = 759C195714ACC45E007EC347 /* date-background-disable.png */; };
 		759C195E14ACC45E007EC347 /* date-background-disable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 759C195814ACC45E007EC347 /* date-background-disable@2x.png */; };
 		759C195F14ACC45E007EC347 /* date-background-enable.png in Resources */ = {isa = PBXBuildFile; fileRef = 759C195914ACC45E007EC347 /* date-background-enable.png */; };
@@ -248,12 +250,16 @@
 		7544E16C148E3F79009DC7AE /* baby-info-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "baby-info-bg@2x.png"; sourceTree = "<group>"; };
 		759537991482853C007CF4D2 /* PhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosViewController.h; sourceTree = "<group>"; };
 		7595379A1482853C007CF4D2 /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
+		759872B614B0241000B8D0E3 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		759872B714B0241000B8D0E3 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		759872B814B0241000B8D0E3 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		759C195714ACC45E007EC347 /* date-background-disable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date-background-disable.png"; sourceTree = "<group>"; };
 		759C195814ACC45E007EC347 /* date-background-disable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date-background-disable@2x.png"; sourceTree = "<group>"; };
 		759C195914ACC45E007EC347 /* date-background-enable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date-background-enable.png"; sourceTree = "<group>"; };
 		759C195A14ACC45E007EC347 /* date-background-enable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date-background-enable@2x.png"; sourceTree = "<group>"; };
 		759C195B14ACC45E007EC347 /* date-background-today.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date-background-today.png"; sourceTree = "<group>"; };
 		759C195C14ACC45E007EC347 /* date-background-today@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date-background-today@2x.png"; sourceTree = "<group>"; };
+		75A35E9314B0A11C00365EC5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		75BFE3DE147BE18900BF3522 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
 		75BFE3DF147BE18900BF3522 /* CalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
 		75BFE3E0147BE18900BF3522 /* CalendarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarViewController.xib; sourceTree = "<group>"; };
@@ -396,6 +402,9 @@
 				3F33C53514A1CDEE00286B5A /* EditingMilestoneViewController.xib */,
 				75BFE3E7147BE22700BF3522 /* PhotographViewController.h */,
 				75BFE3E8147BE22700BF3522 /* PhotographViewController.m */,
+				759872B614B0241000B8D0E3 /* SettingsViewController.h */,
+				759872B714B0241000B8D0E3 /* SettingsViewController.m */,
+				759872B814B0241000B8D0E3 /* SettingsViewController.xib */,
 			);
 			path = "maitianer-iphone";
 			sourceTree = "<group>";
@@ -643,6 +652,7 @@
 				English,
 				zh_CN,
 				zh_TW,
+				"zh-Hans",
 			);
 			mainGroup = 3F0F85D6147B6C1600FC3FC9;
 			productRefGroup = 3F0F85E2147B6C1600FC3FC9 /* Products */;
@@ -729,6 +739,7 @@
 				759C196014ACC45E007EC347 /* date-background-enable@2x.png in Resources */,
 				759C196114ACC45E007EC347 /* date-background-today.png in Resources */,
 				759C196214ACC45E007EC347 /* date-background-today@2x.png in Resources */,
+				759872BA14B0241100B8D0E3 /* SettingsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,6 +807,7 @@
 				3F98093114AAAF5A00063CCA /* WeiBo.m in Sources */,
 				3F62991A14AABCF000194342 /* Milestone.m in Sources */,
 				7526ADDA14AB4AD600FEE0BC /* SVProgressHUD.m in Sources */,
+				759872B914B0241100B8D0E3 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -822,6 +834,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				3F0F85F1147B6C1600FC3FC9 /* en */,
+				75A35E9314B0A11C00365EC5 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

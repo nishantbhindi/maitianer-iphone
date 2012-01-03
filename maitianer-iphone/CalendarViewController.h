@@ -53,5 +53,6 @@
 @property (nonatomic, retain) MTCalendarView *calendarView;
 
 - (IBAction)toggleBabyInfo:(id)sender;
+- (IBAction)showSettings:(id)sender;
 
 @end

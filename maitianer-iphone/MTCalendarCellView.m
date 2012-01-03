@@ -66,8 +66,8 @@
         [_innerImageView release];
         _innerImageView = [innerImageView retain];
         _innerImageView.frame = self.bounds;
-        _innerImageView.layer.masksToBounds = YES;
-        _innerImageView.layer.cornerRadius = 5;
+        //_innerImageView.layer.masksToBounds = YES;
+        //_innerImageView.layer.cornerRadius = 5;
         [self insertSubview:innerImageView atIndex:0];
     }
 }
@@ -77,8 +77,8 @@
         [_dateImageView removeFromSuperview];
         [_dateImageView release];
         _dateImageView = [dateImageView retain];
-        _dateImageView.layer.masksToBounds = YES;
-        _dateImageView.layer.cornerRadius = 5;
+        //_dateImageView.layer.masksToBounds = YES;
+        //_dateImageView.layer.cornerRadius = 5;
         UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(-1, 3, 20, 10)];
         dateLabel.textAlignment = UITextAlignmentCenter;
         dateLabel.text = [NSString stringWithFormat:@"%d", _date.day];
@@ -100,11 +100,11 @@
         
         UIImageView *noPhotoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"no-photo"]];
         self.innerImageView = noPhotoImageView;
-        self.layer.cornerRadius = 5;
-        self.layer.shadowOffset = CGSizeMake(0, 1.5);
-        self.layer.shadowRadius = 0;
-        self.layer.shadowColor = RGBCOLOR(193, 208, 148).CGColor;
-        self.layer.shadowOpacity = 1;
+//        self.layer.cornerRadius = 5;
+//        self.layer.shadowOffset = CGSizeMake(0, 1.5);
+//        self.layer.shadowRadius = 0;
+//        self.layer.shadowColor = RGBCOLOR(193, 208, 148).CGColor;
+//        self.layer.shadowOpacity = 1;
     }
     return self;
 }
