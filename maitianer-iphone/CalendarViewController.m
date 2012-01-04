@@ -32,6 +32,7 @@
 - (IBAction)showSettings:(id)sender {
     SettingsViewController *settingsVC = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:[NSBundle mainBundle]];
     settingsVC.title = @"设置";
+    settingsVC.managedObjectContext = self.managedObjectContext;
     UINavigationController *settingsNVC = [[[UINavigationController alloc] initWithRootViewController:settingsVC] autorelease];
     [settingsVC release];
     settingsNVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;

@@ -8,7 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsViewController : UIViewController
+@interface SettingsViewController : UIViewController <UITabBarDelegate, UITableViewDataSource> {
+    
+    NSManagedObjectContext *_managedObjectContext;
+    
+    IBOutlet UITableView *_tableView;
+    NSMutableDictionary *_settingsData;
+    
+    NSArray *_babies;
+    
+}
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) UITableView *tableView;
+@property (nonatomic, retain) NSMutableDictionary *settingsData;
+@property (nonatomic, retain) NSArray *babies;
 
 - (IBAction)done:(id)sender;
 
