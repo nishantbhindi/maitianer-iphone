@@ -179,6 +179,7 @@
     _nameField.delegate = self;
     _nameField.placeholder = @"必填，如：小妮子";
     _nameField.returnKeyType = UIReturnKeyNext;
+    _nameField.text = self.baby.nickName;
     
     _birthdayField = [[UITextField alloc] initWithFrame:incellFieldRect];
     _birthdayField.delegate = self;
@@ -190,6 +191,7 @@
     dateFormattor.dateFormat = @"yyyy-MM-dd";
     birthdayPicker.minimumDate = [dateFormattor dateFromString:@"2005-01-01"];
     birthdayPicker.maximumDate = [NSDate date];
+    _birthdayField.text = [dateFormattor stringFromDate:self.baby.birthday];
     [dateFormattor release];
     [birthdayPicker addTarget:self action:@selector(birthdayPickerChange:) forControlEvents:UIControlEventValueChanged];
     _birthdayField.inputView = birthdayPicker;

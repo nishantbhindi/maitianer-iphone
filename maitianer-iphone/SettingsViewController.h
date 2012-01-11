@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WBConnect.h"
 
-@interface SettingsViewController : UIViewController <UITabBarDelegate, UITableViewDataSource> {
+@interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate, UITextFieldDelegate,WBSessionDelegate> {
     
     NSManagedObjectContext *_managedObjectContext;
     
@@ -17,12 +18,21 @@
     
     NSArray *_babies;
     
+    WeiBo *_weibo;
+    
+    UITextField *_usernameTextField;
+    UITextField *_passwordTextField;
+    
 }
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) NSMutableDictionary *settingsData;
 @property (nonatomic, retain) NSArray *babies;
+@property (nonatomic, retain) WeiBo *weibo;
+@property (nonatomic, retain) UITextField *usernameTextField;
+@property (nonatomic, retain) UITextField *passwordTextField;
 
 - (IBAction)done:(id)sender;
+- (void)shareSwitchValueChanged:(UISwitch *)sender;
 
 @end
