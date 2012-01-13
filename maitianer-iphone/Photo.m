@@ -22,6 +22,7 @@ typedef enum PhotoImageVersionT {
 
 @dynamic content;
 @dynamic creationDate;
+@dynamic lastModifiedByDate;
 @dynamic path;
 @dynamic recordDate;
 @dynamic shared;

@@ -20,6 +20,8 @@
 @property (nonatomic, retain) NSString * nickName;
 @property (nonatomic, retain) NSString * realName;
 @property (nonatomic, retain) NSNumber * sex;
+@property (nonatomic, retain) NSDate *creationDate;
+@property (nonatomic, retain) NSDate *lastModifiedByDate;
 @property (nonatomic, retain) NSSet *photos;
 @property (nonatomic, retain) NSSet *milestones;
 @end

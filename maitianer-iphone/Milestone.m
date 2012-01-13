@@ -15,6 +15,7 @@
 
 @dynamic content;
 @dynamic creationDate;
+@dynamic lastModifiedByDate;
 @dynamic recordDate;
 @dynamic shared;
 @dynamic baby;

@@ -11,6 +11,8 @@
 #import "EditingBabyViewController.h"
 #import "AppDelegate.h"
 #import "SVProgressHUD.h"
+#import "ASIHTTPRequest.h"
+#import "JSON.h"
 
 #define SINA_WEIBO_TAG 301
 
@@ -22,6 +24,38 @@
 @synthesize weibo = _weibo;
 @synthesize usernameTextField = _usernameTextField;
 @synthesize passwordTextField = _passwordTextField;
+
+- (void)_validateLogin {
+    self.usernameTextField.text = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    self.passwordTextField.text = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ([self.usernameTextField.text isEqualToString:@""]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"用户名不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
+        [alertView release];
+        return;
+    }
+    
+    if ([self.passwordTextField.text isEqualToString:@""]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"密码不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
+        [alertView release];
+        return;
+    }
+    NSDictionary *userDictionary = [NSDictionary dictionaryWithObject:
+                                    [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.usernameTextField.text, self.passwordTextField.text, nil] 
+                                                                forKeys:[NSArray arrayWithObjects:@"email", @"password", nil]] 
+                                                               forKey:@"user"];
+    NSString *userJson = [userDictionary JSONRepresentation];
+    NSLog(@"User info: %@", userJson);
+    NSURL *url = [NSURL URLWithString:@"http://localhost:3000/login"];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    request.delegate = self;
+    request.requestMethod = @"POST";
+    [request addRequestHeader:@"Accept" value:@"application/json"];
+    [request addRequestHeader:@"Content-Type" value:@"application/json"];
+    [request appendPostData:[userJson dataUsingEncoding:NSStringEncodingConversionExternalRepresentation]];
+    [request startAsynchronous];
+}
 
 - (NSArray *)babies {
     if (_babies) {
@@ -212,9 +246,13 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifierSyn];
         }
-        
-        cell.textLabel.text = [[self.settingsData objectForKey:sectionKey] objectAtIndex:indexPath.row];
         cell.textLabel.textAlignment = UITextAlignmentCenter;
+        if ([[NSUserDefaults standardUserDefaults] stringForKey:@"email"] && [[NSUserDefaults standardUserDefaults] stringForKey:@"password"]) {
+            cell.textLabel.text = [NSString stringWithFormat:@"%@-马上同步", [[NSUserDefaults standardUserDefaults] stringForKey:@"email"]];
+        }else {
+            cell.textLabel.text = [[self.settingsData objectForKey:sectionKey] objectAtIndex:indexPath.row];
+            
+        }
     }
     
     return cell;
@@ -262,7 +300,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
-        //
+        [self _validateLogin];
     }
 }
 
@@ -271,9 +309,37 @@
     if (self.usernameTextField == textField) {
         [self.passwordTextField becomeFirstResponder];
     }else if(self.passwordTextField == textField) {
-        //send request
+        [self _validateLogin];
     }
     return YES;
+}
+
+#pragma mark - ASI request delegate
+- (void)requestFinished:(ASIHTTPRequest *)request {
+    NSString *returnJson = [[NSString alloc] initWithData:request.responseData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", returnJson);
+    NSDictionary *returnDict = [returnJson JSONValue];
+    if (request.responseStatusCode == 200 || request.responseStatusCode == 201) {
+        NSLog(@"email: %@", [returnDict objectForKey:@"email"]);
+        [[NSUserDefaults standardUserDefaults] setValue:self.usernameTextField.text forKey:@"email"];
+        [[NSUserDefaults standardUserDefaults] setValue:self.passwordTextField.text forKey:@"password"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self.tableView reloadData];
+    }else {
+        [self requestFailed:request];
+    }
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request {
+    NSLog(@"failed with error: %d %@", [request responseStatusCode], [request.error localizedDescription]);
+    
+    if (request.responseStatusCode == 401) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"错误" message:@"用户名或密码错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        [alert release];
+        return;
+    }
+    
 }
 
 @end

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "WBConnect.h"
+#import "ASIHTTPRequestDelegate.h"
 
-@interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate, UITextFieldDelegate,WBSessionDelegate> {
+@interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate, UITextFieldDelegate,WBSessionDelegate, ASIHTTPRequestDelegate> {
     
     NSManagedObjectContext *_managedObjectContext;
     

@@ -22,5 +22,7 @@
 @dynamic sex;
 @dynamic photos;
 @dynamic milestones;
+@dynamic creationDate;
+@dynamic lastModifiedByDate;
 
 @end

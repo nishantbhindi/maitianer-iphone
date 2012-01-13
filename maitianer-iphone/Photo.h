@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) NSString * content;
 @property (nonatomic, retain) NSDate * creationDate;
+@property (nonatomic, retain) NSDate * lastModifiedByDate;
 @property (nonatomic, retain) NSString * path;
 @property (nonatomic, retain) NSDate * recordDate;
 @property (nonatomic, retain) NSNumber * shared;
