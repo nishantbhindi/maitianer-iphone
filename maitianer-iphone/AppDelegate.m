@@ -11,6 +11,7 @@
 #import "CalendarViewController.h"
 #import "MilestonesViewController.h"
 #import "PhotographViewController.h"
+#import "FlurryAnalytics.h"
 
 #if !defined(SinaWeiBoSDKDemo_APPKey)
 #error "You must define SinaWeiBoSDKDemo_APPKey as your APP Key"
@@ -45,7 +46,13 @@
     [super dealloc];
 }
 
+void uncaughtExceptionHandler(NSException *exception) {
+    [FlurryAnalytics logError:@"Uncaught" message:@"Crash!" exception:exception];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    [FlurryAnalytics startSession:@"YHJ3T4Z3ZQR6KGK96X7E"];
     //show the status bar with black opaque style
     [UIApplication sharedApplication].statusBarHidden = NO;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;

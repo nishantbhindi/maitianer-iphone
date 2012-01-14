@@ -13,6 +13,7 @@
 #import "UIImage+ProportionalFill.h"
 #import "Photo.h"
 #import "AppDelegate.h"
+#import "FlurryAnalytics.h"
 
 @implementation PhotographViewController
 @synthesize imagePickerController = _imagePickerController;
@@ -21,6 +22,11 @@
 - (void)_showImagePicker:(UIImagePickerControllerSourceType)sourceType {
     if ([UIImagePickerController isSourceTypeAvailable:sourceType]) {
         self.imagePickerController.sourceType = sourceType;
+        if (sourceType == UIImagePickerControllerSourceTypeCamera) {
+            [FlurryAnalytics logEvent:@"TakePhotoFromCamera"];
+        }else if (sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
+            [FlurryAnalytics logEvent:@"TakePhotoFromPhotoLibrary"];
+        }
         [self presentModalViewController:self.imagePickerController animated:YES];
     }else {
         NSLog(@"Source type invalid!");

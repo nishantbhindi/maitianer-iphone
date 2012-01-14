@@ -8,6 +8,7 @@
 
 #import "EditingBabyViewController.h"
 #import "Baby.h"
+#import "FlurryAnalytics.h"
 
 @implementation EditingBabyViewController
 @synthesize baby = _baby;
@@ -140,6 +141,8 @@
     if ([self.baby.managedObjectContext save:&error]) {
         //handle the error
     }
+    
+    [FlurryAnalytics setUserID:self.baby.nickName];
     
     [self dismissModalViewControllerAnimated:YES];
 }
