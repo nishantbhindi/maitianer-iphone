@@ -19,4 +19,4 @@
 
 #define SinaWeiBoSDKDemo_APPKey @"2876554536"
 #define SinaWeiBoSDKDemo_APPSecret @"cee68b5ebcc9ff5893775a365f597618"
-#define API_URL @"http://localhost:3000/"
+#define API_URL @"http://60.190.99.152:3000/"

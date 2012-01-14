@@ -28,6 +28,7 @@
     self.milestoneText.text = [self.milestoneText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if (self.editing) {
         self.milestone.content = self.milestoneText.text;
+        self.milestone.lastModifiedByDate = [NSDate date];
     }else {
         self.milestone.content = self.milestoneText.text;
         self.milestone.recordDate = self.milestone.photo.recordDate;

@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSDate * recordDate;
 @property (nonatomic, retain) NSNumber * shared;
 @property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSNumber * deleted;
 @property (nonatomic, retain) Baby *baby;
 @property (nonatomic, retain) Milestone *milestone;
 

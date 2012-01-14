@@ -40,6 +40,7 @@
 
 - (void)saveEditing {
     self.photo.content = self.photoText.text;
+    self.photo.lastModifiedByDate = [NSDate date];
     NSError *error = nil;
     if (![self.photo.managedObjectContext save:&error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);

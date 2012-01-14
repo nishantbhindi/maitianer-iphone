@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSDate * lastModifiedByDate;
 @property (nonatomic, retain) NSDate * recordDate;
 @property (nonatomic, retain) NSNumber * shared;
+@property (nonatomic, retain) NSNumber * deleted;
 @property (nonatomic, retain) Baby *baby;
 @property (nonatomic, retain) Photo *photo;
 

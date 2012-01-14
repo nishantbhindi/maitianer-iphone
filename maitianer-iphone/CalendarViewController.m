@@ -183,6 +183,7 @@
         EditingBabyViewController *editingBabyVC = [[EditingBabyViewController alloc] initWithNibName:@"EditingBabyViewController" bundle:[NSBundle mainBundle]];
         editingBabyVC.title = @"添加宝宝信息";
         editingBabyVC.baby = [NSEntityDescription insertNewObjectForEntityForName:@"Baby" inManagedObjectContext:self.managedObjectContext];
+        editingBabyVC.baby.creationDate = [NSDate date];
         UINavigationController *editingBabyNVC = [[UINavigationController alloc] initWithRootViewController:editingBabyVC];
         [self presentModalViewController:editingBabyNVC animated:YES];
         [editingBabyVC release];

@@ -18,6 +18,7 @@
 @dynamic lastModifiedByDate;
 @dynamic recordDate;
 @dynamic shared;
+@dynamic deleted;
 @dynamic baby;
 @dynamic photo;
 

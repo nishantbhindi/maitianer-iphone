@@ -16,26 +16,28 @@
     <entity name="Milestone" representedClassName="Milestone" syncable="YES">
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="deleted" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="lastModifiedByDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="recordDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="shared" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="shared" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <relationship name="baby" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Baby" inverseName="milestones" inverseEntity="Baby" syncable="YES"/>
         <relationship name="photo" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="milestone" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <entity name="Photo" representedClassName="Photo" syncable="YES">
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="creationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="deleted" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="lastModifiedByDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="recordDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="shared" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="shared" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="baby" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Baby" inverseName="photos" inverseEntity="Baby" syncable="YES"/>
         <relationship name="milestone" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Milestone" inverseName="photo" inverseEntity="Milestone" syncable="YES"/>
     </entity>
     <elements>
         <element name="Baby" positionX="-308" positionY="117" width="128" height="210"/>
-        <element name="Milestone" positionX="171" positionY="252" width="128" height="135"/>
-        <element name="Photo" positionX="-74" positionY="441" width="128" height="165"/>
+        <element name="Milestone" positionX="171" positionY="252" width="128" height="165"/>
+        <element name="Photo" positionX="-74" positionY="441" width="128" height="195"/>
     </elements>
 </model>

@@ -135,7 +135,7 @@
     
     self.baby.fatherName = self.fatherNameField.text;
     self.baby.motherName = self.motherNameField.text;
-    
+    self.baby.lastModifiedByDate = [NSDate date];
     NSError *error;
     if ([self.baby.managedObjectContext save:&error]) {
         //handle the error
