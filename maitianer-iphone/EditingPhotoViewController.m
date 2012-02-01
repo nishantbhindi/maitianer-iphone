@@ -12,6 +12,7 @@
 #import "NSDate-Utilities.h"
 #import "SVProgressHUD.h"
 #import "AppDelegate.h"
+#import "FlurryAnalytics.h"
 
 #define DELETE_ALERT_TAG 1
 #define SHARE_ALERT_TAG 2
@@ -173,6 +174,7 @@
 - (void)weiboDidLogin {
     [SVProgressHUD show];
     [SVProgressHUD dismissWithSuccess:@"绑定成功" afterDelay:2];
+    [FlurryAnalytics logEvent:@"BindedSinaWeibo"];
 }
 
 - (void)weiboLoginFailed:(BOOL)userCancelled withError:(NSError *)error {

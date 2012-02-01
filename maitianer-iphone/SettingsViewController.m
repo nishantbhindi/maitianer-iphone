@@ -14,6 +14,7 @@
 #import "ASIHTTPRequest.h"
 #import "JSON.h"
 #import "SVProgressHUD.h"
+#import "FlurryAnalytics.h"
 
 #define SINA_WEIBO_TAG 301
 
@@ -259,6 +260,21 @@
     return cell;
 }
 
+-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    NSString *sectionKey = [[self.settingsData allKeys] objectAtIndex:section];
+    if ([sectionKey isEqualToString:@"数据同步"]) {
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncDate"]) {
+            NSDate *lastSyncDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncDate"];
+            NSDateFormatter *dateFormater = [[[NSDateFormatter alloc] init] autorelease];
+            [dateFormater setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            return [NSString stringWithFormat:@"最后同步时间: %@", [dateFormater stringFromDate:lastSyncDate]];
+        }else {
+            return nil;
+        }
+    }
+    return nil;
+}
+
 #pragma mark - Table view delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *sectionKey = [[self.settingsData allKeys] objectAtIndex:indexPath.section];
@@ -278,6 +294,7 @@
             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncDate"]) {
                 lastSyncDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncDate"];
             }
+            lastSyncDate = nil;
             NSError *error;
             //sync babies
             NSFetchRequest *babiesFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Baby"];
@@ -291,8 +308,15 @@
             }
             [photosFetchRequest setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"lastModifiedByDate" ascending:YES]]];
             NSArray *photosArray = [self.managedObjectContext executeFetchRequest:photosFetchRequest error:&error];
-            NSLog(@"sync photos json: %@", [photosArray JSONRepresentation]);
+            NSDictionary *photosDict = [NSDictionary dictionaryWithObject:photosArray forKey:@"photos"];
+            NSLog(@"sync photos json: %@", [photosDict JSONRepresentation]);
             [photosFetchRequest release];
+            ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://localhost:3000/sync/sync_photos"]];
+            request.requestMethod = @"POST";
+            [request addRequestHeader:@"Accept" value:@"application/json"];
+            [request addRequestHeader:@"Content-Type" value:@"application/json"];
+            [request appendPostData:[[photosDict JSONRepresentation] dataUsingEncoding:NSStringEncodingConversionExternalRepresentation]];
+            [request startAsynchronous];
             //sync milestone
             NSFetchRequest *milestoneFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Milestone"];
             if (lastSyncDate) {
@@ -300,8 +324,13 @@
             }
             [milestoneFetchRequest setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"lastModifiedByDate" ascending:YES]]];
             NSArray *milestonesArray = [self.managedObjectContext executeFetchRequest:milestoneFetchRequest error:&error];
-            //NSLog(@"sync milestones json: %@", [milestonesArray JSONRepresentation]);
+            NSLog(@"sync milestones json: %@", [milestonesArray JSONRepresentation]);
             [milestoneFetchRequest release];
+            //sync end
+            lastSyncDate = [NSDate date];
+            [[NSUserDefaults standardUserDefaults] setObject:lastSyncDate forKey:@"lastSyncDate"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
             [SVProgressHUD dismiss];
             
         }else {
@@ -319,6 +348,7 @@
 - (void)weiboDidLogin {
     [SVProgressHUD show];
     [SVProgressHUD dismissWithSuccess:@"绑定成功" afterDelay:2];
+    [FlurryAnalytics logEvent:@"BindedSinaWeibo"];
 }
 
 - (void)weiboLoginFailed:(BOOL)userCancelled withError:(NSError *)error {

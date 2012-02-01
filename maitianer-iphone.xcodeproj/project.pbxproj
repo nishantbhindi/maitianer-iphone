@@ -77,7 +77,11 @@
 		3F98093014AAAF5A00063CCA /* WBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F98091414AAAF5A00063CCA /* WBUtil.m */; };
 		3F98093114AAAF5A00063CCA /* WeiBo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F98091614AAAF5A00063CCA /* WeiBo.m */; };
 		3F98093314AAAFD900063CCA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F98093214AAAFD900063CCA /* Security.framework */; };
+		3FB458AC14C1AC7000B33FE0 /* NSManagedObject+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB458AB14C1AC7000B33FE0 /* NSManagedObject+JSON.m */; };
+		3FB458B014C1DA1B00B33FE0 /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FB458AF14C1DA1B00B33FE0 /* libFlurryAnalytics.a */; };
 		3FCD46C6148E15DC0056A671 /* no-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FCD46C5148E15DC0056A671 /* no-photo.png */; };
+		3FDAE04414D8C8C2000A0E3A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FDAE04214D8C8C2000A0E3A /* LoginViewController.m */; };
+		3FDAE04514D8C8C2000A0E3A /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FDAE04314D8C8C2000A0E3A /* LoginViewController.xib */; };
 		3FED97611499E1A50067E2F4 /* Baby.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FED97601499E1A50067E2F4 /* Baby.m */; };
 		750AB6011480AA0F001A20E4 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 750AB6001480AA0F001A20E4 /* Photo.m */; };
 		7526ADD914AB4AD600FEE0BC /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7526ADD614AB4AD600FEE0BC /* SVProgressHUD.bundle */; };
@@ -98,7 +102,6 @@
 		7549D95814C062920041DB95 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 7549D94B14C062920041DB95 /* ASIInputStream.m */; };
 		7549D95914C062920041DB95 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7549D94D14C062920041DB95 /* ASINetworkQueue.m */; };
 		7549D95A14C062920041DB95 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7549D95114C062920041DB95 /* Reachability.m */; };
-		755CAE7D14C08AF60031786A /* ModelHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 755CAE7C14C08AF60031786A /* ModelHelp.m */; };
 		7595379B1482853C007CF4D2 /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7595379A1482853C007CF4D2 /* PhotosViewController.m */; };
 		759872B914B0241100B8D0E3 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 759872B714B0241000B8D0E3 /* SettingsViewController.m */; };
 		759872BA14B0241100B8D0E3 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 759872B814B0241000B8D0E3 /* SettingsViewController.xib */; };
@@ -250,7 +253,14 @@
 		3F98091714AAAF5A00063CCA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/SendViewLocalize.strings; sourceTree = "<group>"; };
 		3F98091814AAAF5A00063CCA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/SendViewLocalize.strings; sourceTree = "<group>"; };
 		3F98093214AAAFD900063CCA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		3FB458AA14C1AC7000B33FE0 /* NSManagedObject+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+JSON.h"; sourceTree = "<group>"; };
+		3FB458AB14C1AC7000B33FE0 /* NSManagedObject+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+JSON.m"; sourceTree = "<group>"; };
+		3FB458AE14C1DA1B00B33FE0 /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
+		3FB458AF14C1DA1B00B33FE0 /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
 		3FCD46C5148E15DC0056A671 /* no-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-photo.png"; sourceTree = "<group>"; };
+		3FDAE04114D8C8C2000A0E3A /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		3FDAE04214D8C8C2000A0E3A /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		3FDAE04314D8C8C2000A0E3A /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3FED975F1499E1A50067E2F4 /* Baby.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Baby.h; sourceTree = "<group>"; };
 		3FED97601499E1A50067E2F4 /* Baby.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Baby.m; sourceTree = "<group>"; };
 		750AB5FF1480AA0F001A20E4 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
@@ -288,8 +298,6 @@
 		7549D94E14C062920041DB95 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIProgressDelegate.h; sourceTree = "<group>"; };
 		7549D95014C062920041DB95 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		7549D95114C062920041DB95 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		755CAE7B14C08AF60031786A /* ModelHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelHelp.h; sourceTree = "<group>"; };
-		755CAE7C14C08AF60031786A /* ModelHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelHelp.m; sourceTree = "<group>"; };
 		759537991482853C007CF4D2 /* PhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosViewController.h; sourceTree = "<group>"; };
 		7595379A1482853C007CF4D2 /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
 		759872B614B0241000B8D0E3 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
@@ -352,6 +360,7 @@
 				3F0F85E8147B6C1600FC3FC9 /* Foundation.framework in Frameworks */,
 				3F0F85EA147B6C1600FC3FC9 /* CoreGraphics.framework in Frameworks */,
 				3F0F85EC147B6C1600FC3FC9 /* CoreData.framework in Frameworks */,
+				3FB458B014C1DA1B00B33FE0 /* libFlurryAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,6 +381,7 @@
 		3F0F85D6147B6C1600FC3FC9 = {
 			isa = PBXGroup;
 			children = (
+				3FB458AD14C1DA1B00B33FE0 /* FlurryAnalytics */,
 				7549D93A14C062920041DB95 /* ASIHTTPRequest */,
 				7526ADD514AB4AD600FEE0BC /* SVProgressHUD */,
 				3F9808E614AAAF4000063CCA /* WeiBoSDK */,
@@ -430,8 +440,6 @@
 				3F62991814AABCEF00194342 /* Milestone.h */,
 				3F62991914AABCF000194342 /* Milestone.m */,
 				3F0F85F9147B6C1600FC3FC9 /* maitianer_iphone.xcdatamodeld */,
-				755CAE7B14C08AF60031786A /* ModelHelp.h */,
-				755CAE7C14C08AF60031786A /* ModelHelp.m */,
 				3F0F85EE147B6C1600FC3FC9 /* Supporting Files */,
 				3F0F8625147B79EC00FC3FC9 /* EditingBabyViewController.h */,
 				3F0F8626147B79EC00FC3FC9 /* EditingBabyViewController.m */,
@@ -458,6 +466,11 @@
 				759872B614B0241000B8D0E3 /* SettingsViewController.h */,
 				759872B714B0241000B8D0E3 /* SettingsViewController.m */,
 				759872B814B0241000B8D0E3 /* SettingsViewController.xib */,
+				3FB458AA14C1AC7000B33FE0 /* NSManagedObject+JSON.h */,
+				3FB458AB14C1AC7000B33FE0 /* NSManagedObject+JSON.m */,
+				3FDAE04114D8C8C2000A0E3A /* LoginViewController.h */,
+				3FDAE04214D8C8C2000A0E3A /* LoginViewController.m */,
+				3FDAE04314D8C8C2000A0E3A /* LoginViewController.xib */,
 			);
 			path = "maitianer-iphone";
 			sourceTree = "<group>";
@@ -636,6 +649,15 @@
 				75EB908E149360B1007027F0 /* magnifying-glass@2x.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		3FB458AD14C1DA1B00B33FE0 /* FlurryAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				3FB458AE14C1DA1B00B33FE0 /* FlurryAnalytics.h */,
+				3FB458AF14C1DA1B00B33FE0 /* libFlurryAnalytics.a */,
+			);
+			path = FlurryAnalytics;
 			sourceTree = "<group>";
 		};
 		7526ADD514AB4AD600FEE0BC /* SVProgressHUD */ = {
@@ -830,6 +852,7 @@
 				759C196114ACC45E007EC347 /* date-background-today.png in Resources */,
 				759C196214ACC45E007EC347 /* date-background-today@2x.png in Resources */,
 				759872BA14B0241100B8D0E3 /* SettingsViewController.xib in Resources */,
+				3FDAE04514D8C8C2000A0E3A /* LoginViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -907,7 +930,8 @@
 				7549D95814C062920041DB95 /* ASIInputStream.m in Sources */,
 				7549D95914C062920041DB95 /* ASINetworkQueue.m in Sources */,
 				7549D95A14C062920041DB95 /* Reachability.m in Sources */,
-				755CAE7D14C08AF60031786A /* ModelHelp.m in Sources */,
+				3FB458AC14C1AC7000B33FE0 /* NSManagedObject+JSON.m in Sources */,
+				3FDAE04414D8C8C2000A0E3A /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -987,7 +1011,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
@@ -1005,7 +1029,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -1020,6 +1044,10 @@
 				GCC_PREFIX_HEADER = "maitianer-iphone/maitianer-iphone-Prefix.pch";
 				INFOPLIST_FILE = "maitianer-iphone/maitianer-iphone-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/FlurryAnalytics\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1032,6 +1060,10 @@
 				GCC_PREFIX_HEADER = "maitianer-iphone/maitianer-iphone-Prefix.pch";
 				INFOPLIST_FILE = "maitianer-iphone/maitianer-iphone-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/FlurryAnalytics\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
