@@ -80,6 +80,8 @@
 		3FB458AC14C1AC7000B33FE0 /* NSManagedObject+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB458AB14C1AC7000B33FE0 /* NSManagedObject+JSON.m */; };
 		3FB458B014C1DA1B00B33FE0 /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FB458AF14C1DA1B00B33FE0 /* libFlurryAnalytics.a */; };
 		3FCD46C6148E15DC0056A671 /* no-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FCD46C5148E15DC0056A671 /* no-photo.png */; };
+		3FDAE04414D8C8C2000A0E3A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FDAE04214D8C8C2000A0E3A /* LoginViewController.m */; };
+		3FDAE04514D8C8C2000A0E3A /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FDAE04314D8C8C2000A0E3A /* LoginViewController.xib */; };
 		3FED97611499E1A50067E2F4 /* Baby.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FED97601499E1A50067E2F4 /* Baby.m */; };
 		750AB6011480AA0F001A20E4 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 750AB6001480AA0F001A20E4 /* Photo.m */; };
 		7526ADD914AB4AD600FEE0BC /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7526ADD614AB4AD600FEE0BC /* SVProgressHUD.bundle */; };
@@ -256,6 +258,9 @@
 		3FB458AE14C1DA1B00B33FE0 /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
 		3FB458AF14C1DA1B00B33FE0 /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
 		3FCD46C5148E15DC0056A671 /* no-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no-photo.png"; sourceTree = "<group>"; };
+		3FDAE04114D8C8C2000A0E3A /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		3FDAE04214D8C8C2000A0E3A /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		3FDAE04314D8C8C2000A0E3A /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3FED975F1499E1A50067E2F4 /* Baby.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Baby.h; sourceTree = "<group>"; };
 		3FED97601499E1A50067E2F4 /* Baby.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Baby.m; sourceTree = "<group>"; };
 		750AB5FF1480AA0F001A20E4 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
@@ -463,6 +468,9 @@
 				759872B814B0241000B8D0E3 /* SettingsViewController.xib */,
 				3FB458AA14C1AC7000B33FE0 /* NSManagedObject+JSON.h */,
 				3FB458AB14C1AC7000B33FE0 /* NSManagedObject+JSON.m */,
+				3FDAE04114D8C8C2000A0E3A /* LoginViewController.h */,
+				3FDAE04214D8C8C2000A0E3A /* LoginViewController.m */,
+				3FDAE04314D8C8C2000A0E3A /* LoginViewController.xib */,
 			);
 			path = "maitianer-iphone";
 			sourceTree = "<group>";
@@ -844,6 +852,7 @@
 				759C196114ACC45E007EC347 /* date-background-today.png in Resources */,
 				759C196214ACC45E007EC347 /* date-background-today@2x.png in Resources */,
 				759872BA14B0241100B8D0E3 /* SettingsViewController.xib in Resources */,
+				3FDAE04514D8C8C2000A0E3A /* LoginViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -922,6 +931,7 @@
 				7549D95914C062920041DB95 /* ASINetworkQueue.m in Sources */,
 				7549D95A14C062920041DB95 /* Reachability.m in Sources */,
 				3FB458AC14C1AC7000B33FE0 /* NSManagedObject+JSON.m in Sources */,
+				3FDAE04414D8C8C2000A0E3A /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1001,7 +1011,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1018,7 +1028,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
