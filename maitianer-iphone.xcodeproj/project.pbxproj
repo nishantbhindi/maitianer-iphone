@@ -83,6 +83,7 @@
 		3FDAE04414D8C8C2000A0E3A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FDAE04214D8C8C2000A0E3A /* LoginViewController.m */; };
 		3FDAE04514D8C8C2000A0E3A /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FDAE04314D8C8C2000A0E3A /* LoginViewController.xib */; };
 		3FED97611499E1A50067E2F4 /* Baby.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FED97601499E1A50067E2F4 /* Baby.m */; };
+		7508007F14E1515400011B49 /* Authorization.m in Sources */ = {isa = PBXBuildFile; fileRef = 7508007E14E1515400011B49 /* Authorization.m */; };
 		750AB6011480AA0F001A20E4 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 750AB6001480AA0F001A20E4 /* Photo.m */; };
 		7526ADD914AB4AD600FEE0BC /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7526ADD614AB4AD600FEE0BC /* SVProgressHUD.bundle */; };
 		7526ADDA14AB4AD600FEE0BC /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7526ADD814AB4AD600FEE0BC /* SVProgressHUD.m */; };
@@ -263,6 +264,8 @@
 		3FDAE04314D8C8C2000A0E3A /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		3FED975F1499E1A50067E2F4 /* Baby.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Baby.h; sourceTree = "<group>"; };
 		3FED97601499E1A50067E2F4 /* Baby.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Baby.m; sourceTree = "<group>"; };
+		7508007D14E1515400011B49 /* Authorization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Authorization.h; sourceTree = "<group>"; };
+		7508007E14E1515400011B49 /* Authorization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Authorization.m; sourceTree = "<group>"; };
 		750AB5FF1480AA0F001A20E4 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		750AB6001480AA0F001A20E4 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		7526ADD614AB4AD600FEE0BC /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
@@ -471,6 +474,8 @@
 				3FDAE04114D8C8C2000A0E3A /* LoginViewController.h */,
 				3FDAE04214D8C8C2000A0E3A /* LoginViewController.m */,
 				3FDAE04314D8C8C2000A0E3A /* LoginViewController.xib */,
+				7508007D14E1515400011B49 /* Authorization.h */,
+				7508007E14E1515400011B49 /* Authorization.m */,
 			);
 			path = "maitianer-iphone";
 			sourceTree = "<group>";
@@ -932,6 +937,7 @@
 				7549D95A14C062920041DB95 /* Reachability.m in Sources */,
 				3FB458AC14C1AC7000B33FE0 /* NSManagedObject+JSON.m in Sources */,
 				3FDAE04414D8C8C2000A0E3A /* LoginViewController.m in Sources */,
+				7508007F14E1515400011B49 /* Authorization.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,6 +12,7 @@
 @class MTTabBarController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
+    UITabBarController *_tabBarController;
     WeiBo *_weibo;
 }
 

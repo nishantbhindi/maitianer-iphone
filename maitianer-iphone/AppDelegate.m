@@ -37,6 +37,13 @@
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 @synthesize weibo = _weibo;
 
+- (void)_showCalendarView {
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.window cache:YES];
+    self.window.rootViewController = _tabBarController;
+    [UIView commitAnimations];
+}
+
 - (void)dealloc
 {
     [_window release];
@@ -44,6 +51,7 @@
     [__managedObjectModel release];
     [__persistentStoreCoordinator release];
     [_weibo release];
+    [_tabBarController release];
     [super dealloc];
 }
 
@@ -59,13 +67,14 @@ void uncaughtExceptionHandler(NSException *exception) {
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
     
     //set default timezone
-    [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]]; 
+    [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+    
+    //init weibo api
+    _weibo = [[WeiBo alloc] initWithAppKey:SinaWeiBoSDKDemo_APPKey withAppSecret:SinaWeiBoSDKDemo_APPSecret];
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     
-    _weibo = [[WeiBo alloc] initWithAppKey:SinaWeiBoSDKDemo_APPKey withAppSecret:SinaWeiBoSDKDemo_APPSecret];
-    
-    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    _tabBarController = [[UITabBarController alloc] init];
     
     CalendarViewController *calendarVC = [[CalendarViewController alloc] initWithNibName:@"CalendarViewController" bundle:[NSBundle mainBundle]];
     calendarVC.managedObjectContext = self.managedObjectContext;
@@ -80,13 +89,8 @@ void uncaughtExceptionHandler(NSException *exception) {
     UINavigationController *milestonesNVC = [[UINavigationController alloc] initWithRootViewController:milestonesVC];
     [milestonesVC release];
     
-    tabBarController.viewControllers = [NSArray arrayWithObjects:calendarNVC, photographVC, milestonesNVC, nil];
+    _tabBarController.viewControllers = [NSArray arrayWithObjects:calendarNVC, photographVC, milestonesNVC, nil];
     [milestonesNVC release];
-    
-    LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]];
-    UINavigationController *loginNVC = [[UINavigationController alloc] initWithRootViewController:loginVC];
-    [loginVC release];
-    self.window.rootViewController = loginNVC;
     
     // Create a custom UIButton and add it to the center of our tab bar
     UIImage *buttonImage = [UIImage imageNamed:@"capture-button.png"];
@@ -99,19 +103,25 @@ void uncaughtExceptionHandler(NSException *exception) {
     [button setBackgroundImage:highlightImage forState:UIControlStateHighlighted];
     [button addTarget:photographVC action:@selector(cameraAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    CGFloat heightDifference = buttonImage.size.height - tabBarController.tabBar.frame.size.height;
+    CGFloat heightDifference = buttonImage.size.height - _tabBarController.tabBar.frame.size.height;
     if (heightDifference < 0)
-        button.center = tabBarController.tabBar.center;
+        button.center = _tabBarController.tabBar.center;
     else {
-        CGPoint center = tabBarController.tabBar.center;
+        CGPoint center = _tabBarController.tabBar.center;
         center.y = center.y - heightDifference/2.0;
         button.center = center;
     }
     
-    [tabBarController.view addSubview:button];
+    [_tabBarController.view addSubview:button];
     [calendarVC release];
     [photographVC release];
-    [tabBarController release];
+    
+    LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]];
+    UINavigationController *loginNVC = [[UINavigationController alloc] initWithRootViewController:loginVC];
+    [loginVC release];
+    self.window.rootViewController = loginNVC;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_showCalendarView) name:@"showCalendarView" object:nil];
     
     [self.window makeKeyAndVisible];
     return YES;

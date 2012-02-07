@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ASIHTTPRequestDelegate.h"
 
-@interface LoginViewController : UIViewController <UITextFieldDelegate> {
-    UITextField *usernameTextField;
-    UITextField *passwordTextField;
-    UISwitch *rememberMeSwitch;
-    UIButton *loginButton;
+@interface LoginViewController : UIViewController <UITextFieldDelegate, ASIHTTPRequestDelegate> {
+    UITextField *_usernameTextField;
+    UITextField *_passwordTextField;
+    UISwitch *_rememberMeSwitch;
+    UIButton *_loginButton;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *usernameTextField;
@@ -20,6 +21,6 @@
 @property (nonatomic, retain) IBOutlet UISwitch *rememberMeSwitch;
 @property (nonatomic, retain) IBOutlet UIButton *loginButton;
 
-- (IBAction)login:(id)sender;
+- (IBAction)loginButtonPress:(id)sender;
 
 @end
