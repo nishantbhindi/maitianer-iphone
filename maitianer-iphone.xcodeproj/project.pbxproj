@@ -77,6 +77,10 @@
 		3F98093014AAAF5A00063CCA /* WBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F98091414AAAF5A00063CCA /* WBUtil.m */; };
 		3F98093114AAAF5A00063CCA /* WeiBo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F98091614AAAF5A00063CCA /* WeiBo.m */; };
 		3F98093314AAAFD900063CCA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F98093214AAAFD900063CCA /* Security.framework */; };
+		3FAAE8AB14E253B900173B0A /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAAE8AA14E253B900173B0A /* Utilities.m */; };
+		3FAAE8AE14E2550600173B0A /* Authorization.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3FAAE8AD14E2550600173B0A /* Authorization.plist */; };
+		3FAAE8B114E25FA300173B0A /* JSONRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAAE8B014E25FA300173B0A /* JSONRequest.m */; };
+		3FAAE8B714E2617300173B0A /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAAE8B614E2617300173B0A /* NSString+Helpers.m */; };
 		3FB458AC14C1AC7000B33FE0 /* NSManagedObject+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB458AB14C1AC7000B33FE0 /* NSManagedObject+JSON.m */; };
 		3FB458B014C1DA1B00B33FE0 /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FB458AF14C1DA1B00B33FE0 /* libFlurryAnalytics.a */; };
 		3FCD46C6148E15DC0056A671 /* no-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FCD46C5148E15DC0056A671 /* no-photo.png */; };
@@ -254,6 +258,13 @@
 		3F98091714AAAF5A00063CCA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/SendViewLocalize.strings; sourceTree = "<group>"; };
 		3F98091814AAAF5A00063CCA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/SendViewLocalize.strings; sourceTree = "<group>"; };
 		3F98093214AAAFD900063CCA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		3FAAE8A914E253B900173B0A /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		3FAAE8AA14E253B900173B0A /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
+		3FAAE8AD14E2550600173B0A /* Authorization.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Authorization.plist; sourceTree = "<group>"; };
+		3FAAE8AF14E25FA300173B0A /* JSONRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONRequest.h; sourceTree = "<group>"; };
+		3FAAE8B014E25FA300173B0A /* JSONRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONRequest.m; sourceTree = "<group>"; };
+		3FAAE8B514E2617300173B0A /* NSString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helpers.h"; sourceTree = "<group>"; };
+		3FAAE8B614E2617300173B0A /* NSString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helpers.m"; sourceTree = "<group>"; };
 		3FB458AA14C1AC7000B33FE0 /* NSManagedObject+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+JSON.h"; sourceTree = "<group>"; };
 		3FB458AB14C1AC7000B33FE0 /* NSManagedObject+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+JSON.m"; sourceTree = "<group>"; };
 		3FB458AE14C1DA1B00B33FE0 /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
@@ -353,9 +364,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F66DD5D14BFCB65004D08E2 /* SystemConfiguration.framework in Frameworks */,
 				3F66DD6114BFCBCD004D08E2 /* libz.dylib in Frameworks */,
 				3F66DD5F14BFCB7D004D08E2 /* MobileCoreServices.framework in Frameworks */,
-				3F66DD5D14BFCB65004D08E2 /* SystemConfiguration.framework in Frameworks */,
 				3F66DD5B14BFCB5F004D08E2 /* CFNetwork.framework in Frameworks */,
 				3F98093314AAAFD900063CCA /* Security.framework in Frameworks */,
 				3F8CE9A5147C8D11000E1277 /* QuartzCore.framework in Frameworks */,
@@ -476,6 +487,12 @@
 				3FDAE04314D8C8C2000A0E3A /* LoginViewController.xib */,
 				7508007D14E1515400011B49 /* Authorization.h */,
 				7508007E14E1515400011B49 /* Authorization.m */,
+				3FAAE8A914E253B900173B0A /* Utilities.h */,
+				3FAAE8AA14E253B900173B0A /* Utilities.m */,
+				3FAAE8AF14E25FA300173B0A /* JSONRequest.h */,
+				3FAAE8B014E25FA300173B0A /* JSONRequest.m */,
+				3FAAE8B514E2617300173B0A /* NSString+Helpers.h */,
+				3FAAE8B614E2617300173B0A /* NSString+Helpers.m */,
 			);
 			path = "maitianer-iphone";
 			sourceTree = "<group>";
@@ -487,6 +504,7 @@
 				3F0F85F0147B6C1600FC3FC9 /* InfoPlist.strings */,
 				3F0F85F3147B6C1600FC3FC9 /* main.m */,
 				3F0F85F5147B6C1600FC3FC9 /* maitianer-iphone-Prefix.pch */,
+				3FAAE8AD14E2550600173B0A /* Authorization.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -858,6 +876,7 @@
 				759C196214ACC45E007EC347 /* date-background-today@2x.png in Resources */,
 				759872BA14B0241100B8D0E3 /* SettingsViewController.xib in Resources */,
 				3FDAE04514D8C8C2000A0E3A /* LoginViewController.xib in Resources */,
+				3FAAE8AE14E2550600173B0A /* Authorization.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -938,6 +957,9 @@
 				3FB458AC14C1AC7000B33FE0 /* NSManagedObject+JSON.m in Sources */,
 				3FDAE04414D8C8C2000A0E3A /* LoginViewController.m in Sources */,
 				7508007F14E1515400011B49 /* Authorization.m in Sources */,
+				3FAAE8AB14E253B900173B0A /* Utilities.m in Sources */,
+				3FAAE8B114E25FA300173B0A /* JSONRequest.m in Sources */,
+				3FAAE8B714E2617300173B0A /* NSString+Helpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

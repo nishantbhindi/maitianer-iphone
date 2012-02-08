@@ -7,9 +7,8 @@
 //
 
 #import "LoginViewController.h"
-#import "ASIHTTPRequest.h"
-#import "JSON.h"
 #import "SVProgressHUD.h"
+#import "JSONRequest.h"
 
 @implementation LoginViewController
 @synthesize usernameTextField = _usernameTextField;
@@ -38,20 +37,11 @@
     
     BOOL rememberMe = self.rememberMeSwitch.on;
     
-    NSDictionary *userDictionary = [NSDictionary dictionaryWithObject:
-                                    [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.usernameTextField.text, self.passwordTextField.text, nil] 
-                                                                forKeys:[NSArray arrayWithObjects:@"email", @"password", nil]] 
-                                                               forKey:@"user"];
+    NSDictionary *userDictionary = [NSDictionary dictionaryWithObjects:
+                                     [NSArray arrayWithObjects:self.usernameTextField.text, self.passwordTextField.text, nil] 
+                                                                forKeys:[NSArray arrayWithObjects:@"user[email]", @"user[password]", nil]];
     
-    NSString *userJson = [userDictionary JSONRepresentation];
-    
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://localhost:3000/login"]];
-    request.delegate = self;
-    request.requestMethod = @"POST";
-    [request addRequestHeader:@"Accept" value:@"application/json"];
-    [request addRequestHeader:@"Content-Type" value:@"application/json"];
-    [request appendPostData:[userJson dataUsingEncoding:NSStringEncodingConversionExternalRepresentation]];
-    [request startSynchronous];
+    [[[JSONRequest alloc] initPostWithPath:@"/login.json" parameters:userDictionary delegate:self] autorelease];
     
     if (rememberMe) {
         //
@@ -118,40 +108,32 @@
     return YES;
 }
 
-#pragma mark - ASIHttpRequest delegate
-- (void)requestStarted:(ASIHTTPRequest *)request {
-    [SVProgressHUD show];
-    [self.loginButton setTitle:@"登录中..." forState:UIControlStateNormal];
-}
-
-- (void)requestFinished:(ASIHTTPRequest *)request {
+#pragma mark - JSONRequest delegate 
+- (void)jsonDidFinishLoading:(NSDictionary *)json jsonRequest:(JSONRequest *)request {
     [self.loginButton setTitle:@"登录" forState:UIControlStateNormal];
-    NSString *returnJson = [[NSString alloc] initWithData:request.responseData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", returnJson);
-    NSDictionary *returnDict = [returnJson JSONValue];
-    if ([[returnDict valueForKey:@"email"] length]) {
-        NSLog(@"email: %@", [returnDict objectForKey:@"email"]);
-        [[NSUserDefaults standardUserDefaults] setValue:self.usernameTextField.text forKey:@"email"];
-        [[NSUserDefaults standardUserDefaults] setValue:self.passwordTextField.text forKey:@"password"];
-        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"authenticated"];
+    if ([[json valueForKey:@"email"] length]) {
+        NSLog(@"email: %@", [json objectForKey:@"email"]);
+        //save cookie for other request
+        
+        //save email
+        [[NSUserDefaults standardUserDefaults] setValue:[json objectForKey:@"email"] forKey:@"email"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        
         [SVProgressHUD dismissWithSuccess:@"登录成功"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"showCalendarView" object:nil];
-    }else {
-        [self requestFailed:request];
+    }else if ([[json valueForKey:@"error"] length]) {
+        NSLog(@"result json error message: %@", [json valueForKey:@"error"]);
     }
-    
 }
 
-- (void)requestFailed:(ASIHTTPRequest *)request {
-    NSLog(@"failed with error: %d %@", [request responseStatusCode], [request.error localizedDescription]);
+- (void)jsonDidFailWithError:(NSError *)error jsonRequest:(JSONRequest *)request {
+    NSLog(@"failed with error: %d %@", [request.response statusCode], [error localizedDescription]);
     [self.loginButton setTitle:@"登录" forState:UIControlStateNormal];
-    if (request.responseStatusCode == 401) {
+    if ([request.response statusCode] == 401) {
         [SVProgressHUD dismissWithError:@"用户名或密码错误"];
     }else {
         [SVProgressHUD dismissWithError:@"请检查网络连接"];
     }
-    
 }
 
 @end

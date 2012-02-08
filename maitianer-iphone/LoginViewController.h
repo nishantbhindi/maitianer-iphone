@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ASIHTTPRequestDelegate.h"
+#import "JSONRequest.h"
 
-@interface LoginViewController : UIViewController <UITextFieldDelegate, ASIHTTPRequestDelegate> {
+@interface LoginViewController : UIViewController <UITextFieldDelegate, JSONRequestDelegate> {
     UITextField *_usernameTextField;
     UITextField *_passwordTextField;
     UISwitch *_rememberMeSwitch;

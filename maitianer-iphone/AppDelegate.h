@@ -25,6 +25,7 @@
 @property (readonly, retain, nonatomic) WeiBo *weibo;
 
 - (void)saveContext;
+- (NSString *)applicationDocumentsDirectoryPath;
 - (NSURL *)applicationDocumentsDirectory;
 
 @end

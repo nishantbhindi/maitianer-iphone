@@ -6,6 +6,7 @@
 //  Copyright (c) 2011年 麦田儿. All rights reserved.
 //
 
+#include <SystemConfiguration/SCNetworkReachability.h>
 #import "AppDelegate.h"
 #import "EditingBabyViewController.h"
 #import "CalendarViewController.h"
@@ -116,10 +117,14 @@ void uncaughtExceptionHandler(NSException *exception) {
     [calendarVC release];
     [photographVC release];
     
-    LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]];
-    UINavigationController *loginNVC = [[UINavigationController alloc] initWithRootViewController:loginVC];
-    [loginVC release];
-    self.window.rootViewController = loginNVC;
+    if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"email"] length]) {
+        self.window.rootViewController = _tabBarController;
+    }else {
+        LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]];
+        UINavigationController *loginNVC = [[UINavigationController alloc] initWithRootViewController:loginVC];
+        [loginVC release];
+        self.window.rootViewController = loginNVC;
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_showCalendarView) name:@"showCalendarView" object:nil];
     
@@ -267,6 +272,9 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 #pragma mark - Application's Documents directory
+- (NSString *)applicationDocumentsDirectoryPath {
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+}
 
 /**
  Returns the URL to the application's Documents directory.
@@ -294,6 +302,25 @@ void uncaughtExceptionHandler(NSException *exception) {
 		return TRUE;
 	
 	return TRUE;
+}
+
+-(BOOL)hasNetworkConnection {
+	SCNetworkReachabilityRef reach = SCNetworkReachabilityCreateWithName(kCFAllocatorSystemDefault, "ws.audioscrobbler.com");
+	SCNetworkReachabilityFlags flags;
+	SCNetworkReachabilityGetFlags(reach, &flags);
+	BOOL ret = (kSCNetworkReachabilityFlagsReachable & flags) || (kSCNetworkReachabilityFlagsConnectionRequired & flags);
+	CFRelease(reach);
+	reach = nil;
+	return ret;
+}
+-(BOOL)hasWiFiConnection {
+	SCNetworkReachabilityRef reach = SCNetworkReachabilityCreateWithName(kCFAllocatorSystemDefault, "ws.audioscrobbler.com");
+	SCNetworkReachabilityFlags flags;
+	SCNetworkReachabilityGetFlags(reach, &flags);
+	BOOL ret = (kSCNetworkFlagsReachable & flags) && !(kSCNetworkReachabilityFlagsIsWWAN & flags);
+	CFRelease(reach);
+	reach = nil;
+	return ret;
 }
 
 @end
