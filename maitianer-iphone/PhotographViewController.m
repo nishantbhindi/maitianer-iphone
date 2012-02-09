@@ -12,12 +12,18 @@
 #import "NSDate+Calculations.h"
 #import "UIImage+ProportionalFill.h"
 #import "Photo.h"
-#import "AppDelegate.h"
 #import "FlurryAnalytics.h"
+#import "Utilities.h"
+#import "JSON.h"
+#import "ASIFormDataRequest.h"
+#import "Baby.h"
+#import "Authorization.h"
+
 
 @implementation PhotographViewController
 @synthesize imagePickerController = _imagePickerController;
 @synthesize recordDate = _recordDate;
+@synthesize photo = _photo;
 
 - (void)_showImagePicker:(UIImagePickerControllerSourceType)sourceType {
     if ([UIImagePickerController isSourceTypeAvailable:sourceType]) {
@@ -65,6 +71,7 @@
 - (void)dealloc {
     [_imagePickerController release];
     [_recordDate release];
+    [_photo release];
     [super dealloc];
 }
 
@@ -179,15 +186,41 @@
               toPath:[storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-b140.jpg", fileNameUUID]]];
     
     //save the photo record use core data
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:appDelegate.managedObjectContext];
-    photo.path = [storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", fileNameUUID]];
-    photo.baby = [[self _fetchBabies] objectAtIndex:0];
-    photo.recordDate = [self.recordDate beginningOfDay];
-    photo.creationDate = [NSDate date];
-    photo.shared = [NSNumber numberWithBool:NO];
+    self.photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:[Utilities appDelegate].managedObjectContext];
+    self.photo.path = [storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", fileNameUUID]];
+    self.photo.baby = [[self _fetchBabies] objectAtIndex:0];
+    self.photo.recordDate = [self.recordDate beginningOfDay];
+    self.photo.creationDate = [NSDate date];
+    self.photo.shared = [NSNumber numberWithBool:NO];
     
-    [appDelegate saveContext];
+    NSError *error;
+    if(![self.photo.managedObjectContext save:&error]) {
+        // handle the error
+    }
+    
+    if ([[Utilities appDelegate] hasNetworkConnection]) {
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/babies/%d/photos.json", API_URL, [self.photo.baby.babyId intValue]]];
+        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+        [request addFile:[storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", fileNameUUID]] forKey:@"photo[image]"];
+        [request addPostValue:self.photo.baby.babyId forKey:@"baby_id"];
+        BOOL first = YES;
+        NSMutableString *headerCookies = [NSMutableString string];
+        for (NSString *cookie in [Authorization cookies]) {
+            if (first) {
+                first = NO;
+                [headerCookies appendString:cookie];
+            }else {
+                [headerCookies appendString:@";"];
+                [headerCookies appendString:cookie];
+            }
+#ifdef DEBUG_NETWORK_COOKIE
+            NSLog(@"[Network] With cookie: %@", cookie);
+#endif
+        }
+        [request addRequestHeader:@"Cookie" value:headerCookies];
+        [request setDelegate:self];
+        [request startSynchronous];
+    }
     
     [self dismissModalViewControllerAnimated:YES];
     
@@ -199,6 +232,15 @@
     [self dismissModalViewControllerAnimated:YES];
     //when dismiss modal view reset the record date to now
     self.recordDate = [[NSDate date] beginningOfDay];
+}
+
+#pragma mark ASIHttpRequest delegate methods
+- (void)requestFinished:(ASIHTTPRequest *)request {
+    NSLog(@"%@", request.responseString);
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request {
+    NSLog(@"failed with error: %d", request.responseStatusCode);
 }
 
 @end

@@ -9,6 +9,8 @@
 #import "EditingBabyViewController.h"
 #import "Baby.h"
 #import "FlurryAnalytics.h"
+#import "JSONRequest.h"
+#import "Utilities.h"
 
 @implementation EditingBabyViewController
 @synthesize baby = _baby;
@@ -138,8 +140,23 @@
     self.baby.motherName = self.motherNameField.text;
     self.baby.lastModifiedByDate = [NSDate date];
     NSError *error;
-    if ([self.baby.managedObjectContext save:&error]) {
+    if (![self.baby.managedObjectContext save:&error]) {
         //handle the error
+    }
+    if ([[Utilities appDelegate] hasNetworkConnection]) {
+        if (![self.baby.babyId intValue]) {
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.baby.nickName, @"baby[nick_name]",
+                                    [Utilities stringFromDate:self.baby.birthday withFormat:@"yyyy-MM-dd"], @"baby[birthday]",
+                                    nil];
+            [[[JSONRequest alloc] initPostWithPath:@"/babies.json" parameters:params delegate:self] autorelease];
+        }else {
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.baby.nickName, @"baby[nick_name]",
+                                    [Utilities stringFromDate:self.baby.birthday withFormat:@"yyyy-MM-dd"], @"baby[birthday]",
+                                    [NSString stringWithFormat:@"%d", [self.baby.sex intValue]], @"baby[sex]",
+                                    @"put", @"_method",
+                                    nil];
+            [[[JSONRequest alloc] initPostWithPath:[@"/babies" stringByAppendingFormat:@"/%d.json", [self.baby.babyId intValue]] parameters:params delegate:self] autorelease];
+        }
     }
     
     [FlurryAnalytics setUserID:self.baby.nickName];
@@ -148,10 +165,7 @@
 }
 
 - (void)birthdayPickerChange:(UIDatePicker *)datePicker {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    self.birthdayField.text = [dateFormatter stringFromDate:datePicker.date];
-    [dateFormatter release];
+    self.birthdayField.text = [Utilities stringFromDate:datePicker.date withFormat:@"yyyy-MM-dd"];
 }
 
 #pragma mark - View lifecycle
@@ -402,19 +416,6 @@
 */
 
 #pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UILabel *sectionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 44)];
     sectionTitleLabel.backgroundColor = [UIColor clearColor];
@@ -452,13 +453,28 @@
     return [_sexArray count];
 }
 
-#pragma mark - Picker view delete
+#pragma mark - Picker view delegate
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     return [_sexArray objectAtIndex:row];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     self.sexField.text = [_sexArray objectAtIndex:row];
+}
+#pragma mark - JSONRequest delegate
+- (void)jsonDidFinishLoading:(NSDictionary *)json jsonRequest:(JSONRequest *)request {
+    if ([[json valueForKey:@"id"] intValue] && ![self.baby.babyId intValue]) {
+        //set local baby id
+        self.baby.babyId = [NSNumber numberWithInt:[[json valueForKey:@"id"] intValue]];
+        NSError *error;
+        if ([self.baby.managedObjectContext save:&error]) {
+            //handle the error
+        }
+    }
+}
+
+- (void)jsonDidFailWithError:(NSError *)error jsonRequest:(JSONRequest *)request {
+    NSLog(@"failed with error: %d %@", [request.response statusCode], [error localizedDescription]);
 }
 
 @end

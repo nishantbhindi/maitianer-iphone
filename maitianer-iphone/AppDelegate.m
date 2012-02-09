@@ -304,8 +304,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 	return TRUE;
 }
 
--(BOOL)hasNetworkConnection {
-	SCNetworkReachabilityRef reach = SCNetworkReachabilityCreateWithName(kCFAllocatorSystemDefault, "ws.audioscrobbler.com");
+- (BOOL)hasNetworkConnection {
+	SCNetworkReachabilityRef reach = SCNetworkReachabilityCreateWithName(kCFAllocatorSystemDefault, "60.190.99.152");
 	SCNetworkReachabilityFlags flags;
 	SCNetworkReachabilityGetFlags(reach, &flags);
 	BOOL ret = (kSCNetworkReachabilityFlagsReachable & flags) || (kSCNetworkReachabilityFlagsConnectionRequired & flags);
@@ -313,8 +313,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 	reach = nil;
 	return ret;
 }
--(BOOL)hasWiFiConnection {
-	SCNetworkReachabilityRef reach = SCNetworkReachabilityCreateWithName(kCFAllocatorSystemDefault, "ws.audioscrobbler.com");
+- (BOOL)hasWiFiConnection {
+	SCNetworkReachabilityRef reach = SCNetworkReachabilityCreateWithName(kCFAllocatorSystemDefault, "60.190.99.152");
 	SCNetworkReachabilityFlags flags;
 	SCNetworkReachabilityGetFlags(reach, &flags);
 	BOOL ret = (kSCNetworkFlagsReachable & flags) && !(kSCNetworkReachabilityFlagsIsWWAN & flags);

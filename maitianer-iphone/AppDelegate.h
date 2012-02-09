@@ -27,5 +27,7 @@
 - (void)saveContext;
 - (NSString *)applicationDocumentsDirectoryPath;
 - (NSURL *)applicationDocumentsDirectory;
+- (BOOL)hasNetworkConnection;
+- (BOOL)hasWiFiConnection;
 
 @end

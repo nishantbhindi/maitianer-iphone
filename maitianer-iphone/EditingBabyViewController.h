@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JSONRequest.h"
 
 @class Baby;
 
-@interface EditingBabyViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
+@interface EditingBabyViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, JSONRequestDelegate> {
     Baby *_baby;
     
     IBOutlet UITableView *_tableView;

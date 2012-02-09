@@ -28,6 +28,7 @@ typedef enum PhotoImageVersionT {
 @dynamic shared;
 @dynamic title;
 @dynamic deleted;
+@dynamic photoId;
 @dynamic baby;
 @dynamic milestone;
 

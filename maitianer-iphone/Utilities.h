@@ -12,5 +12,7 @@
 @interface Utilities : NSObject
 
 + (AppDelegate *)appDelegate;
++ (NSString *)stringFromDate:(NSDate *)date withFormat:(NSString *)format;
++ (NSDate *)dateFromString:(NSString *)date withFormat:(NSString *)format;
 
 @end

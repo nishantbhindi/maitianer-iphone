@@ -19,6 +19,7 @@
 @dynamic recordDate;
 @dynamic shared;
 @dynamic deleted;
+@dynamic milestoneId;
 @dynamic baby;
 @dynamic photo;
 

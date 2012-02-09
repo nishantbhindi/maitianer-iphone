@@ -22,7 +22,7 @@
 @synthesize path, delegate, temp, method, body, response, cookies;
 
 + (NSString*) endPoint {
-	return @"http://localhost:3000";
+	return API_URL;
 }
 
 + (NSString*) alterPath:(NSString*)path {
