@@ -201,8 +201,9 @@
     if ([[Utilities appDelegate] hasNetworkConnection]) {
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/babies/%d/photos.json", API_URL, [self.photo.baby.babyId intValue]]];
         ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
-        [request addFile:[storePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", fileNameUUID]] forKey:@"photo[image]"];
+        [request addData:UIImageJPEGRepresentation(self.photo.image, 80) withFileName:[NSString stringWithFormat:@"%@.jpg",fileNameUUID] andContentType:@"image/jpeg" forKey:@"photo[image]"];
         [request addPostValue:self.photo.baby.babyId forKey:@"baby_id"];
+        [request addPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"status"];
         BOOL first = YES;
         NSMutableString *headerCookies = [NSMutableString string];
         for (NSString *cookie in [Authorization cookies]) {
@@ -236,7 +237,15 @@
 
 #pragma mark ASIHttpRequest delegate methods
 - (void)requestFinished:(ASIHTTPRequest *)request {
-    NSLog(@"%@", request.responseString);
+    NSDictionary *json = [request.responseString JSONValue];
+    if ([[json valueForKey:@"id"] intValue] && ![self.photo.photoId intValue]) {
+        //set local baby id
+        self.photo.photoId = [NSNumber numberWithInt:[[json valueForKey:@"id"] intValue]];
+        NSError *error;
+        if ([self.photo.managedObjectContext save:&error]) {
+            //handle the error
+        }
+    }
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request {
