@@ -8,13 +8,6 @@
 
 #import "Authorization.h"
 
-@interface Authorization : NSObject {
-}
-
-+(void) deleteAuthorization;
-
-// Cookies
-+(void) setCookies:(NSArray*)cookies;
-+(NSArray*) cookies;
+@implementation Authorization
 
 @end
