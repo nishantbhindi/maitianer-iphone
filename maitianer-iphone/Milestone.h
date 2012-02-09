@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSDate * recordDate;
 @property (nonatomic, retain) NSNumber * shared;
 @property (nonatomic, retain) NSNumber * deleted;
+@property (nonatomic, retain) NSNumber * milestoneId;
 @property (nonatomic, retain) Baby *baby;
 @property (nonatomic, retain) Photo *photo;
 

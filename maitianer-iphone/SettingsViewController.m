@@ -15,6 +15,7 @@
 #import "JSON.h"
 #import "SVProgressHUD.h"
 #import "FlurryAnalytics.h"
+#import "Authorization.h"
 
 #define SINA_WEIBO_TAG 301
 
@@ -26,6 +27,12 @@
 @synthesize weibo = _weibo;
 @synthesize usernameTextField = _usernameTextField;
 @synthesize passwordTextField = _passwordTextField;
+
+- (void)_logout {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"email"];
+    [Authorization deleteAuthorization];
+    [self.tableView reloadData];
+}
 
 - (void)_validateLogin {
     self.usernameTextField.text = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -248,11 +255,16 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifierSyn];
         }
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
-        if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"authenticated"] boolValue]) {
-            cell.textLabel.text = [NSString stringWithFormat:@"%@-马上同步", [[NSUserDefaults standardUserDefaults] stringForKey:@"email"]];
+        if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"email"] length]) {
+            cell.textLabel.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"email"];
+            UIButton *logoutButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 28)];
+            [logoutButton setTitle:@"退出" forState:UIControlStateNormal];
+            [logoutButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [logoutButton addTarget:self action:@selector(_logout) forControlEvents:UIControlEventTouchUpInside];
+            cell.accessoryView = logoutButton;
         }else {
             cell.textLabel.text = [[self.settingsData objectForKey:sectionKey] objectAtIndex:indexPath.row];
+            cell.accessoryView = nil;
             
         }
     }
@@ -287,60 +299,60 @@
     }else if ([sectionKey isEqualToString:@"分享设置"]) {
         
     }else if ([sectionKey isEqualToString:@"数据同步"]) {
-        if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"authenticated"] boolValue]) {
-            [SVProgressHUD showWithStatus:@"开始同步，显示同步界面"];
-            
-            NSDate *lastSyncDate = nil;
-            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncDate"]) {
-                lastSyncDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncDate"];
-            }
-            lastSyncDate = nil;
-            NSError *error;
-            //sync babies
-            NSFetchRequest *babiesFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Baby"];
-            NSArray *babiesArray = [self.managedObjectContext executeFetchRequest:babiesFetchRequest error:&error];
-            NSLog(@"sync babies json: %@", [babiesArray JSONRepresentation]);
-            [babiesFetchRequest release];
-            //sync photos
-            NSFetchRequest *photosFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Photo"];
-            if (lastSyncDate) {
-                [photosFetchRequest setPredicate:[NSPredicate predicateWithFormat:@"(lastModifiedByDate > %@) AND (creationDate > %@)", lastSyncDate, lastSyncDate]];
-            }
-            [photosFetchRequest setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"lastModifiedByDate" ascending:YES]]];
-            NSArray *photosArray = [self.managedObjectContext executeFetchRequest:photosFetchRequest error:&error];
-            NSDictionary *photosDict = [NSDictionary dictionaryWithObject:photosArray forKey:@"photos"];
-            NSLog(@"sync photos json: %@", [photosDict JSONRepresentation]);
-            [photosFetchRequest release];
-            ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://localhost:3000/sync/sync_photos"]];
-            request.requestMethod = @"POST";
-            [request addRequestHeader:@"Accept" value:@"application/json"];
-            [request addRequestHeader:@"Content-Type" value:@"application/json"];
-            [request appendPostData:[[photosDict JSONRepresentation] dataUsingEncoding:NSStringEncodingConversionExternalRepresentation]];
-            [request startAsynchronous];
-            //sync milestone
-            NSFetchRequest *milestoneFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Milestone"];
-            if (lastSyncDate) {
-                [photosFetchRequest setPredicate:[NSPredicate predicateWithFormat:@"(lastModifiedByDate > %@) AND (creationDate > %@)", lastSyncDate, lastSyncDate]];
-            }
-            [milestoneFetchRequest setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"lastModifiedByDate" ascending:YES]]];
-            NSArray *milestonesArray = [self.managedObjectContext executeFetchRequest:milestoneFetchRequest error:&error];
-            NSLog(@"sync milestones json: %@", [milestonesArray JSONRepresentation]);
-            [milestoneFetchRequest release];
-            //sync end
-            lastSyncDate = [NSDate date];
-            [[NSUserDefaults standardUserDefaults] setObject:lastSyncDate forKey:@"lastSyncDate"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [SVProgressHUD dismiss];
-            
-        }else {
-            [tableView deselectRowAtIndexPath:indexPath animated:YES];
-            UIAlertView *loginAlertView = [[UIAlertView alloc] initWithTitle:@"登录" message:@"\n\n" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"马上同步", nil];
-            [loginAlertView addSubview:self.usernameTextField];
-            [loginAlertView addSubview:self.passwordTextField];
-            [loginAlertView show];
-            [loginAlertView release];
-        }
+//        if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"authenticated"] boolValue]) {
+//            [SVProgressHUD showWithStatus:@"开始同步，显示同步界面"];
+//            
+//            NSDate *lastSyncDate = nil;
+//            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncDate"]) {
+//                lastSyncDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncDate"];
+//            }
+//            lastSyncDate = nil;
+//            NSError *error;
+//            //sync babies
+//            NSFetchRequest *babiesFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Baby"];
+//            NSArray *babiesArray = [self.managedObjectContext executeFetchRequest:babiesFetchRequest error:&error];
+//            NSLog(@"sync babies json: %@", [babiesArray JSONRepresentation]);
+//            [babiesFetchRequest release];
+//            //sync photos
+//            NSFetchRequest *photosFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Photo"];
+//            if (lastSyncDate) {
+//                [photosFetchRequest setPredicate:[NSPredicate predicateWithFormat:@"(lastModifiedByDate > %@) AND (creationDate > %@)", lastSyncDate, lastSyncDate]];
+//            }
+//            [photosFetchRequest setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"lastModifiedByDate" ascending:YES]]];
+//            NSArray *photosArray = [self.managedObjectContext executeFetchRequest:photosFetchRequest error:&error];
+//            NSDictionary *photosDict = [NSDictionary dictionaryWithObject:photosArray forKey:@"photos"];
+//            NSLog(@"sync photos json: %@", [photosDict JSONRepresentation]);
+//            [photosFetchRequest release];
+//            ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://localhost:3000/sync/sync_photos"]];
+//            request.requestMethod = @"POST";
+//            [request addRequestHeader:@"Accept" value:@"application/json"];
+//            [request addRequestHeader:@"Content-Type" value:@"application/json"];
+//            [request appendPostData:[[photosDict JSONRepresentation] dataUsingEncoding:NSStringEncodingConversionExternalRepresentation]];
+//            [request startAsynchronous];
+//            //sync milestone
+//            NSFetchRequest *milestoneFetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Milestone"];
+//            if (lastSyncDate) {
+//                [photosFetchRequest setPredicate:[NSPredicate predicateWithFormat:@"(lastModifiedByDate > %@) AND (creationDate > %@)", lastSyncDate, lastSyncDate]];
+//            }
+//            [milestoneFetchRequest setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"lastModifiedByDate" ascending:YES]]];
+//            NSArray *milestonesArray = [self.managedObjectContext executeFetchRequest:milestoneFetchRequest error:&error];
+//            NSLog(@"sync milestones json: %@", [milestonesArray JSONRepresentation]);
+//            [milestoneFetchRequest release];
+//            //sync end
+//            lastSyncDate = [NSDate date];
+//            [[NSUserDefaults standardUserDefaults] setObject:lastSyncDate forKey:@"lastSyncDate"];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+//            
+//            [SVProgressHUD dismiss];
+//            
+//        }else {
+//            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//            UIAlertView *loginAlertView = [[UIAlertView alloc] initWithTitle:@"登录" message:@"\n\n" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"马上同步", nil];
+//            [loginAlertView addSubview:self.usernameTextField];
+//            [loginAlertView addSubview:self.passwordTextField];
+//            [loginAlertView show];
+//            [loginAlertView release];
+//        }
     }
 }
 

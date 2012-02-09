@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSNumber * shared;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSNumber * deleted;
+@property (nonatomic, retain) NSNumber * photoId;
 @property (nonatomic, retain) Baby *baby;
 @property (nonatomic, retain) Milestone *milestone;
 
