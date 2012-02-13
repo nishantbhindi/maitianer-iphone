@@ -10,8 +10,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Milestone.h"
 #import "Photo.h"
+#import "JSONRequest.h"
 
-@interface EditingMilestoneViewController : UIViewController {
+@interface EditingMilestoneViewController : UIViewController <JSONRequestDelegate> {
     UITextView *_milestoneText;
     Milestone *_milestone;
     BOOL _editing;

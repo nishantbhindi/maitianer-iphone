@@ -8,6 +8,10 @@
 
 #import "EditingMilestoneViewController.h"
 #import "AppDelegate.h"
+#import "JSONRequest.h"
+#import "Baby.h"
+#import "Photo.h"
+#import "Utilities.h"
 
 @implementation EditingMilestoneViewController
 @synthesize milestoneText = _milestoneText;
@@ -29,10 +33,20 @@
     if (self.editing) {
         self.milestone.content = self.milestoneText.text;
         self.milestone.lastModifiedByDate = [NSDate date];
+        NSString *updatePath = [NSString stringWithFormat:@"/babies/%d/milestones/%d.json", [self.milestone.baby.babyId intValue], [self.milestone.milestoneId intValue]];
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:@"put", @"_method",
+                                self.milestone.content , @"milestone[milestone_content]", nil];
+        [[JSONRequest alloc] initPostWithPath:updatePath parameters:params delegate:self];
     }else {
         self.milestone.content = self.milestoneText.text;
         self.milestone.recordDate = self.milestone.photo.recordDate;
         self.milestone.creationDate = [NSDate date];
+        self.milestone.baby = self.milestone.photo.baby;
+        NSString *createPath = [NSString stringWithFormat:@"/babies/%d/milestones.json", [self.milestone.baby.babyId intValue]];
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d", [self.milestone.photo.photoId intValue]], @"milestone[photo_id]",
+                                [Utilities stringFromDate:self.milestone.recordDate withFormat:@"yyyy-MM-dd"], @"milestone[record_date]",
+                                self.milestone.content , @"milestone[milestone_content]", nil];
+        [[JSONRequest alloc] initPostWithPath:createPath parameters:params delegate:self];
         
     }
     NSError *error;
@@ -115,6 +129,23 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - JSONRequest delegate methods
+- (void)jsonDidFinishLoading:(NSDictionary *)json jsonRequest:(JSONRequest *)request {
+    if ([[json valueForKey:@"id"] intValue] && ![self.milestone.milestoneId intValue]) {
+        //set local baby id
+        self.milestone.milestoneId = [NSNumber numberWithInt:[[json valueForKey:@"id"] intValue]];
+        NSError *error;
+        if ([self.milestone.managedObjectContext save:&error]) {
+            //handle the error
+        }
+    }
+
+}
+
+- (void)jsonDidFailWithError:(NSError *)error jsonRequest:(JSONRequest *)request {
+    NSLog(@"failed with error: %d %@", [request.response statusCode], [error localizedDescription]);
 }
 
 @end

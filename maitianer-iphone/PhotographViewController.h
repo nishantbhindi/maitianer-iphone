@@ -10,17 +10,20 @@
 #import "ASIHTTPRequestDelegate.h"
 
 @class Photo;
+@class Baby;
 
 @interface PhotographViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, ASIHTTPRequestDelegate> {
     
     UIImagePickerController *_imagePickerController;
     NSDate *_recordDate;
     Photo *_photo;
+    Baby *_baby;
 }
 
 @property (nonatomic, retain) UIImagePickerController *imagePickerController;
 @property (nonatomic, retain) NSDate *recordDate;
 @property (nonatomic, retain) Photo *photo;
+@property (nonatomic, retain) Baby *baby;
 
 - (void)cameraAction:(id)sender;
 - (void)photoLibraryAction:(id)sender;

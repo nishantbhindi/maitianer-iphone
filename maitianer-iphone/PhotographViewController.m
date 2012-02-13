@@ -24,6 +24,7 @@
 @synthesize imagePickerController = _imagePickerController;
 @synthesize recordDate = _recordDate;
 @synthesize photo = _photo;
+@synthesize baby = _baby;
 
 - (void)_showImagePicker:(UIImagePickerControllerSourceType)sourceType {
     if ([UIImagePickerController isSourceTypeAvailable:sourceType]) {
@@ -72,6 +73,7 @@
     [_imagePickerController release];
     [_recordDate release];
     [_photo release];
+    [_baby release];
     [super dealloc];
 }
 
@@ -203,7 +205,8 @@
         ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
         [request addData:UIImageJPEGRepresentation(self.photo.image, 80) withFileName:[NSString stringWithFormat:@"%@.jpg",fileNameUUID] andContentType:@"image/jpeg" forKey:@"photo[image]"];
         [request addPostValue:self.photo.baby.babyId forKey:@"baby_id"];
-        [request addPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"status"];
+        [request addPostValue:[Utilities stringFromDate:self.photo.recordDate withFormat:@"yyyy-MM-dd"] forKey:@"photo[record_date]"];
+        [request addPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"photo[status]"];
         BOOL first = YES;
         NSMutableString *headerCookies = [NSMutableString string];
         for (NSString *cookie in [Authorization cookies]) {

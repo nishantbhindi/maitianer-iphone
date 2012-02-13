@@ -191,6 +191,7 @@
     }
     
     self.calendarView.miniumDate = self.baby.birthday;
+    self.photographVC.baby = self.baby;
     
     //fetch photos per day from database
     NSError *error;

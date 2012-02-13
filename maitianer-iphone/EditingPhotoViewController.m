@@ -13,6 +13,8 @@
 #import "SVProgressHUD.h"
 #import "AppDelegate.h"
 #import "FlurryAnalytics.h"
+#import "JSONRequest.h"
+#import "Baby.h"
 
 #define DELETE_ALERT_TAG 1
 #define SHARE_ALERT_TAG 2
@@ -47,6 +49,13 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+    
+    
+    NSString *updatePath = [NSString stringWithFormat:@"/babies/%d/photos/%d.json", [self.photo.baby.babyId intValue], [self.photo.photoId intValue]];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.photo.content, @"photo[description]",
+                            @"put", @"_method" ,nil];
+    
+    [[[JSONRequest alloc] initPostWithPath:updatePath parameters:params delegate:self] autorelease];
     
     if (self.weibo.isUserLoggedin && ![self.photo.shared boolValue] && self.shareSwitch.on) {
         [self.weibo postWeiboRequestWithText:self.photo.content andImage:self.photo.image andDelegate:self];
@@ -200,6 +209,15 @@
     [appDelegate saveContext];
     [SVProgressHUD dismissWithSuccess:@"保存，并分享成功" afterDelay:1];
     [self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark - JSONRequest delegate methods
+- (void)jsonDidFinishLoading:(NSDictionary *)json jsonRequest:(JSONRequest *)request {
+    NSLog(@"%@", [json description]);
+}
+
+- (void)jsonDidFailWithError:(NSError *)error jsonRequest:(JSONRequest *)request {
+    NSLog(@"failed with error: %d %@", [request.response statusCode], [error localizedDescription]);
 }
 
 @end

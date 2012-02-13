@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "WBConnect.h"
+#import "JSONRequest.h"
 
 @class Photo;
 
-@interface EditingPhotoViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate, WBRequestDelegate, WBSessionDelegate> {
+@interface EditingPhotoViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate, WBRequestDelegate, WBSessionDelegate, JSONRequestDelegate> {
     IBOutlet UITextField *_photoText;
     IBOutlet UIImageView *_imageView;
     IBOutlet UISwitch *_shareSwitch;
