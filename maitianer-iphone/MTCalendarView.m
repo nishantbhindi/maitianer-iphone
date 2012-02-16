@@ -82,7 +82,7 @@ static const CGFloat kCalendarCellSideLength = 70;
 
 - (UIButton *)monthBackButton {
     if (!_monthBackButton) {
-        _monthBackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, (kDefaultMonthBarHeight - kDefaultMonthBarButtonHeight)/2, kDefaultMonthBarButtonWidth, kDefaultMonthBarButtonHeight)];
+        _monthBackButton = [[UIButton alloc] initWithFrame:CGRectMake(5, (kDefaultMonthBarHeight - kDefaultMonthBarButtonHeight)/2, kDefaultMonthBarButtonWidth, kDefaultMonthBarButtonHeight)];
         [_monthBackButton setBackgroundImage:[UIImage imageNamed:@"calendar-back.png"] forState:UIControlStateNormal];
         //[_monthBackButton setBackgroundImage:[UIImage imageNamed:@"calendar-back-disable"] forState:UIControlStateDisabled];
         //[_monthBackButton setTitle:@"<" forState:UIControlStateNormal];
@@ -96,7 +96,7 @@ static const CGFloat kCalendarCellSideLength = 70;
 
 - (UIButton *)monthForwardButton {
     if (!_monthForwardButton) {
-        float x = self.monthBar.frame.size.width - kDefaultMonthBarButtonWidth;
+        float x = self.monthBar.frame.size.width - kDefaultMonthBarButtonWidth - 5;
         _monthForwardButton = [[UIButton alloc] initWithFrame:CGRectMake(x, (kDefaultMonthBarHeight - kDefaultMonthBarButtonHeight)/2, kDefaultMonthBarButtonWidth, kDefaultMonthBarButtonHeight)];
         [_monthForwardButton setBackgroundImage:[UIImage imageNamed:@"calendar-forward.png"] forState:UIControlStateNormal];
         //[_monthForwardButton setBackgroundImage:[UIImage imageNamed:@"calendar-forward-disable"] forState:UIControlStateDisabled];
