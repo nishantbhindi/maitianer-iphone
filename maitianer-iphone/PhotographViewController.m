@@ -200,32 +200,6 @@
         // handle the error
     }
     
-    if ([[Utilities appDelegate] hasNetworkConnection]) {
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/babies/%d/photos.json", API_URL, [self.photo.baby.babyId intValue]]];
-        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
-        [request addData:UIImageJPEGRepresentation(self.photo.image, 80) withFileName:[NSString stringWithFormat:@"%@.jpg",fileNameUUID] andContentType:@"image/jpeg" forKey:@"photo[image]"];
-        [request addPostValue:self.photo.baby.babyId forKey:@"baby_id"];
-        [request addPostValue:[Utilities stringFromDate:self.photo.recordDate withFormat:@"yyyy-MM-dd"] forKey:@"photo[record_date]"];
-        [request addPostValue:[NSString stringWithFormat:@"%d", 2] forKey:@"photo[status]"];
-        BOOL first = YES;
-        NSMutableString *headerCookies = [NSMutableString string];
-        for (NSString *cookie in [Authorization cookies]) {
-            if (first) {
-                first = NO;
-                [headerCookies appendString:cookie];
-            }else {
-                [headerCookies appendString:@";"];
-                [headerCookies appendString:cookie];
-            }
-#ifdef DEBUG_NETWORK_COOKIE
-            NSLog(@"[Network] With cookie: %@", cookie);
-#endif
-        }
-        [request addRequestHeader:@"Cookie" value:headerCookies];
-        [request setDelegate:self];
-        [request startSynchronous];
-    }
-    
     [self dismissModalViewControllerAnimated:YES];
     
     //when dismiss modal view reset the record date to now

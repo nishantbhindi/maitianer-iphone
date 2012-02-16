@@ -50,13 +50,6 @@
         abort();
     }
     
-    
-    NSString *updatePath = [NSString stringWithFormat:@"/babies/%d/photos/%d.json", [self.photo.baby.babyId intValue], [self.photo.photoId intValue]];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.photo.content, @"photo[description]",
-                            @"put", @"_method" ,nil];
-    
-    [[[JSONRequest alloc] initPostWithPath:updatePath parameters:params delegate:self] autorelease];
-    
     if (self.weibo.isUserLoggedin && ![self.photo.shared boolValue] && self.shareSwitch.on) {
         [self.weibo postWeiboRequestWithText:self.photo.content andImage:self.photo.image andDelegate:self];
     }else {

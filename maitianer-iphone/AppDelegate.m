@@ -13,7 +13,6 @@
 #import "MilestonesViewController.h"
 #import "PhotographViewController.h"
 #import "FlurryAnalytics.h"
-#import "LoginViewController.h"
 
 #if !defined(SinaWeiBoSDKDemo_APPKey)
 #error "You must define SinaWeiBoSDKDemo_APPKey as your APP Key"
@@ -116,15 +115,8 @@ void uncaughtExceptionHandler(NSException *exception) {
     [_tabBarController.view addSubview:button];
     [calendarVC release];
     [photographVC release];
-    
-    if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"email"] length]) {
-        self.window.rootViewController = _tabBarController;
-    }else {
-        LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]];
-        UINavigationController *loginNVC = [[UINavigationController alloc] initWithRootViewController:loginVC];
-        [loginVC release];
-        self.window.rootViewController = loginNVC;
-    }
+
+    self.window.rootViewController = _tabBarController;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_showCalendarView) name:@"showCalendarView" object:nil];
     

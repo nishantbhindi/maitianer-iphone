@@ -173,9 +173,8 @@
     [doneButtonItem release];
     
     NSArray *sharesArray = [NSArray arrayWithObjects:@"绑定新浪微博", nil];
-    NSArray *synButton = [NSArray arrayWithObjects:@"设置同步账号", nil];
-    self.settingsData = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.babies, synButton, sharesArray, nil] 
-                                                    forKeys:[NSArray arrayWithObjects:@"设置宝宝信息", @"数据同步" ,@"分享设置" , nil]];
+    self.settingsData = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.babies, sharesArray, nil] 
+                                                    forKeys:[NSArray arrayWithObjects:@"设置宝宝信息" ,@"分享设置" , nil]];
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.weibo = appDelegate.weibo;

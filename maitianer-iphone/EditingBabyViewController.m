@@ -143,21 +143,6 @@
     if (![self.baby.managedObjectContext save:&error]) {
         //handle the error
     }
-    if ([[Utilities appDelegate] hasNetworkConnection]) {
-        if (![self.baby.babyId intValue]) {
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.baby.nickName, @"baby[nick_name]",
-                                    [Utilities stringFromDate:self.baby.birthday withFormat:@"yyyy-MM-dd"], @"baby[birthday]",
-                                    nil];
-            [[[JSONRequest alloc] initPostWithPath:@"/babies.json" parameters:params delegate:self] autorelease];
-        }else {
-            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:self.baby.nickName, @"baby[nick_name]",
-                                    [Utilities stringFromDate:self.baby.birthday withFormat:@"yyyy-MM-dd"], @"baby[birthday]",
-                                    [NSString stringWithFormat:@"%d", [self.baby.sex intValue]], @"baby[sex]",
-                                    @"put", @"_method",
-                                    nil];
-            [[[JSONRequest alloc] initPostWithPath:[@"/babies" stringByAppendingFormat:@"/%d.json", [self.baby.babyId intValue]] parameters:params delegate:self] autorelease];
-        }
-    }
     
     [FlurryAnalytics setUserID:self.baby.nickName];
     
