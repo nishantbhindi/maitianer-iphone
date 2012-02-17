@@ -99,11 +99,6 @@
     
     self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     
-    //set navigation bar background image for ios 5
-    if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
-    }
-    
     PhotographViewController *photographVC = [self.tabBarController.viewControllers objectAtIndex:1];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:photographVC action:@selector(photoLibraryAction:)];
     

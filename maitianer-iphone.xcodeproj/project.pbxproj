@@ -39,6 +39,8 @@
 		3F263D62147E1E1900C6B838 /* UIImage+ProportionalFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F263D61147E1E1900C6B838 /* UIImage+ProportionalFill.m */; };
 		3F33C53614A1CDEE00286B5A /* EditingMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F33C53414A1CDEE00286B5A /* EditingMilestoneViewController.m */; };
 		3F33C53714A1CDEE00286B5A /* EditingMilestoneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F33C53514A1CDEE00286B5A /* EditingMilestoneViewController.xib */; };
+		3F465AEB14EE3BDE005B7C74 /* MTPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F465AEA14EE3BDE005B7C74 /* MTPhotoBrowser.m */; };
+		3F465AF214EE3D61005B7C74 /* MTCaptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F465AF114EE3D61005B7C74 /* MTCaptionView.m */; };
 		3F62991A14AABCF000194342 /* Milestone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F62991914AABCF000194342 /* Milestone.m */; };
 		3F62993314AB18A000194342 /* first-show.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F62993114AB18A000194342 /* first-show.jpg */; };
 		3F62993414AB18A000194342 /* first-show@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F62993214AB18A000194342 /* first-show@2x.jpg */; };
@@ -199,6 +201,11 @@
 		3F33C53314A1CDEE00286B5A /* EditingMilestoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditingMilestoneViewController.h; sourceTree = "<group>"; };
 		3F33C53414A1CDEE00286B5A /* EditingMilestoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditingMilestoneViewController.m; sourceTree = "<group>"; };
 		3F33C53514A1CDEE00286B5A /* EditingMilestoneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditingMilestoneViewController.xib; sourceTree = "<group>"; };
+		3F465AE914EE3BDE005B7C74 /* MTPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPhotoBrowser.h; sourceTree = "<group>"; };
+		3F465AEA14EE3BDE005B7C74 /* MTPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPhotoBrowser.m; sourceTree = "<group>"; };
+		3F465AED14EE3CCE005B7C74 /* MTPhotoProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPhotoProtocol.h; sourceTree = "<group>"; };
+		3F465AF014EE3D60005B7C74 /* MTCaptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTCaptionView.h; sourceTree = "<group>"; };
+		3F465AF114EE3D61005B7C74 /* MTCaptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTCaptionView.m; sourceTree = "<group>"; };
 		3F62991814AABCEF00194342 /* Milestone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Milestone.h; sourceTree = "<group>"; };
 		3F62991914AABCF000194342 /* Milestone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Milestone.m; sourceTree = "<group>"; };
 		3F62993114AB18A000194342 /* first-show.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "first-show.jpg"; sourceTree = "<group>"; };
@@ -465,6 +472,11 @@
 				3F8B4395147C9D9F00D544CF /* MTCalendarView.m */,
 				3F8B4398147C9DB200D544CF /* MTCalendarCellView.h */,
 				3F8B4399147C9DB200D544CF /* MTCalendarCellView.m */,
+				3F465AED14EE3CCE005B7C74 /* MTPhotoProtocol.h */,
+				3F465AF014EE3D60005B7C74 /* MTCaptionView.h */,
+				3F465AF114EE3D61005B7C74 /* MTCaptionView.m */,
+				3F465AE914EE3BDE005B7C74 /* MTPhotoBrowser.h */,
+				3F465AEA14EE3BDE005B7C74 /* MTPhotoBrowser.m */,
 				759537991482853C007CF4D2 /* PhotosViewController.h */,
 				7595379A1482853C007CF4D2 /* PhotosViewController.m */,
 				3F19608B148616E9004D17AE /* EditingPhotoViewController.h */,
@@ -960,6 +972,8 @@
 				3FAAE8B114E25FA300173B0A /* JSONRequest.m in Sources */,
 				3FAAE8B714E2617300173B0A /* NSString+Helpers.m in Sources */,
 				3F7FC3D614E3AB42009A9215 /* Baby.m in Sources */,
+				3F465AEB14EE3BDE005B7C74 /* MTPhotoBrowser.m in Sources */,
+				3F465AF214EE3D61005B7C74 /* MTCaptionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

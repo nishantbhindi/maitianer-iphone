@@ -98,11 +98,6 @@
 {
     [super viewDidLoad];
     
-    //set navigation bar background image for ios 5
-    if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
-    }
-    
     self.view.backgroundColor = RGBCOLOR(229, 234, 204);
     //self.title = [NSString stringWithFormat:@"%d年%02d月%02d日", self.photo.recordDate.year, self.photo.recordDate.month, self.photo.recordDate.day];
     self.title = @"编辑照片";

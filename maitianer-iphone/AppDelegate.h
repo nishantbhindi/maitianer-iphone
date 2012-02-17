@@ -11,22 +11,19 @@
 
 @class MTTabBarController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate> {
-    UITabBarController *_tabBarController;
-    WeiBo *_weibo;
-}
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
+@property (readonly, strong, nonatomic) UITabBarController *tabBarController;
 @property (readonly, retain, nonatomic) WeiBo *weibo;
 
 - (void)saveContext;
 - (NSString *)applicationDocumentsDirectoryPath;
-- (NSURL *)applicationDocumentsDirectory;
+- (NSURL *)applicationDocumentsDirectoryURL;
 - (BOOL)hasNetworkConnection;
 - (BOOL)hasWiFiConnection;
 

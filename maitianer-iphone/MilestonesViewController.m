@@ -59,11 +59,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //set navigation bar background image for ios 5
-    if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
-    }
-    
     //set table view appearence
     self.view.backgroundColor = RGBCOLOR(229, 234, 204);
     self.tableView.backgroundColor = RGBCOLOR(229, 234, 204);

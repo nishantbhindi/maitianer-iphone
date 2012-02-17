@@ -163,10 +163,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //set navigation bar background image for ios 5
-    if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
-    }
     
     UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
     self.navigationItem.rightBarButtonItem = doneButtonItem;
@@ -175,7 +171,6 @@
     NSArray *sharesArray = [NSArray arrayWithObjects:@"绑定新浪微博", nil];
     self.settingsData = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.babies, sharesArray, nil] 
                                                     forKeys:[NSArray arrayWithObjects:@"设置宝宝信息" ,@"分享设置" , nil]];
-    
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.weibo = appDelegate.weibo;
     self.weibo.delegate = self;

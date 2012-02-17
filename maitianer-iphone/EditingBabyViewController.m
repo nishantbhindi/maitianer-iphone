@@ -165,11 +165,6 @@
     //set table view background
     self.tableView.backgroundColor = RGBCOLOR(229, 233, 206);
     
-    //set navigation bar background image for ios 5
-    if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBar"] forBarMetrics:UIBarMetricsDefault];
-    }
-    
     //right bar button item for save baby info
     UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleDone target:self action:@selector(saveBaby)];
     self.navigationItem.rightBarButtonItem = saveButtonItem;

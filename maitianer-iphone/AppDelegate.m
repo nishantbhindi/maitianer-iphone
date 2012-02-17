@@ -23,7 +23,22 @@
 #endif
 
 @implementation UINavigationBar (CustomBackground)
+- (UIImage *)barBackground {
+    return [UIImage imageNamed:@"NavigationBar.png"];
+}
+
+- (void)didMoveToSuperview {
+    //matching the button color with the bar color
+    [self setTintColor:[UIColor colorWithRed:0 green:0.6f blue:0 alpha:0.7f]];
+    
+    //iOS5 only
+    if ([self respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
+        [self setBackgroundImage:[self barBackground] forBarMetrics:UIBarMetricsDefault];
+    }
+}
+
 - (void)drawRect:(CGRect)rect {
+    // < iOS5
     UIImage *navBackgroundImage = [UIImage imageNamed:@"NavigationBar.png"];
     [navBackgroundImage drawInRect:rect];
 }
@@ -35,33 +50,21 @@
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
+@synthesize tabBarController = _tabBarController;
 @synthesize weibo = _weibo;
-
-- (void)_showCalendarView {
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.window cache:YES];
-    self.window.rootViewController = _tabBarController;
-    [UIView commitAnimations];
-}
-
-- (void)dealloc
-{
-    [_window release];
-    [__managedObjectContext release];
-    [__managedObjectModel release];
-    [__persistentStoreCoordinator release];
-    [_weibo release];
-    [_tabBarController release];
-    [super dealloc];
-}
 
 void uncaughtExceptionHandler(NSException *exception) {
     [FlurryAnalytics logError:@"Uncaught" message:@"Crash!" exception:exception];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    
+    //flurry
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     [FlurryAnalytics startSession:@"YHJ3T4Z3ZQR6KGK96X7E"];
+    
     //show the status bar with black opaque style
     [UIApplication sharedApplication].statusBarHidden = NO;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
@@ -71,8 +74,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     
     //init weibo api
     _weibo = [[WeiBo alloc] initWithAppKey:SinaWeiBoSDKDemo_APPKey withAppSecret:SinaWeiBoSDKDemo_APPSecret];
-    
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     
     _tabBarController = [[UITabBarController alloc] init];
     
@@ -118,8 +119,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 
     self.window.rootViewController = _tabBarController;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_showCalendarView) name:@"showCalendarView" object:nil];
-    
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -158,6 +157,17 @@ void uncaughtExceptionHandler(NSException *exception) {
 {
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
+}
+
+- (void)dealloc
+{
+    [_window release];
+    [__managedObjectContext release];
+    [__managedObjectModel release];
+    [__persistentStoreCoordinator release];
+    [_tabBarController release];
+    [_weibo release];
+    [super dealloc];
 }
 
 - (void)saveContext
@@ -227,7 +237,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         return __persistentStoreCoordinator;
     }
     
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"maitianer_iphone.sqlite"];
+    NSURL *storeURL = [[self applicationDocumentsDirectoryURL] URLByAppendingPathComponent:@"maitianer_iphone.sqlite"];
     
     NSError *error = nil;
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
@@ -264,6 +274,9 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 #pragma mark - Application's Documents directory
+/**
+ Returns the path to the application's Documents directory.
+ */
 - (NSString *)applicationDocumentsDirectoryPath {
     return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
@@ -271,7 +284,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 /**
  Returns the URL to the application's Documents directory.
  */
-- (NSURL *)applicationDocumentsDirectory
+- (NSURL *)applicationDocumentsDirectoryURL
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
@@ -296,6 +309,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	return TRUE;
 }
 
+#pragma mark - Network connection status method
 - (BOOL)hasNetworkConnection {
 	SCNetworkReachabilityRef reach = SCNetworkReachabilityCreateWithName(kCFAllocatorSystemDefault, "60.190.99.152");
 	SCNetworkReachabilityFlags flags;
