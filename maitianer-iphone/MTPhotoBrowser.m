@@ -56,6 +56,13 @@
     [super dealloc];
 }
 
+- (void)setInitialPageIndex:(NSUInteger)index {
+    // Validate
+    if (index >= [self numberOfPhotos]) index = [self numberOfPhotos] - 1;
+    _currentPageIndex = index;
+}
+
+#pragma mark - Data
 - (void)reloadData {
     // Reset
     _photoCount = NSNotFound;
@@ -69,13 +76,6 @@
     // TODO Layout
 }
 
-- (void)setInitialPageIndex:(NSUInteger)index {
-    // Validate
-    if (index >= [self numberOfPhotos]) index = [self numberOfPhotos] - 1;
-    _currentPageIndex = index;
-}
-
-#pragma mark - Data
 - (NSUInteger)numberOfPhotos {
     if (_photoCount == NSNotFound) {
         if ([_delegate respondsToSelector:@selector(numberOfPhotosInPhotoBrowser:)]) {
@@ -134,14 +134,6 @@
 }
 
 #pragma mark - View lifecycle
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     

@@ -92,6 +92,12 @@
 		7508007F14E1515400011B49 /* Authorization.m in Sources */ = {isa = PBXBuildFile; fileRef = 7508007E14E1515400011B49 /* Authorization.m */; };
 		750AB6011480AA0F001A20E4 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 750AB6001480AA0F001A20E4 /* Photo.m */; };
 		750B873514E94548002157CA /* calendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 750B873414E94548002157CA /* calendar@2x.png */; };
+		7526680214EFF05400917D87 /* MWCaptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 752667F614EFF05400917D87 /* MWCaptionView.m */; };
+		7526680314EFF05400917D87 /* MWPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 752667F814EFF05400917D87 /* MWPhoto.m */; };
+		7526680414EFF05400917D87 /* MWPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 752667FA14EFF05400917D87 /* MWPhotoBrowser.m */; };
+		7526680514EFF05400917D87 /* MWTapDetectingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 752667FD14EFF05400917D87 /* MWTapDetectingImageView.m */; };
+		7526680614EFF05400917D87 /* MWTapDetectingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 752667FF14EFF05400917D87 /* MWTapDetectingView.m */; };
+		7526680714EFF05400917D87 /* MWZoomingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7526680114EFF05400917D87 /* MWZoomingScrollView.m */; };
 		7526ADD914AB4AD600FEE0BC /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7526ADD614AB4AD600FEE0BC /* SVProgressHUD.bundle */; };
 		7526ADDA14AB4AD600FEE0BC /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7526ADD814AB4AD600FEE0BC /* SVProgressHUD.m */; };
 		7526ADE914AB5C2E00FEE0BC /* calendar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 7526ADE514AB5C2E00FEE0BC /* calendar-back.png */; };
@@ -287,6 +293,19 @@
 		750AB5FF1480AA0F001A20E4 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		750AB6001480AA0F001A20E4 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		750B873414E94548002157CA /* calendar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar@2x.png"; sourceTree = "<group>"; };
+		752667F514EFF05400917D87 /* MWCaptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCaptionView.h; sourceTree = "<group>"; };
+		752667F614EFF05400917D87 /* MWCaptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCaptionView.m; sourceTree = "<group>"; };
+		752667F714EFF05400917D87 /* MWPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPhoto.h; sourceTree = "<group>"; };
+		752667F814EFF05400917D87 /* MWPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWPhoto.m; sourceTree = "<group>"; };
+		752667F914EFF05400917D87 /* MWPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPhotoBrowser.h; sourceTree = "<group>"; };
+		752667FA14EFF05400917D87 /* MWPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWPhotoBrowser.m; sourceTree = "<group>"; };
+		752667FB14EFF05400917D87 /* MWPhotoProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPhotoProtocol.h; sourceTree = "<group>"; };
+		752667FC14EFF05400917D87 /* MWTapDetectingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWTapDetectingImageView.h; sourceTree = "<group>"; };
+		752667FD14EFF05400917D87 /* MWTapDetectingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWTapDetectingImageView.m; sourceTree = "<group>"; };
+		752667FE14EFF05400917D87 /* MWTapDetectingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWTapDetectingView.h; sourceTree = "<group>"; };
+		752667FF14EFF05400917D87 /* MWTapDetectingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWTapDetectingView.m; sourceTree = "<group>"; };
+		7526680014EFF05400917D87 /* MWZoomingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWZoomingScrollView.h; sourceTree = "<group>"; };
+		7526680114EFF05400917D87 /* MWZoomingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWZoomingScrollView.m; sourceTree = "<group>"; };
 		7526ADD614AB4AD600FEE0BC /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		7526ADD714AB4AD600FEE0BC /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		7526ADD814AB4AD600FEE0BC /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -402,6 +421,7 @@
 		3F0F85D6147B6C1600FC3FC9 = {
 			isa = PBXGroup;
 			children = (
+				752667F414EFF05400917D87 /* MWPhotoBrowser */,
 				3FB458AD14C1DA1B00B33FE0 /* FlurryAnalytics */,
 				7549D93A14C062920041DB95 /* ASIHTTPRequest */,
 				7526ADD514AB4AD600FEE0BC /* SVProgressHUD */,
@@ -695,6 +715,26 @@
 			path = FlurryAnalytics;
 			sourceTree = "<group>";
 		};
+		752667F414EFF05400917D87 /* MWPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				752667F514EFF05400917D87 /* MWCaptionView.h */,
+				752667F614EFF05400917D87 /* MWCaptionView.m */,
+				752667F714EFF05400917D87 /* MWPhoto.h */,
+				752667F814EFF05400917D87 /* MWPhoto.m */,
+				752667F914EFF05400917D87 /* MWPhotoBrowser.h */,
+				752667FA14EFF05400917D87 /* MWPhotoBrowser.m */,
+				752667FB14EFF05400917D87 /* MWPhotoProtocol.h */,
+				752667FC14EFF05400917D87 /* MWTapDetectingImageView.h */,
+				752667FD14EFF05400917D87 /* MWTapDetectingImageView.m */,
+				752667FE14EFF05400917D87 /* MWTapDetectingView.h */,
+				752667FF14EFF05400917D87 /* MWTapDetectingView.m */,
+				7526680014EFF05400917D87 /* MWZoomingScrollView.h */,
+				7526680114EFF05400917D87 /* MWZoomingScrollView.m */,
+			);
+			path = MWPhotoBrowser;
+			sourceTree = "<group>";
+		};
 		7526ADD514AB4AD600FEE0BC /* SVProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -974,6 +1014,12 @@
 				3F7FC3D614E3AB42009A9215 /* Baby.m in Sources */,
 				3F465AEB14EE3BDE005B7C74 /* MTPhotoBrowser.m in Sources */,
 				3F465AF214EE3D61005B7C74 /* MTCaptionView.m in Sources */,
+				7526680214EFF05400917D87 /* MWCaptionView.m in Sources */,
+				7526680314EFF05400917D87 /* MWPhoto.m in Sources */,
+				7526680414EFF05400917D87 /* MWPhotoBrowser.m in Sources */,
+				7526680514EFF05400917D87 /* MWTapDetectingImageView.m in Sources */,
+				7526680614EFF05400917D87 /* MWTapDetectingView.m in Sources */,
+				7526680714EFF05400917D87 /* MWZoomingScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
