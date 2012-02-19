@@ -30,4 +30,50 @@
     return result;
 }
 
++ (NSString *)generateUUID {
+    CFUUIDRef uuid = CFUUIDCreate(NULL);
+    CFStringRef uuidString = CFUUIDCreateString(NULL, uuid);
+    CFRelease(uuid);
+    NSString *uniqueFileName = [NSString stringWithFormat:@"%@", (NSString *)uuidString];
+    CFRelease(uuidString);
+    return uniqueFileName;
+}
+
++ (NSString *)photoStorePathByDate:(NSDate *)date {
+    int year = date.year;
+    int month = date.month;
+    int day = date.day;
+    
+    NSString *path;
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *subPath = [NSString stringWithFormat:@"photos/%d/%d/%d", year, month, day];
+	path = [[paths objectAtIndex:0] stringByAppendingPathComponent:subPath];
+	NSError *error;
+	if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+		if (![[NSFileManager defaultManager] createDirectoryAtPath:path
+									   withIntermediateDirectories:YES
+														attributes:nil
+															 error:&error]) {
+			NSLog(@"Create directory error: %@", error);
+		}
+	}
+    
+    return subPath;
+}
+
++ (NSManagedObjectContext *)moc {
+    return [Utilities appDelegate].managedObjectContext;
+}
+
++ (NSArray *)fetchBabies {
+    //fetch babies from database
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Baby"];
+    NSError *error = nil;
+    NSArray *babiesArray = [[Utilities moc] executeFetchRequest:request error:&error];
+    if (babiesArray == nil) {
+        //Handle the error.
+    }
+    return babiesArray;
+}
+
 @end

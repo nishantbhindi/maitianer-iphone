@@ -7,11 +7,13 @@
 //
 
 #import "MTTabBarController.h"
-#import "PhotographViewController.h"
+#import "Utilities.h"
+#import "Photo.h"
 
 @interface MTTabBarController ()
 
 @property (nonatomic, retain) UIView *transitionView;
+@property (nonatomic, retain) PhotoPickerController *photoPickerController;
 
 - (MTTabBar *)loadTabBarFromNib;
 - (void)displayViewAtIndex:(NSUInteger)index;
@@ -22,6 +24,7 @@
 @synthesize tabBar = _tabBar;
 @synthesize selectedIndex = _selectedIndex;
 @synthesize tabBarHidden = _tabBarHidden;
+@synthesize photoPickerController = _photoPickerController;
 
 @synthesize transitionView = _transitionView;
 
@@ -94,6 +97,7 @@
     [_viewControllers release];
     [_tabBar release];
     [_transitionView release];
+    [_photoPickerController release];
     [super dealloc];
 }
 
@@ -139,12 +143,31 @@
         return;
     }
     if (tag == PHOTO_PICKER_BUTTON_TAG) {
-        PhotographViewController *photographVC = [self.viewControllers objectAtIndex:tag];
-        [photographVC photoLibraryAction];
+        if (_photoPickerController == nil) {
+            self.photoPickerController = [self.viewControllers objectAtIndex:tag];
+            self.photoPickerController.delegate = self;
+        }
+        [self.photoPickerController photoLibraryAction];
     }else {
         [self displayViewAtIndex:tag];
     }
+}
+
+#pragma mark - PhotoPickerController delegate methods
+- (void)photoPickerController:(PhotoPickerController *)controller didFinishPickingImage:(UIImage *)image isFromCamera:(BOOL)isFromCamera {
+    // Save the photo
+    NSDate *now  = [NSDate date];
+    Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:[Utilities moc]];
+    photo.baby = [[Utilities fetchBabies] objectAtIndex:0];
+    photo.recordDate = [now beginningOfDay];
+    photo.creationDate = now;
+    photo.shared = [NSNumber numberWithBool:NO];
+    [photo saveImage:image baseDirectory:[Utilities photoStorePathByDate:now]];
     
+    NSError *error;
+    if(![photo.managedObjectContext save:&error]) {
+        // handle the error
+    }
 }
 
 @end

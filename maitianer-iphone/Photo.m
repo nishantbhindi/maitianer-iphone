@@ -11,13 +11,18 @@
 #import "Milestone.h"
 #import "DKFile.h"
 #import "Utilities.h"
+#import "UIImage+ProportionalFill.h"
 
 typedef enum PhotoImageVersionT {
     PhotoImageVersionOrigin,
     PhotoImageVersionNormal,
-    PhotoImageVersionB200,
     PhotoImageVersionB140
 }PhotoImageVersion;
+
+@interface Photo ()
+- (void)saveImage:(UIImage *)img toPath:(NSString *)path;
+- (NSString *)imagePathForVersion:(PhotoImageVersion)photoImageVersion;
+@end
 
 @implementation Photo
 
@@ -35,11 +40,25 @@ typedef enum PhotoImageVersionT {
 
 @synthesize originImage;
 @synthesize image;
-@synthesize b200Image;
 @synthesize b140Image;
 
 - (NSString *)recordDateLabel {
     return [Utilities stringFromDate:self.recordDate withFormat:@"yyyy-MM-dd"];
+}
+
+- (void)saveImage:(UIImage *)img baseDirectory:(NSString *)directoryPath {
+    NSString *fileNameUUID = [Utilities generateUUID];
+    self.path = [directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", fileNameUUID]];
+    
+    //store the origin image picked
+    [self saveImage:img toPath:[self imagePathForVersion:PhotoImageVersionOrigin]];
+    
+    //resize the origin image for thumbnail 640x640 and store it
+    [self saveImage:img toPath:[self imagePathForVersion:PhotoImageVersionNormal]];
+    
+    //resize the origin image for thumbnail 140x140 and store it
+    [self saveImage: [img imageCroppedToFitSize:CGSizeMake(140, 140)] toPath:[self imagePathForVersion:PhotoImageVersionB140]];
+    
 }
 
 - (UIImage *)_imageForVersion:(PhotoImageVersion)photoImageVersion {
@@ -50,8 +69,6 @@ typedef enum PhotoImageVersionT {
     NSString *versionString = nil;
     if (photoImageVersion == PhotoImageVersionOrigin) {
         versionString = @"-origin";
-    }else if (photoImageVersion == PhotoImageVersionB200) {
-        versionString = @"-b200";
     }else if (photoImageVersion == PhotoImageVersionB140) {
         versionString = @"-b140";
     }else {
@@ -71,12 +88,35 @@ typedef enum PhotoImageVersionT {
     return [self _imageForVersion:PhotoImageVersionNormal];
 }
 
-- (UIImage *)b200Image {
-    return [self _imageForVersion:PhotoImageVersionB200];
-}
-
 - (UIImage *)b140Image {
     return [self _imageForVersion:PhotoImageVersionB140];
+}
+
+#pragma mark - Private
+- (void)saveImage:(UIImage *)img toPath:(NSString *)path {
+    DKFile *file = [DKFile fileFromDocuments:path];
+    NSError *error = nil;
+    if ([file writeData:UIImageJPEGRepresentation(img, 0.8) error:&error]) {
+        NSLog(@"File save success!");
+    }else {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+- (NSString *)imagePathForVersion:(PhotoImageVersion)photoImageVersion {
+    NSArray *pathComponents = [self.path componentsSeparatedByString:@"."];
+    NSString *pathWithoutExt = [pathComponents objectAtIndex:0];
+    NSString *fileExtsion = [pathComponents objectAtIndex:1];
+    NSString *versionString = nil;
+    if (photoImageVersion == PhotoImageVersionOrigin) {
+        versionString = @"-origin";
+    }else if (photoImageVersion == PhotoImageVersionB140) {
+        versionString = @"-b140";
+    }else {
+        versionString = @"";
+    }
+    
+    return [NSString stringWithFormat:@"%@%@.%@", pathWithoutExt, versionString, fileExtsion];
 }
 
 @end

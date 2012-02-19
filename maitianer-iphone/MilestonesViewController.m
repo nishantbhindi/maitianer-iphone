@@ -222,7 +222,7 @@
     
     Milestone *milestone = [self.fetchedResultsController objectAtIndexPath:indexPath];
     detailLabel.text = milestone.content;
-    photoView.image = milestone.photo.b200Image;
+    photoView.image = milestone.photo.b140Image;
     dateLabel.text = [NSString stringWithFormat:@"%d-%02d-%02d", milestone.recordDate.year, milestone.recordDate.month, milestone.recordDate.day];
     
     return cell;

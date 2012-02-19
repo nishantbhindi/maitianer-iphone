@@ -11,7 +11,7 @@
 #import "UIImage+ProportionalFill.h"
 #import "EditingPhotoViewController.h"
 #import "EditingMilestoneViewController.h"
-#import "PhotographViewController.h"
+#import "PhotoPickerController.h"
 
 #define PHOTO_TAG 1
 #define DETAIL_LABEL_TAG 2

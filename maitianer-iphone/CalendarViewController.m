@@ -10,7 +10,7 @@
 #import "EditingBabyViewController.h"
 #import "NSDate-Utilities.h"
 #import "NSDate+Calculations.h"
-#import "PhotographViewController.h"
+#import "PhotoPickerController.h"
 #import "PhotosViewController.h"
 #import "SettingsViewController.h"
 #import "MWPhoto.h"
@@ -190,7 +190,6 @@
     }
     
     self.calendarView.miniumDate = self.baby.birthday;
-    self.photographVC.baby = self.baby;
     
     //fetch photos per day from database
     NSError *error;
@@ -328,7 +327,7 @@
         [self.navigationController pushViewController:photoBrowser animated:YES];
     }else {
         //show photos library for picking photo
-        self.photographVC.recordDate = date;
+        //self.photographVC.recordDate = date;
         [self.photographVC photoLibraryAction];
     }
     

@@ -11,7 +11,7 @@
 #import "EditingBabyViewController.h"
 #import "CalendarViewController.h"
 #import "MilestonesViewController.h"
-#import "PhotographViewController.h"
+#import "PhotoPickerController.h"
 #import "FlurryAnalytics.h"
 
 #if !defined(SinaWeiBoSDKDemo_APPKey)
@@ -81,17 +81,16 @@ void uncaughtExceptionHandler(NSException *exception) {
     calendarNVC.navigationBarHidden = YES;
     
     
-    PhotographViewController *photographVC = [[PhotographViewController alloc] init];
-    calendarVC.photographVC = photographVC;
+    PhotoPickerController *photoPickerController = [[PhotoPickerController alloc] init];
     
     MilestonesViewController *milestonesVC = [[MilestonesViewController alloc] init];
     milestonesVC.managedObjectContext = self.managedObjectContext;
     UINavigationController *milestonesNVC = [[UINavigationController alloc] initWithRootViewController:milestonesVC];
     
-    _tabBarController = [[MTTabBarController alloc] initWithControllers:[NSArray arrayWithObjects:calendarNVC, photographVC, milestonesNVC, nil]];
+    _tabBarController = [[MTTabBarController alloc] initWithControllers:[NSArray arrayWithObjects:calendarNVC, photoPickerController, milestonesNVC, nil]];
     
     [calendarVC release];
-    [photographVC release];
+    [photoPickerController release];
     [milestonesVC release];
     [calendarNVC release];
     [milestonesNVC release];

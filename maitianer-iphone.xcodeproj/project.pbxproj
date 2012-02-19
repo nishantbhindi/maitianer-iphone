@@ -158,7 +158,7 @@
 		75BFE3E1147BE18900BF3522 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BFE3DF147BE18900BF3522 /* CalendarViewController.m */; };
 		75BFE3E2147BE18900BF3522 /* CalendarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75BFE3E0147BE18900BF3522 /* CalendarViewController.xib */; };
 		75BFE3E6147BE1BA00BF3522 /* MilestonesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BFE3E5147BE1BA00BF3522 /* MilestonesViewController.m */; };
-		75BFE3E9147BE22700BF3522 /* PhotographViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BFE3E8147BE22700BF3522 /* PhotographViewController.m */; };
+		75BFE3E9147BE22700BF3522 /* PhotoPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75BFE3E8147BE22700BF3522 /* PhotoPickerController.m */; };
 		75C5D770147D049500BD84E8 /* NSDate+Calculations.m in Sources */ = {isa = PBXBuildFile; fileRef = 75C5D76F147D049500BD84E8 /* NSDate+Calculations.m */; };
 		75C5D784147D54CE00BD84E8 /* calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C5D780147D54CE00BD84E8 /* calendar.png */; };
 		75CDB966148BADA40003923D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 75CDB965148BADA40003923D /* Default.png */; };
@@ -428,8 +428,8 @@
 		75BFE3E0147BE18900BF3522 /* CalendarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarViewController.xib; sourceTree = "<group>"; };
 		75BFE3E4147BE1BA00BF3522 /* MilestonesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MilestonesViewController.h; sourceTree = "<group>"; };
 		75BFE3E5147BE1BA00BF3522 /* MilestonesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MilestonesViewController.m; sourceTree = "<group>"; };
-		75BFE3E7147BE22700BF3522 /* PhotographViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotographViewController.h; sourceTree = "<group>"; };
-		75BFE3E8147BE22700BF3522 /* PhotographViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotographViewController.m; sourceTree = "<group>"; };
+		75BFE3E7147BE22700BF3522 /* PhotoPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = PhotoPickerController.h; sourceTree = "<group>"; };
+		75BFE3E8147BE22700BF3522 /* PhotoPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPickerController.m; sourceTree = "<group>"; };
 		75C5D76E147D049500BD84E8 /* NSDate+Calculations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+Calculations.h"; path = "maitianer-iphone/NSDate+Calculations.h"; sourceTree = "<group>"; };
 		75C5D76F147D049500BD84E8 /* NSDate+Calculations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Calculations.m"; path = "maitianer-iphone/NSDate+Calculations.m"; sourceTree = "<group>"; };
 		75C5D780147D54CE00BD84E8 /* calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar.png; sourceTree = "<group>"; };
@@ -569,8 +569,8 @@
 				3F33C53314A1CDEE00286B5A /* EditingMilestoneViewController.h */,
 				3F33C53414A1CDEE00286B5A /* EditingMilestoneViewController.m */,
 				3F33C53514A1CDEE00286B5A /* EditingMilestoneViewController.xib */,
-				75BFE3E7147BE22700BF3522 /* PhotographViewController.h */,
-				75BFE3E8147BE22700BF3522 /* PhotographViewController.m */,
+				75BFE3E7147BE22700BF3522 /* PhotoPickerController.h */,
+				75BFE3E8147BE22700BF3522 /* PhotoPickerController.m */,
 				759872B614B0241000B8D0E3 /* SettingsViewController.h */,
 				759872B714B0241000B8D0E3 /* SettingsViewController.m */,
 				759872B814B0241000B8D0E3 /* SettingsViewController.xib */,
@@ -1147,7 +1147,7 @@
 				3F0F8627147B79EC00FC3FC9 /* EditingBabyViewController.m in Sources */,
 				75BFE3E1147BE18900BF3522 /* CalendarViewController.m in Sources */,
 				75BFE3E6147BE1BA00BF3522 /* MilestonesViewController.m in Sources */,
-				75BFE3E9147BE22700BF3522 /* PhotographViewController.m in Sources */,
+				75BFE3E9147BE22700BF3522 /* PhotoPickerController.m in Sources */,
 				75287426147C00B000581419 /* NSDate-Utilities.m in Sources */,
 				3F8B4396147C9D9F00D544CF /* MTCalendarView.m in Sources */,
 				3F8B439A147C9DB200D544CF /* MTCalendarCellView.m in Sources */,
