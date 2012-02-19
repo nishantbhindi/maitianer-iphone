@@ -61,26 +61,25 @@ void uncaughtExceptionHandler(NSException *exception) {
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     
-    //flurry
+    // Flurry
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     [FlurryAnalytics startSession:@"YHJ3T4Z3ZQR6KGK96X7E"];
     
-    //show the status bar with black opaque style
+    // Show the status bar with black opaque style
     [UIApplication sharedApplication].statusBarHidden = NO;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
     
-    //set default timezone
+    // Set default timezone
     [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
     
-    //init weibo api
+    // Initial weibo api
     _weibo = [[WeiBo alloc] initWithAppKey:SinaWeiBoSDKDemo_APPKey withAppSecret:SinaWeiBoSDKDemo_APPSecret];
-    
-    _tabBarController = [[UITabBarController alloc] init];
     
     CalendarViewController *calendarVC = [[CalendarViewController alloc] initWithNibName:@"CalendarViewController" bundle:[NSBundle mainBundle]];
     calendarVC.managedObjectContext = self.managedObjectContext;
     UINavigationController *calendarNVC = [[UINavigationController alloc] initWithRootViewController:calendarVC];
     calendarNVC.navigationBarHidden = YES;
+    
     
     PhotographViewController *photographVC = [[PhotographViewController alloc] init];
     calendarVC.photographVC = photographVC;
@@ -88,37 +87,16 @@ void uncaughtExceptionHandler(NSException *exception) {
     MilestonesViewController *milestonesVC = [[MilestonesViewController alloc] init];
     milestonesVC.managedObjectContext = self.managedObjectContext;
     UINavigationController *milestonesNVC = [[UINavigationController alloc] initWithRootViewController:milestonesVC];
-    [milestonesVC release];
     
-    _tabBarController.viewControllers = [NSArray arrayWithObjects:calendarNVC, photographVC, milestonesNVC, nil];
-    [milestonesNVC release];
+    _tabBarController = [[MTTabBarController alloc] initWithControllers:[NSArray arrayWithObjects:calendarNVC, photographVC, milestonesNVC, nil]];
     
-    // Create a custom UIButton and add it to the center of our tab bar
-    UIImage *buttonImage = [UIImage imageNamed:@"capture-button.png"];
-    UIImage *highlightImage = [UIImage imageNamed:@"capture-button.png"];
-    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.tag = 9999;
-    button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
-    button.frame = CGRectMake(0.0, 0.0, buttonImage.size.width, buttonImage.size.height);
-    [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [button setBackgroundImage:highlightImage forState:UIControlStateHighlighted];
-    [button addTarget:photographVC action:@selector(cameraAction:) forControlEvents:UIControlEventTouchUpInside];
-    
-    CGFloat heightDifference = buttonImage.size.height - _tabBarController.tabBar.frame.size.height;
-    if (heightDifference < 0)
-        button.center = _tabBarController.tabBar.center;
-    else {
-        CGPoint center = _tabBarController.tabBar.center;
-        center.y = center.y - heightDifference/2.0;
-        button.center = center;
-    }
-    
-    [_tabBarController.view addSubview:button];
     [calendarVC release];
     [photographVC release];
-
-    self.window.rootViewController = _tabBarController;
+    [milestonesVC release];
+    [calendarNVC release];
+    [milestonesNVC release];
     
+    self.window.rootViewController = _tabBarController;
     [self.window makeKeyAndVisible];
     return YES;
 }

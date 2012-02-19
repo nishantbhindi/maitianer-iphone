@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WBConnect.h"
+#import "MTTabBarController.h"
 
 @class MTTabBarController;
 
@@ -18,7 +19,7 @@
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (readonly, strong, nonatomic) UITabBarController *tabBarController;
+@property (readonly, strong, nonatomic) MTTabBarController *tabBarController;
 @property (readonly, retain, nonatomic) WeiBo *weibo;
 
 - (void)saveContext;

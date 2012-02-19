@@ -26,6 +26,6 @@
 @property (nonatomic, retain) Baby *baby;
 
 - (void)cameraAction:(id)sender;
-- (void)photoLibraryAction:(id)sender;
+- (void)photoLibraryAction;
 
 @end

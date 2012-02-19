@@ -44,7 +44,7 @@
     [self _showImagePicker:UIImagePickerControllerSourceTypeCamera];
 }
 
-- (void)photoLibraryAction:(id)sender {
+- (void)photoLibraryAction {
     [self _showImagePicker:UIImagePickerControllerSourceTypePhotoLibrary];
 }
 

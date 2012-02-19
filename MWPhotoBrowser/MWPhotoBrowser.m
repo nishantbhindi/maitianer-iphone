@@ -61,6 +61,8 @@
     BOOL _viewIsActive; // active as in it's in the view heirarchy
     BOOL _didSavePreviousStateOfNavBar;
     
+    NSDate *_recordDate;
+    
 }
 
 // Private Properties
@@ -139,6 +141,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 @synthesize displayActionButton = _displayActionButton, actionsSheet = _actionsSheet;
 @synthesize progressHUD = _progressHUD;
 @synthesize previousViewControllerBackButton = _previousViewControllerBackButton;
+@synthesize recordDate = _recordDate;
 
 #pragma mark - NSObject
 
@@ -200,6 +203,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [[SDImageCache sharedImageCache] clearMemory]; // clear memory
     [_photos release];
     [_progressHUD release];
+    [_recordDate release];
     [super dealloc];
 }
 

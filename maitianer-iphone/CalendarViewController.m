@@ -13,6 +13,7 @@
 #import "PhotographViewController.h"
 #import "PhotosViewController.h"
 #import "SettingsViewController.h"
+#import "MWPhoto.h"
 
 #define FIRST_SHOW_BUTTON_TAG 100
 
@@ -145,9 +146,7 @@
 }
 
 #pragma mark - View lifecycle
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     //config calendar view
@@ -301,33 +300,36 @@
 - (void)calendarView:(MTCalendarView *)calendarView didSelectDate:(NSDate *)date {
     MTCalendarCellView *cell = [calendarView cellForDate:date];
     if (cell.photos) {
-        //show photos at selected date
-        PhotosViewController *photosVC = [[PhotosViewController alloc] initWithStyle:UITableViewStylePlain];
-        
-        //set controller title
-        NSDateFormatter *dateFormattor = [[NSDateFormatter alloc] init];
-        dateFormattor.dateFormat = @"yyyy年MM月dd日";
-        photosVC.title = [dateFormattor stringFromDate:date];
-        [dateFormattor release];
-        
-        //set controller photos
-        //photosVC.photos = [cell.photos mutableCopy];
-        photosVC.managedObjectContext = self.managedObjectContext;
-        photosVC.recordDate = date;
-        
-        self.photographVC.recordDate = date;
-        
-        //config back bar button item style
-        UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStyleDone target:nil action:nil];
-        self.navigationItem.backBarButtonItem = backBarButtonItem;
-        [backBarButtonItem release];
-        
-        [self.navigationController pushViewController:photosVC animated:YES];
-        [photosVC release];
+//        //show photos at selected date
+//        PhotosViewController *photosVC = [[PhotosViewController alloc] initWithStyle:UITableViewStylePlain];
+//        
+//        //set controller title
+//        NSDateFormatter *dateFormattor = [[NSDateFormatter alloc] init];
+//        dateFormattor.dateFormat = @"yyyy年MM月dd日";
+//        photosVC.title = [dateFormattor stringFromDate:date];
+//        [dateFormattor release];
+//        
+//        //set controller photos
+//        //photosVC.photos = [cell.photos mutableCopy];
+//        photosVC.managedObjectContext = self.managedObjectContext;
+//        photosVC.recordDate = date;
+//        
+//        self.photographVC.recordDate = date;
+//        
+//        //config back bar button item style
+//        UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStyleDone target:nil action:nil];
+//        self.navigationItem.backBarButtonItem = backBarButtonItem;
+//        [backBarButtonItem release];
+//        
+//        [self.navigationController pushViewController:photosVC animated:YES];
+//        [photosVC release];
+        MWPhotoBrowser *photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+        photoBrowser.recordDate = date;
+        [self.navigationController pushViewController:photoBrowser animated:YES];
     }else {
         //show photos library for picking photo
         self.photographVC.recordDate = date;
-        [self.photographVC photoLibraryAction:[calendarView cellForDate:date]];
+        [self.photographVC photoLibraryAction];
     }
     
 }
@@ -355,6 +357,19 @@
         [_datePicker release];
         [self _showPhotosInCalendar];
     }
+}
+
+#pragma mark - Photo browser delegate methods
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    MTCalendarCellView *cell = [self.calendarView cellForDate:photoBrowser.recordDate];
+    return [cell.photos count];
+}
+
+- (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    MTCalendarCellView *cell = [self.calendarView cellForDate:photoBrowser.recordDate];
+    Photo *photo = [cell.photos objectAtIndex:index];
+    MWPhoto *mWphoto = [[MWPhoto alloc] initWithImage:photo.image];
+    return mWphoto;
 }
 
 @end

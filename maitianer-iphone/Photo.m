@@ -10,6 +10,7 @@
 #import "Baby.h"
 #import "Milestone.h"
 #import "DKFile.h"
+#import "Utilities.h"
 
 typedef enum PhotoImageVersionT {
     PhotoImageVersionOrigin,
@@ -38,11 +39,7 @@ typedef enum PhotoImageVersionT {
 @synthesize b140Image;
 
 - (NSString *)recordDateLabel {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *recordDateLabel = [dateFormatter stringFromDate:self.recordDate];
-    [dateFormatter release];
-    return recordDateLabel;
+    return [Utilities stringFromDate:self.recordDate withFormat:@"yyyy-MM-dd"];
 }
 
 - (UIImage *)_imageForVersion:(PhotoImageVersion)photoImageVersion {

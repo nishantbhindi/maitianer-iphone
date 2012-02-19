@@ -10,10 +10,11 @@
 #import "Baby.h"
 #import "Photo.h"
 #import "MTCalendarView.h"
+#import "MWPhotoBrowser.h"
 
 @class PhotographViewController;
 
-@interface CalendarViewController : UIViewController <MTCalendarViewDelegate, UIActionSheetDelegate> {
+@interface CalendarViewController : UIViewController <MTCalendarViewDelegate, UIActionSheetDelegate, MWPhotoBrowserDelegate> {
     
     NSManagedObjectContext *_managedObjectContext;
     NSFetchedResultsController *_photoResultsController;
