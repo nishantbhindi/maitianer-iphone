@@ -326,7 +326,6 @@
 //        [self.navigationController pushViewController:photosVC animated:YES];
 //        [photosVC release];
         MWPhotoBrowser *photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-        photoBrowser.wantsFullScreenLayout = YES;
         photoBrowser.recordDate = date;
         [self.navigationController pushViewController:photoBrowser animated:YES];
     }else {

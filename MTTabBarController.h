@@ -10,7 +10,7 @@
 #import "MTTabBar.h"
 #import "PhotoPickerController.h"
 
-@interface MTTabBarController : UIViewController <MTTabBarDelegate, PhotoPickerControllerDelegate>
+@interface MTTabBarController : UIViewController <MTTabBarDelegate, PhotoPickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, retain) NSArray *viewControllers;
 @property (nonatomic, readonly) MTTabBar *tabBar;

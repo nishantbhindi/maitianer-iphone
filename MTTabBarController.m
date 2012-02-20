@@ -51,12 +51,9 @@
 	if (animated == YES) {
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDuration:0.3f];
-		if (tabBarHidden == YES)
-		{
+		if (tabBarHidden == YES) {
 			self.tabBar.frame = CGRectMake(self.tabBar.frame.origin.x, self.tabBar.frame.origin.y + tabBarHeight, self.tabBar.frame.size.width, self.tabBar.frame.size.height);
-		}
-		else 
-		{
+		}else  {
 			self.tabBar.frame = CGRectMake(self.tabBar.frame.origin.x, self.tabBar.frame.origin.y - tabBarHeight, self.tabBar.frame.size.width, self.tabBar.frame.size.height);
 		}
 		[UIView commitAnimations];
@@ -89,10 +86,14 @@
     UIViewController *selectedVC = [self.viewControllers objectAtIndex:index];
     
     selectedVC.view.frame = self.transitionView.bounds;
+    
     if ([selectedVC.view isDescendantOfView:self.transitionView]) {
         [self.transitionView bringSubviewToFront:selectedVC.view];
     }else {
         [self.transitionView addSubview:selectedVC.view];
+        if ([selectedVC isKindOfClass:[UINavigationController class]]) {
+            ((UINavigationController *)selectedVC).delegate = self;
+        }
     }
 }
 
@@ -140,8 +141,9 @@
 - (void)loadView {
     [super loadView];
     // Frame
-    self.view.frame = [UIScreen mainScreen].applicationFrame;
+    NSLog(@"%@", self.transitionView.description);
     self.transitionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.tabBar.frame.size.height + 11);
+    self.transitionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     CGRect tabBarFrame = self.tabBar.frame;
     tabBarFrame.origin.y = self.view.frame.size.height - tabBarFrame.size.height;
     self.tabBar.frame = tabBarFrame;
@@ -154,13 +156,14 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSLog(@"%@", self.transitionView.description);
     // Selected view at index 0 for default
     self.selectedIndex = 0;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    NSLog(@"%@", self.transitionView.description);
 }
 
 - (void)viewDidUnload
@@ -191,6 +194,10 @@
     }else {
         [self displayViewAtIndex:tag];
     }
+}
+
+#pragma mark - UINavigationControllerDelegate
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
 }
 
 #pragma mark - PhotoPickerController delegate methods
