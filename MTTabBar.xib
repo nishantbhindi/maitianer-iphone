@@ -59,6 +59,7 @@
 						<reference key="NSNextKeyView" ref="803617116"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<bool key="IBUISelected">YES</bool>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<object class="NSColor" key="IBUIHighlightedTitleColor" id="807833023">
@@ -122,7 +123,6 @@
 						<string key="NSFrame">{{214, 13}, {106, 45}}</string>
 						<reference key="NSSuperview" ref="374408881"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<int key="IBUITag">2</int>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>

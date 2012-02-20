@@ -45,6 +45,7 @@
 	UIBarButtonItem *_previousButton, *_nextButton, *_actionButton;
     UIActionSheet *_actionsSheet;
     MBProgressHUD *_progressHUD;
+    QuadCurveMenu *_quadCurveMenu;
     
     // Appearance
     UIImage *_navigationBarBackgroundImageDefault, 
@@ -71,6 +72,7 @@
 @property (nonatomic, retain) UIImage *navigationBarBackgroundImageDefault, *navigationBarBackgroundImageLandscapePhone;
 @property (nonatomic, retain) UIActionSheet *actionsSheet;
 @property (nonatomic, retain) MBProgressHUD *progressHUD;
+@property (nonatomic, retain) QuadCurveMenu *quadCurveMenu;
 
 // Private Methods
 
@@ -142,6 +144,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 @synthesize progressHUD = _progressHUD;
 @synthesize previousViewControllerBackButton = _previousViewControllerBackButton;
 @synthesize recordDate = _recordDate;
+@synthesize quadCurveMenu = _quadCurveMenu;
 
 #pragma mark - NSObject
 
@@ -204,6 +207,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [_photos release];
     [_progressHUD release];
     [_recordDate release];
+    [_quadCurveMenu release];
     [super dealloc];
 }
 
@@ -256,6 +260,45 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     _previousButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"MWPhotoBrowser.bundle/images/UIBarButtonItemArrowLeft.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoPreviousPage)];
     _nextButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"MWPhotoBrowser.bundle/images/UIBarButtonItemArrowRight.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoNextPage)];
     _actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonPressed:)];
+    
+    // QuadCurveMenu
+    UIImage *storyMenuItemImage = [UIImage imageNamed:@"bg-menuitem.png"];
+    UIImage *storyMenuItemImagePressed = [UIImage imageNamed:@"bg-menuitem-highlighted.png"];
+    
+    UIImage *starImage = [UIImage imageNamed:@"icon-star.png"];
+    QuadCurveMenuItem *starMenuItem1 = [[QuadCurveMenuItem alloc] initWithImage:storyMenuItemImage
+                                                               highlightedImage:storyMenuItemImagePressed 
+                                                                   ContentImage:starImage 
+                                                        highlightedContentImage:nil];
+    QuadCurveMenuItem *starMenuItem2 = [[QuadCurveMenuItem alloc] initWithImage:storyMenuItemImage
+                                                               highlightedImage:storyMenuItemImagePressed 
+                                                                   ContentImage:starImage 
+                                                        highlightedContentImage:nil];
+    QuadCurveMenuItem *starMenuItem3 = [[QuadCurveMenuItem alloc] initWithImage:storyMenuItemImage
+                                                               highlightedImage:storyMenuItemImagePressed 
+                                                                   ContentImage:starImage 
+                                                        highlightedContentImage:nil];
+    QuadCurveMenuItem *starMenuItem4 = [[QuadCurveMenuItem alloc] initWithImage:storyMenuItemImage
+                                                               highlightedImage:storyMenuItemImagePressed 
+                                                                   ContentImage:starImage 
+                                                        highlightedContentImage:nil];
+    QuadCurveMenuItem *starMenuItem5 = [[QuadCurveMenuItem alloc] initWithImage:storyMenuItemImage
+                                                               highlightedImage:storyMenuItemImagePressed 
+                                                                   ContentImage:starImage
+                                                        highlightedContentImage:nil];
+    NSArray *menus = [NSArray arrayWithObjects:starMenuItem1, starMenuItem2, starMenuItem3, starMenuItem4, starMenuItem5, nil];
+    [starMenuItem1 release];
+    [starMenuItem2 release];
+    [starMenuItem3 release];
+    [starMenuItem4 release];
+    [starMenuItem5 release];
+    _quadCurveMenu = [[QuadCurveMenu alloc] initWithFrame:self.view.bounds menus:menus];
+    _quadCurveMenu.delegate = self;
+    _quadCurveMenu.center = CGPointMake(290, 30);
+    _quadCurveMenu.rotateAngle = M_PI;
+    _quadCurveMenu.menuWholeAngle = M_PI / 1.6;
+    [self.view addSubview:_quadCurveMenu];
+    [self.view bringSubviewToFront:_quadCurveMenu];
     
     // Update
     [self reloadData];
@@ -1082,6 +1125,13 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
         [self.progressHUD hide:YES];
     }
     self.navigationController.navigationBar.userInteractionEnabled = YES;
+}
+
+#pragma mark - QuadCurveMenu
+- (void)quadCurveMenu:(QuadCurveMenu *)menu didSelectIndex:(NSInteger)idx {
+    if ([_delegate respondsToSelector:@selector(photoBrowser:didSelectedPhoto:actionAtIndex:)]) {
+        [_delegate photoBrowser:self didSelectedPhoto:[_photos objectAtIndex:_currentPageIndex] actionAtIndex:idx];
+    }
 }
 
 #pragma mark - Actions

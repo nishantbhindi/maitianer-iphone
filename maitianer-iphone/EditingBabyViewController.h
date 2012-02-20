@@ -11,7 +11,7 @@
 
 @class Baby;
 
-@interface EditingBabyViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, JSONRequestDelegate> {
+@interface EditingBabyViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate> {
     Baby *_baby;
     
     IBOutlet UITableView *_tableView;

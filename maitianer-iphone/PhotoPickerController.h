@@ -21,6 +21,7 @@
 @interface PhotoPickerController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (nonatomic, assign) id delegate;
+@property (nonatomic, retain) NSDate *recordDate;
 
 - (id)initWithDelegate:(id)delegate;
 - (void)cameraAction;

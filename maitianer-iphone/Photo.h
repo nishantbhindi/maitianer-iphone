@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "MWPhotoProtocol.h"
 
 @class Baby, Milestone;
 
-@interface Photo : NSManagedObject
+@interface Photo : NSManagedObject <MWPhoto>
 
 @property (nonatomic, retain) NSString * content;
 @property (nonatomic, retain) NSDate * creationDate;

@@ -29,6 +29,7 @@
 
 @implementation PhotoPickerController
 @synthesize delegate = _delegate;
+@synthesize recordDate = _recordDate;
 @synthesize imagePickerController = _imagePickerController;
 @synthesize isFrommCamera = _isFromCamera;
 

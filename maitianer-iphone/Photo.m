@@ -119,4 +119,21 @@ typedef enum PhotoImageVersionT {
     return [NSString stringWithFormat:@"%@%@.%@", pathWithoutExt, versionString, fileExtsion];
 }
 
+#pragma mark - MWPhoto 
+- (UIImage *)underlyingImage {
+    return self.image;
+}
+
+- (void)loadUnderlyingImageAndNotify {
+    
+}
+
+- (void)unloadUnderlyingImage {
+    
+}
+
+- (NSString *)caption {
+    return self.content;
+}
+
 @end

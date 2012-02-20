@@ -285,9 +285,8 @@
         [self.navigationController pushViewController:editingMilestoneVC animated:YES];
         [editingMilestoneVC release];
     }else {
-        PhotosViewController *photosVC = [[PhotosViewController alloc] initWithStyle:UITableViewStylePlain];
+        PhotosViewController *photosVC = [[PhotosViewController alloc] init];
         photosVC.recordDate = milestone.recordDate;
-        photosVC.managedObjectContext = self.managedObjectContext;
         [self.navigationController pushViewController:photosVC animated:YES];
         [photosVC release];
     }

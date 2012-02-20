@@ -39,7 +39,42 @@
 }
 
 - (void)setTabBarHidden:(BOOL)tabBarHidden animated:(BOOL)animated {
-    
+    _tabBarHidden = tabBarHidden;
+    CGFloat tabBarHeight = self.tabBar.frame.size.height;
+    if (tabBarHidden == YES) {
+		if (self.tabBar.frame.origin.y == self.view.frame.size.height) return;
+	}
+	else {
+		if (self.tabBar.frame.origin.y == self.view.frame.size.height - tabBarHeight) return;
+	}
+	
+	if (animated == YES) {
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDuration:0.3f];
+		if (tabBarHidden == YES)
+		{
+			self.tabBar.frame = CGRectMake(self.tabBar.frame.origin.x, self.tabBar.frame.origin.y + tabBarHeight, self.tabBar.frame.size.width, self.tabBar.frame.size.height);
+		}
+		else 
+		{
+			self.tabBar.frame = CGRectMake(self.tabBar.frame.origin.x, self.tabBar.frame.origin.y - tabBarHeight, self.tabBar.frame.size.width, self.tabBar.frame.size.height);
+		}
+		[UIView commitAnimations];
+	}
+	else {
+		if (tabBarHidden == YES) {
+			self.tabBar.frame = CGRectMake(self.tabBar.frame.origin.x, self.tabBar.frame.origin.y + tabBarHeight, self.tabBar.frame.size.width, self.tabBar.frame.size.height);
+		}
+		else {
+			self.tabBar.frame = CGRectMake(self.tabBar.frame.origin.x, self.tabBar.frame.origin.y - tabBarHeight, self.tabBar.frame.size.width, self.tabBar.frame.size.height);
+		}
+	}
+    self.transitionView.frame = CGRectMake(0, 0, self.tabBar.frame.size.width, self.tabBar.frame.origin.y + 11);
+}
+
+- (void)setTabBarHidden:(BOOL)tabBarHidden {
+    _tabBarHidden = tabBarHidden;
+    [self setTabBarHidden:tabBarHidden animated:NO];
 }
 
 - (void)displayViewAtIndex:(NSUInteger)index {
@@ -106,13 +141,14 @@
     [super loadView];
     // Frame
     self.view.frame = [UIScreen mainScreen].applicationFrame;
-    self.transitionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.tabBar.frame.size.height);
+    self.transitionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.tabBar.frame.size.height + 11);
     CGRect tabBarFrame = self.tabBar.frame;
     tabBarFrame.origin.y = self.view.frame.size.height - tabBarFrame.size.height;
     self.tabBar.frame = tabBarFrame;
     
     [self.view addSubview:self.tabBar];
     [self.view addSubview:self.transitionView];
+    [self.view bringSubviewToFront:self.tabBar];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -121,6 +157,10 @@
     
     // Selected view at index 0 for default
     self.selectedIndex = 0;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidUnload
@@ -156,13 +196,19 @@
 #pragma mark - PhotoPickerController delegate methods
 - (void)photoPickerController:(PhotoPickerController *)controller didFinishPickingImage:(UIImage *)image isFromCamera:(BOOL)isFromCamera {
     // Save the photo
-    NSDate *now  = [NSDate date];
+    NSDate *recordDate;
+    if (controller.recordDate) {
+        recordDate = controller.recordDate;
+    }else {
+        recordDate = [NSDate date];
+    }
+    
     Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:[Utilities moc]];
     photo.baby = [[Utilities fetchBabies] objectAtIndex:0];
-    photo.recordDate = [now beginningOfDay];
-    photo.creationDate = now;
+    photo.recordDate = [recordDate beginningOfDay];
+    photo.creationDate = [NSDate date];
     photo.shared = [NSNumber numberWithBool:NO];
-    [photo saveImage:image baseDirectory:[Utilities photoStorePathByDate:now]];
+    [photo saveImage:image baseDirectory:[Utilities photoStorePathByDate:recordDate]];
     
     NSError *error;
     if(![photo.managedObjectContext save:&error]) {

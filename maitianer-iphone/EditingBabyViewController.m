@@ -9,7 +9,6 @@
 #import "EditingBabyViewController.h"
 #import "Baby.h"
 #import "FlurryAnalytics.h"
-#import "JSONRequest.h"
 #import "Utilities.h"
 
 @implementation EditingBabyViewController
@@ -220,11 +219,6 @@
 
     _sexArray = [[NSArray arrayWithObjects:@"小帅哥", @"小美女", @"保密", nil] retain];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewDidUnload
@@ -356,45 +350,6 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 #pragma mark - Table view delegate
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UILabel *sectionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 44)];
@@ -440,21 +395,6 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     self.sexField.text = [_sexArray objectAtIndex:row];
-}
-#pragma mark - JSONRequest delegate
-- (void)jsonDidFinishLoading:(NSDictionary *)json jsonRequest:(JSONRequest *)request {
-    if ([[json valueForKey:@"id"] intValue] && ![self.baby.babyId intValue]) {
-        //set local baby id
-        self.baby.babyId = [NSNumber numberWithInt:[[json valueForKey:@"id"] intValue]];
-        NSError *error;
-        if ([self.baby.managedObjectContext save:&error]) {
-            //handle the error
-        }
-    }
-}
-
-- (void)jsonDidFailWithError:(NSError *)error jsonRequest:(JSONRequest *)request {
-    NSLog(@"failed with error: %d %@", [request.response statusCode], [error localizedDescription]);
 }
 
 @end

@@ -8,20 +8,22 @@
 
 #import "CalendarViewController.h"
 #import "EditingBabyViewController.h"
-#import "NSDate-Utilities.h"
-#import "NSDate+Calculations.h"
-#import "PhotoPickerController.h"
+#import "Utilities.h"
 #import "PhotosViewController.h"
 #import "SettingsViewController.h"
 #import "MWPhoto.h"
 
 #define FIRST_SHOW_BUTTON_TAG 100
 
+@interface CalendarViewController ()
+@property (nonatomic, retain) PhotoPickerController *photoPickerController;
+@end
+
 @implementation CalendarViewController
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize photoResultsController = _photoResultsController;
 @synthesize baby = _baby;
-@synthesize photographVC = _photographVC;
+@synthesize customTabBarController = _customTabBarController;
 @synthesize babyInfoView = _babyInfoView;
 @synthesize avatarView = _avatarView;
 @synthesize babyNameLabel = _babyNameLabel;
@@ -29,6 +31,7 @@
 @synthesize daysAfterRecordLabel = _daysAfterRecordLabel;
 @synthesize babyInfoToggle = _babyInfoToggle;
 @synthesize calendarView = _calendarView;
+@synthesize photoPickerController = _photoPickerController;
 
 - (IBAction)showSettings:(id)sender {
     SettingsViewController *settingsVC = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:[NSBundle mainBundle]];
@@ -37,7 +40,7 @@
     UINavigationController *settingsNVC = [[[UINavigationController alloc] initWithRootViewController:settingsVC] autorelease];
     [settingsVC release];
     settingsNVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentModalViewController:settingsNVC animated:YES];
+    [self.customTabBarController presentModalViewController:settingsNVC animated:YES];
 }
 
 - (IBAction)toggleBabyInfo:(id)sender {
@@ -69,12 +72,9 @@
     if (_baby) {
         return _baby;
     }
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Baby"];
-    NSError *error;
-    NSArray *babiesArray = [self.managedObjectContext executeFetchRequest:request error:&error];
-    if (error) {
-        //handle the error
-    }
+
+    NSArray *babiesArray = [Utilities fetchBabies];
+
     if ([babiesArray count] > 0) {
         _baby = [[babiesArray objectAtIndex:0] retain];
     }
@@ -134,7 +134,6 @@
     [_managedObjectContext release];
     [_photoResultsController release];
     [_baby release];
-    [_photographVC release];
     [_babyInfoView release];
     [_avatarView release];
     [_babyNameLabel release];
@@ -142,6 +141,8 @@
     [_daysAfterRecordLabel release];
     [_babyInfoToggle release]; 
     [_calendarView release];
+    [_customTabBarController release];
+    [_photoPickerController release];
     [super dealloc];
 }
 
@@ -172,10 +173,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    UIView *button = [self.tabBarController.view viewWithTag:9999];
-    [button setHidden:NO];
-    
     self.navigationController.navigationBarHidden = YES;
+    [self.customTabBarController setTabBarHidden:NO animated:YES];
     
     //show editing baby view controller for create a baby if baby not existed
     if (self.baby == nil) {
@@ -184,7 +183,7 @@
         editingBabyVC.baby = [NSEntityDescription insertNewObjectForEntityForName:@"Baby" inManagedObjectContext:self.managedObjectContext];
         editingBabyVC.baby.creationDate = [NSDate date];
         UINavigationController *editingBabyNVC = [[UINavigationController alloc] initWithRootViewController:editingBabyVC];
-        [self presentModalViewController:editingBabyNVC animated:YES];
+        [self.customTabBarController presentModalViewController:editingBabyNVC animated:YES];
         [editingBabyVC release];
         [editingBabyNVC release];
     }
@@ -261,7 +260,11 @@
     [self.calendarView reload];
     //fetch photos then show in calendar
     [self _showPhotosInCalendar];
-    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [self.customTabBarController setTabBarHidden:YES animated:YES];
 }
 
 - (void)viewDidUnload
@@ -323,12 +326,16 @@
 //        [self.navigationController pushViewController:photosVC animated:YES];
 //        [photosVC release];
         MWPhotoBrowser *photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+        photoBrowser.wantsFullScreenLayout = YES;
         photoBrowser.recordDate = date;
         [self.navigationController pushViewController:photoBrowser animated:YES];
     }else {
-        //show photos library for picking photo
-        //self.photographVC.recordDate = date;
-        [self.photographVC photoLibraryAction];
+        // Show photos library for picking photo
+        if (self.photoPickerController == nil) {
+            _photoPickerController = [[PhotoPickerController alloc] initWithDelegate:self.customTabBarController];
+        }
+        self.photoPickerController.recordDate = date;
+        [self.photoPickerController photoLibraryAction];
     }
     
 }
@@ -367,8 +374,25 @@
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
     MTCalendarCellView *cell = [self.calendarView cellForDate:photoBrowser.recordDate];
     Photo *photo = [cell.photos objectAtIndex:index];
-    MWPhoto *mWphoto = [[MWPhoto alloc] initWithImage:photo.image];
-    return mWphoto;
+    return photo;
+}
+
+- (void)photoBrowser:(MWPhotoBrowser *)photoBroswer didSelectedPhoto:(Photo *)photo actionAtIndex:(NSInteger)index {
+    if (index == 4) {
+        // Show photos library for picking photo
+        if (self.photoPickerController == nil) {
+            _photoPickerController = [[PhotoPickerController alloc] initWithDelegate:self.customTabBarController];
+        }
+        self.photoPickerController.recordDate = photoBroswer.recordDate;
+        [self.photoPickerController photoLibraryAction];
+        //fetch photos per day from database
+        NSError *error;
+        if (![self.photoResultsController performFetch:&error]) {
+            //handle the error.
+        }
+        [self _showPhotosInCalendar];
+        [photoBroswer reloadData];
+    }
 }
 
 @end

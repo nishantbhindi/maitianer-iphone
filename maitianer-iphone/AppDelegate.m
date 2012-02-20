@@ -80,7 +80,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     UINavigationController *calendarNVC = [[UINavigationController alloc] initWithRootViewController:calendarVC];
     calendarNVC.navigationBarHidden = YES;
     
-    
     PhotoPickerController *photoPickerController = [[PhotoPickerController alloc] init];
     
     MilestonesViewController *milestonesVC = [[MilestonesViewController alloc] init];
@@ -88,7 +87,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     UINavigationController *milestonesNVC = [[UINavigationController alloc] initWithRootViewController:milestonesVC];
     
     _tabBarController = [[MTTabBarController alloc] initWithControllers:[NSArray arrayWithObjects:calendarNVC, photoPickerController, milestonesNVC, nil]];
-    
+    calendarVC.customTabBarController = _tabBarController;
     [calendarVC release];
     [photoPickerController release];
     [milestonesVC release];
