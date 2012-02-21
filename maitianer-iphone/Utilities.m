@@ -11,7 +11,7 @@
 @implementation Utilities
 
 + (AppDelegate *)appDelegate {
-    return [UIApplication sharedApplication].delegate;
+    return (AppDelegate *)[UIApplication sharedApplication].delegate;
 }
 
 + (NSString *)stringFromDate:(NSDate *)date withFormat:(NSString *)format {

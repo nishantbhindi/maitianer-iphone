@@ -52,6 +52,7 @@
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 @synthesize tabBarController = _tabBarController;
 @synthesize weibo = _weibo;
+@synthesize previousSelectedTabIndex = _previousSelectedTabIndex;
 
 void uncaughtExceptionHandler(NSException *exception) {
     [FlurryAnalytics logError:@"Uncaught" message:@"Crash!" exception:exception];
@@ -86,8 +87,9 @@ void uncaughtExceptionHandler(NSException *exception) {
     milestonesVC.managedObjectContext = self.managedObjectContext;
     UINavigationController *milestonesNVC = [[UINavigationController alloc] initWithRootViewController:milestonesVC];
     
-    _tabBarController = [[MTTabBarController alloc] initWithControllers:[NSArray arrayWithObjects:calendarNVC, photoPickerController, milestonesNVC, nil]];
-    calendarVC.customTabBarController = _tabBarController;
+    _tabBarController = [[UITabBarController alloc] init];
+    _tabBarController.viewControllers = [NSArray arrayWithObjects:calendarNVC, photoPickerController, milestonesNVC, nil];
+    _tabBarController.delegate = self;
     [calendarVC release];
     [photoPickerController release];
     [milestonesVC release];
@@ -283,6 +285,15 @@ void uncaughtExceptionHandler(NSException *exception) {
 		return TRUE;
 	
 	return TRUE;
+}
+
+#pragma mark - UITabBarControllerDelegate
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    if ([viewController isKindOfClass:[PhotoPickerController class]]) {
+        [(PhotoPickerController *)viewController photoLibraryAction];
+        tabBarController.selectedIndex = self.previousSelectedTabIndex;
+    }
+    self.previousSelectedTabIndex = tabBarController.selectedIndex;
 }
 
 #pragma mark - Network connection status method
