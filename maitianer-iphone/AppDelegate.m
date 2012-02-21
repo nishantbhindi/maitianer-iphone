@@ -103,6 +103,13 @@
     [calendarNVC release];
     [milestonesNVC release];
     
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"tabBarBackground%i.png",_tabBarController.selectedIndex]]];
+    CGRect frame = backgroundImageView.frame;
+    frame.origin.y -= 11;
+    backgroundImageView.frame = frame;
+    [_tabBarController.tabBar addSubview:backgroundImageView];
+    [backgroundImageView release];
+    
     self.window.rootViewController = _tabBarController;
     [self.window makeKeyAndVisible];
     return YES;
@@ -296,14 +303,29 @@
 
 #pragma mark - UITabBarControllerDelegate
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    
     // If selected tab for photo picker restore the previous controller and show the picker
     if ([viewController isKindOfClass:[PhotoPickerController class]]) {
         [(PhotoPickerController *)viewController cameraAction];
         tabBarController.selectedIndex = self.previousSelectedTabIndex;
+    }else {
+        // if selected tab isn't photo picker store the current tab index
+        self.previousSelectedTabIndex = tabBarController.selectedIndex;
+        
+        for(UIView *view in tabBarController.tabBar.subviews) {
+            if([view isKindOfClass:[UIImageView class]]) {
+                [view removeFromSuperview];
+            }
+        }
+        UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"tabBarBackground%i.png",tabBarController.selectedIndex]]];
+        CGRect frame = backgroundImageView.frame;
+        frame.origin.y -= 11;
+        backgroundImageView.frame = frame;
+        [tabBarController.tabBar addSubview:backgroundImageView];
+        [backgroundImageView release];
     }
     
-    // if selected tab isn't photo picker store the current tab index
-    self.previousSelectedTabIndex = tabBarController.selectedIndex;
+    
 }
 
 #pragma mark - PhotoPickerControllerDelegate

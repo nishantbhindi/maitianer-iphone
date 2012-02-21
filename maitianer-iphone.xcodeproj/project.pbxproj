@@ -88,18 +88,6 @@
 		3F9CC14C14F0CA8F00321F43 /* MTTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC14B14F0CA8F00321F43 /* MTTabBar.m */; };
 		3F9CC14E14F0CAA400321F43 /* MTTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC14D14F0CAA400321F43 /* MTTabBar.xib */; };
 		3F9CC15514F0CE1A00321F43 /* MTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC15414F0CE1A00321F43 /* MTTabBarController.m */; };
-		3F9CC15914F0CE6D00321F43 /* tabBarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC15714F0CE6D00321F43 /* tabBarBackground.png */; };
-		3F9CC15A14F0CE6D00321F43 /* tabBarBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC15814F0CE6D00321F43 /* tabBarBackground@2x.png */; };
-		3F9CC15F14F0CF3B00321F43 /* tabBarCalendarSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC15B14F0CF3B00321F43 /* tabBarCalendarSelected.png */; };
-		3F9CC16014F0CF3B00321F43 /* tabBarCalendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC15C14F0CF3B00321F43 /* tabBarCalendar.png */; };
-		3F9CC16114F0CF3B00321F43 /* tabBarCalendarSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC15D14F0CF3B00321F43 /* tabBarCalendarSelected@2x.png */; };
-		3F9CC16214F0CF3B00321F43 /* tabBarCalendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC15E14F0CF3B00321F43 /* tabBarCalendar@2x.png */; };
-		3F9CC16714F0CF6700321F43 /* tabBarMilestoneSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC16314F0CF6700321F43 /* tabBarMilestoneSelected.png */; };
-		3F9CC16814F0CF6700321F43 /* tabBarMilestoneSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC16414F0CF6700321F43 /* tabBarMilestoneSelected@2x.png */; };
-		3F9CC16914F0CF6700321F43 /* tabBarMilestone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC16514F0CF6700321F43 /* tabBarMilestone.png */; };
-		3F9CC16A14F0CF6700321F43 /* tabBarMilestone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC16614F0CF6700321F43 /* tabBarMilestone@2x.png */; };
-		3F9CC16D14F0CFC100321F43 /* tabBarPhotoPicker.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC16B14F0CFC100321F43 /* tabBarPhotoPicker.png */; };
-		3F9CC16E14F0CFC100321F43 /* tabBarPhotoPicker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC16C14F0CFC100321F43 /* tabBarPhotoPicker@2x.png */; };
 		3FA1CEA914F20BC8009C3C1B /* QuadCurveMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1CEA614F20BC8009C3C1B /* QuadCurveMenu.m */; };
 		3FA1CEAA14F20BC8009C3C1B /* QuadCurveMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1CEA814F20BC8009C3C1B /* QuadCurveMenuItem.m */; };
 		3FA1CEBF14F20D37009C3C1B /* bg-addbutton-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FA1CEB114F20D37009C3C1B /* bg-addbutton-highlighted.png */; };
@@ -165,6 +153,10 @@
 		7549D95814C062920041DB95 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 7549D94B14C062920041DB95 /* ASIInputStream.m */; };
 		7549D95914C062920041DB95 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7549D94D14C062920041DB95 /* ASINetworkQueue.m */; };
 		7549D95A14C062920041DB95 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7549D95114C062920041DB95 /* Reachability.m */; };
+		758C5FF214F40380009C4211 /* tabBarBackground0.png in Resources */ = {isa = PBXBuildFile; fileRef = 758C5FEE14F40380009C4211 /* tabBarBackground0.png */; };
+		758C5FF314F40380009C4211 /* tabBarBackground0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 758C5FEF14F40380009C4211 /* tabBarBackground0@2x.png */; };
+		758C5FF414F40380009C4211 /* tabBarBackground2.png in Resources */ = {isa = PBXBuildFile; fileRef = 758C5FF014F40380009C4211 /* tabBarBackground2.png */; };
+		758C5FF514F40380009C4211 /* tabBarBackground2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 758C5FF114F40380009C4211 /* tabBarBackground2@2x.png */; };
 		7595379B1482853C007CF4D2 /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7595379A1482853C007CF4D2 /* PhotosViewController.m */; };
 		759872B914B0241100B8D0E3 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 759872B714B0241000B8D0E3 /* SettingsViewController.m */; };
 		759872BA14B0241100B8D0E3 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 759872B814B0241000B8D0E3 /* SettingsViewController.xib */; };
@@ -334,18 +326,6 @@
 		3F9CC14D14F0CAA400321F43 /* MTTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MTTabBar.xib; sourceTree = "<group>"; };
 		3F9CC15314F0CE1A00321F43 /* MTTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTabBarController.h; sourceTree = "<group>"; };
 		3F9CC15414F0CE1A00321F43 /* MTTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTabBarController.m; sourceTree = "<group>"; };
-		3F9CC15714F0CE6D00321F43 /* tabBarBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabBarBackground.png; sourceTree = "<group>"; };
-		3F9CC15814F0CE6D00321F43 /* tabBarBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarBackground@2x.png"; sourceTree = "<group>"; };
-		3F9CC15B14F0CF3B00321F43 /* tabBarCalendarSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabBarCalendarSelected.png; sourceTree = "<group>"; };
-		3F9CC15C14F0CF3B00321F43 /* tabBarCalendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabBarCalendar.png; sourceTree = "<group>"; };
-		3F9CC15D14F0CF3B00321F43 /* tabBarCalendarSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarCalendarSelected@2x.png"; sourceTree = "<group>"; };
-		3F9CC15E14F0CF3B00321F43 /* tabBarCalendar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarCalendar@2x.png"; sourceTree = "<group>"; };
-		3F9CC16314F0CF6700321F43 /* tabBarMilestoneSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabBarMilestoneSelected.png; sourceTree = "<group>"; };
-		3F9CC16414F0CF6700321F43 /* tabBarMilestoneSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarMilestoneSelected@2x.png"; sourceTree = "<group>"; };
-		3F9CC16514F0CF6700321F43 /* tabBarMilestone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabBarMilestone.png; sourceTree = "<group>"; };
-		3F9CC16614F0CF6700321F43 /* tabBarMilestone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarMilestone@2x.png"; sourceTree = "<group>"; };
-		3F9CC16B14F0CFC100321F43 /* tabBarPhotoPicker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabBarPhotoPicker.png; sourceTree = "<group>"; };
-		3F9CC16C14F0CFC100321F43 /* tabBarPhotoPicker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarPhotoPicker@2x.png"; sourceTree = "<group>"; };
 		3FA1CEA514F20BC8009C3C1B /* QuadCurveMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuadCurveMenu.h; sourceTree = "<group>"; };
 		3FA1CEA614F20BC8009C3C1B /* QuadCurveMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuadCurveMenu.m; sourceTree = "<group>"; };
 		3FA1CEA714F20BC8009C3C1B /* QuadCurveMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuadCurveMenuItem.h; sourceTree = "<group>"; };
@@ -455,6 +435,10 @@
 		7549D94E14C062920041DB95 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIProgressDelegate.h; sourceTree = "<group>"; };
 		7549D95014C062920041DB95 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		7549D95114C062920041DB95 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		758C5FEE14F40380009C4211 /* tabBarBackground0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabBarBackground0.png; sourceTree = "<group>"; };
+		758C5FEF14F40380009C4211 /* tabBarBackground0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarBackground0@2x.png"; sourceTree = "<group>"; };
+		758C5FF014F40380009C4211 /* tabBarBackground2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabBarBackground2.png; sourceTree = "<group>"; };
+		758C5FF114F40380009C4211 /* tabBarBackground2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabBarBackground2@2x.png"; sourceTree = "<group>"; };
 		759537991482853C007CF4D2 /* PhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosViewController.h; sourceTree = "<group>"; };
 		7595379A1482853C007CF4D2 /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
 		759872B614B0241000B8D0E3 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
@@ -771,18 +755,10 @@
 		3F9CC15614F0CE3A00321F43 /* CustomTabBar */ = {
 			isa = PBXGroup;
 			children = (
-				3F9CC15714F0CE6D00321F43 /* tabBarBackground.png */,
-				3F9CC15814F0CE6D00321F43 /* tabBarBackground@2x.png */,
-				3F9CC15B14F0CF3B00321F43 /* tabBarCalendarSelected.png */,
-				3F9CC15C14F0CF3B00321F43 /* tabBarCalendar.png */,
-				3F9CC15D14F0CF3B00321F43 /* tabBarCalendarSelected@2x.png */,
-				3F9CC15E14F0CF3B00321F43 /* tabBarCalendar@2x.png */,
-				3F9CC16314F0CF6700321F43 /* tabBarMilestoneSelected.png */,
-				3F9CC16414F0CF6700321F43 /* tabBarMilestoneSelected@2x.png */,
-				3F9CC16514F0CF6700321F43 /* tabBarMilestone.png */,
-				3F9CC16614F0CF6700321F43 /* tabBarMilestone@2x.png */,
-				3F9CC16B14F0CFC100321F43 /* tabBarPhotoPicker.png */,
-				3F9CC16C14F0CFC100321F43 /* tabBarPhotoPicker@2x.png */,
+				758C5FEE14F40380009C4211 /* tabBarBackground0.png */,
+				758C5FEF14F40380009C4211 /* tabBarBackground0@2x.png */,
+				758C5FF014F40380009C4211 /* tabBarBackground2.png */,
+				758C5FF114F40380009C4211 /* tabBarBackground2@2x.png */,
 			);
 			name = CustomTabBar;
 			sourceTree = "<group>";
@@ -1171,18 +1147,6 @@
 				3FAB72A514F0992700C452E7 /* LICENSE in Resources */,
 				3FAB72A614F0992700C452E7 /* README.md in Resources */,
 				3F9CC14E14F0CAA400321F43 /* MTTabBar.xib in Resources */,
-				3F9CC15914F0CE6D00321F43 /* tabBarBackground.png in Resources */,
-				3F9CC15A14F0CE6D00321F43 /* tabBarBackground@2x.png in Resources */,
-				3F9CC15F14F0CF3B00321F43 /* tabBarCalendarSelected.png in Resources */,
-				3F9CC16014F0CF3B00321F43 /* tabBarCalendar.png in Resources */,
-				3F9CC16114F0CF3B00321F43 /* tabBarCalendarSelected@2x.png in Resources */,
-				3F9CC16214F0CF3B00321F43 /* tabBarCalendar@2x.png in Resources */,
-				3F9CC16714F0CF6700321F43 /* tabBarMilestoneSelected.png in Resources */,
-				3F9CC16814F0CF6700321F43 /* tabBarMilestoneSelected@2x.png in Resources */,
-				3F9CC16914F0CF6700321F43 /* tabBarMilestone.png in Resources */,
-				3F9CC16A14F0CF6700321F43 /* tabBarMilestone@2x.png in Resources */,
-				3F9CC16D14F0CFC100321F43 /* tabBarPhotoPicker.png in Resources */,
-				3F9CC16E14F0CFC100321F43 /* tabBarPhotoPicker@2x.png in Resources */,
 				3FA1CEBF14F20D37009C3C1B /* bg-addbutton-highlighted.png in Resources */,
 				3FA1CEC014F20D37009C3C1B /* bg-addbutton-highlighted@2x.png in Resources */,
 				3FA1CEC114F20D37009C3C1B /* bg-addbutton.png in Resources */,
@@ -1212,6 +1176,10 @@
 				3F313E9814F381C000CD2E67 /* delete@2x.png in Resources */,
 				3F313E9914F381C000CD2E67 /* logo.png in Resources */,
 				3F313E9A14F381C000CD2E67 /* logo@2x.png in Resources */,
+				758C5FF214F40380009C4211 /* tabBarBackground0.png in Resources */,
+				758C5FF314F40380009C4211 /* tabBarBackground0@2x.png in Resources */,
+				758C5FF414F40380009C4211 /* tabBarBackground2.png in Resources */,
+				758C5FF514F40380009C4211 /* tabBarBackground2@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
