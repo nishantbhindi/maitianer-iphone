@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "Baby.h"
 #import "Photo.h"
-#import "MTTabBarController.h"
 #import "MTCalendarView.h"
 #import "MWPhotoBrowser.h"
-#import "PhotoPickerController.h"
+
+@class PhotoPickerController;
 
 @interface CalendarViewController : UIViewController <MTCalendarViewDelegate, UIActionSheetDelegate, MWPhotoBrowserDelegate> {
     // CoreData
@@ -21,7 +21,6 @@
     Baby *_baby;
     
     // View
-    MTTabBarController *_customTabBarController;
     UIButton *_firstShow;
     UIDatePicker *_datePicker;
     IBOutlet UIView *_babyInfoView;
@@ -37,7 +36,6 @@
 @property (nonatomic, retain) NSFetchedResultsController *photoResultsController;
 @property (nonatomic, retain) Baby *baby;
 
-@property (nonatomic, retain) MTTabBarController *customTabBarController;
 @property (nonatomic, retain) UIView *babyInfoView;
 @property (nonatomic, retain) UIImageView *avatarView;
 @property (nonatomic, retain) UILabel *babyNameLabel;
@@ -45,6 +43,7 @@
 @property (nonatomic, retain) UILabel *daysAfterRecordLabel;
 @property (nonatomic, retain) UIButton *babyInfoToggle;
 @property (nonatomic, retain) MTCalendarView *calendarView;
+@property (nonatomic, retain) PhotoPickerController *photoPickerController;
 
 - (IBAction)toggleBabyInfo:(id)sender;
 - (IBAction)showSettings:(id)sender;

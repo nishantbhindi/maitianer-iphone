@@ -45,6 +45,7 @@
 	UIBarButtonItem *_previousButton, *_nextButton, *_actionButton;
     UIActionSheet *_actionsSheet;
     MBProgressHUD *_progressHUD;
+    UIButton *_backButton;
     QuadCurveMenu *_quadCurveMenu;
     
     // Appearance
@@ -72,6 +73,7 @@
 @property (nonatomic, retain) UIImage *navigationBarBackgroundImageDefault, *navigationBarBackgroundImageLandscapePhone;
 @property (nonatomic, retain) UIActionSheet *actionsSheet;
 @property (nonatomic, retain) MBProgressHUD *progressHUD;
+@property (nonatomic, retain) UIButton *backButton;
 @property (nonatomic, retain) QuadCurveMenu *quadCurveMenu;
 
 // Private Methods
@@ -125,6 +127,7 @@
 - (void)savePhoto;
 - (void)copyPhoto;
 - (void)emailPhoto;
+- (void)popNavigation;
 
 @end
 
@@ -144,6 +147,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 @synthesize progressHUD = _progressHUD;
 @synthesize previousViewControllerBackButton = _previousViewControllerBackButton;
 @synthesize recordDate = _recordDate;
+@synthesize backButton = _backButton;
 @synthesize quadCurveMenu = _quadCurveMenu;
 
 #pragma mark - NSObject
@@ -207,6 +211,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [_photos release];
     [_progressHUD release];
     [_recordDate release];
+    [_backButton release];
     [_quadCurveMenu release];
     [super dealloc];
 }
@@ -261,6 +266,13 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     _nextButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"MWPhotoBrowser.bundle/images/UIBarButtonItemArrowRight.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoNextPage)];
     _actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonPressed:)];
     
+    // Return home button
+    _backButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    [_backButton setImage:[UIImage imageNamed:@"bg-addbutton.png"] forState:UIControlStateNormal];
+    [_backButton setImage:[UIImage imageNamed:@"bg-addbutton-highlighted.png"] forState:UIControlStateHighlighted];
+    [_backButton addTarget:self action:@selector(popNavigation) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.backButton];
+    
     // QuadCurveMenu
     UIImage *storyMenuItemImage = [UIImage imageNamed:@"bg-menuitem.png"];
     UIImage *storyMenuItemImagePressed = [UIImage imageNamed:@"bg-menuitem-highlighted.png"];
@@ -294,7 +306,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [starMenuItem5 release];
     _quadCurveMenu = [[QuadCurveMenu alloc] initWithFrame:self.view.bounds menus:menus];
     _quadCurveMenu.delegate = self;
-    _quadCurveMenu.center = CGPointMake(290, 30);
+    _quadCurveMenu.center = CGPointMake(290, 45);
     _quadCurveMenu.rotateAngle = M_PI;
     _quadCurveMenu.menuWholeAngle = M_PI / 1.6;
     [self.view addSubview:_quadCurveMenu];
@@ -342,6 +354,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	[self updateNavigation];
     
     // Navigation buttons
+    self.backButton.frame = CGRectMake(10, 20, 52, 52);
+    
     if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
         // We're first on stack so show done button
         UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)] autorelease];
@@ -1135,6 +1149,10 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 #pragma mark - Actions
+
+- (void)popNavigation {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)savePhoto {
     id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];

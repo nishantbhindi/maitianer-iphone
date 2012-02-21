@@ -7,14 +7,14 @@
 //
 
 #import "EditingPhotoViewController.h"
+#import "Baby.h"
 #import "Photo.h"
 #import "Milestone.h"
-#import "NSDate-Utilities.h"
+#import "Utilities.h"
 #import "SVProgressHUD.h"
 #import "AppDelegate.h"
 #import "FlurryAnalytics.h"
-#import "JSONRequest.h"
-#import "Baby.h"
+
 
 #define DELETE_ALERT_TAG 1
 #define SHARE_ALERT_TAG 2
@@ -24,11 +24,11 @@
 @synthesize imageView = _imageView;
 @synthesize shareSwitch = _shareSwitch;
 @synthesize photo = _photo;
-@synthesize weibo = _weibo;
+@synthesize wbEngine = _wbEngine;
 
 - (IBAction)shareSwitchValueChanged:(UISwitch *)sender {
     if (sender.on && ![self.photo.shared boolValue]) {
-        if(!self.weibo.isUserLoggedin) {
+        if(!self.wbEngine.isLoggedIn) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您还没有绑定微博帐号，马上绑定？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
             alertView.tag = SHARE_ALERT_TAG;
             [alertView show];
@@ -50,8 +50,8 @@
         abort();
     }
     
-    if (self.weibo.isUserLoggedin && ![self.photo.shared boolValue] && self.shareSwitch.on) {
-        [self.weibo postWeiboRequestWithText:self.photo.content andImage:self.photo.image andDelegate:self];
+    if (self.wbEngine.isLoggedIn && ![self.photo.shared boolValue] && self.shareSwitch.on) {
+        //[self.wbEngine postWeiboRequestWithText:self.photo.content andImage:self.photo.image andDelegate:self];
     }else {
         [SVProgressHUD show];
         [SVProgressHUD dismissWithSuccess:@"编辑成功"];
@@ -88,7 +88,7 @@
     [_imageView release];
     [_shareSwitch release];
     [_photo release];
-    [_weibo release];
+    [_wbEngine release];
     [super dealloc];
 }
 
@@ -107,9 +107,7 @@
     UIBarButtonItem *saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleBordered target:self action:@selector(saveEditing)];
     [self.navigationItem setRightBarButtonItem:saveBarButtonItem];
     
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    self.weibo = appDelegate.weibo;
-    self.weibo.delegate = self;
+    self.wbEngine = [Utilities appDelegate].wbEngine;
     
 }
 
@@ -159,7 +157,7 @@
         }
     }else if (alertView.tag == SHARE_ALERT_TAG) {
         if (buttonIndex == 1) {
-            [self.weibo startAuthorize];
+            [self.wbEngine logIn];
         }else {
             [self.shareSwitch setOn:NO animated:YES];
         }
@@ -193,8 +191,7 @@
 
 - (void)request:(WBRequest *)request didLoad:(id)result {
     self.photo.shared = [NSNumber numberWithBool:YES];
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    [appDelegate saveContext];
+    [[Utilities appDelegate] saveContext];
     [SVProgressHUD dismissWithSuccess:@"保存，并分享成功" afterDelay:1];
     [self dismissModalViewControllerAnimated:YES];
 }

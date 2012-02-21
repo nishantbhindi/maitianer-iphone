@@ -7,15 +7,7 @@
 //
 
 #import "PhotoPickerController.h"
-#import "DKFile.h"
-#import "NSDate-Utilities.h"
-#import "NSDate+Calculations.h"
-#import "UIImage+ProportionalFill.h"
-#import "Photo.h"
 #import "FlurryAnalytics.h"
-#import "Utilities.h"
-#import "Baby.h"
-#import "Authorization.h"
 
 @interface PhotoPickerController ()
 
@@ -45,20 +37,26 @@
 
 #pragma mark - Private
 - (void)showImagePickerWithSourceType:(UIImagePickerControllerSourceType)sourceType {
+    UIImagePickerControllerSourceType useSourceType;
     if ([UIImagePickerController isSourceTypeAvailable:sourceType]) {
-        self.imagePickerController.sourceType = sourceType;
-        if (sourceType == UIImagePickerControllerSourceTypeCamera) {
-            [FlurryAnalytics logEvent:@"TakePhotoFromCamera"];
-        }else if (sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
-            [FlurryAnalytics logEvent:@"TakePhotoFromPhotoLibrary"];
-        }
-        if ([self.delegate respondsToSelector:@selector(presentModalViewController:animated:)]) {
-            [self.delegate presentModalViewController:self.imagePickerController animated:YES];
-        }else {
-            [self presentModalViewController:self.imagePickerController animated:YES];
-        }
+        useSourceType = sourceType;
     }else {
         NSLog(@"Source type invalid!");
+        useSourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    
+    self.imagePickerController.sourceType = useSourceType;
+    if ([self.delegate respondsToSelector:@selector(presentModalViewController:animated:)]) {
+        [self.delegate presentModalViewController:self.imagePickerController animated:YES];
+    }else {
+        [self presentModalViewController:self.imagePickerController animated:YES];
+    }
+    
+    // Log Flurry event
+    if (useSourceType == UIImagePickerControllerSourceTypeCamera) {
+        [FlurryAnalytics logEvent:@"TakePhotoFromCamera"];
+    }else if (useSourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
+        [FlurryAnalytics logEvent:@"TakePhotoFromPhotoLibrary"];
     }
 }
 
@@ -68,7 +66,7 @@
         self.title = @"拍照";
         _imagePickerController = [[UIImagePickerController alloc] init];
         _imagePickerController.delegate = self;
-        _imagePickerController.allowsEditing = NO;
+        _imagePickerController.allowsEditing = YES;
     }
     return self;
 }
@@ -108,40 +106,7 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - Image picker controller delegate methods
-- (void)_saveImage:(UIImage *)image toPath:(NSString *)path{
-    
-    DKFile *file = [DKFile fileFromDocuments:path];
-    NSError *error = nil;
-    if ([file writeData:UIImageJPEGRepresentation(image, 0.9) error:&error]) {
-        NSLog(@"File save success!");
-    }else {
-        NSLog(@"%@", [error localizedDescription]);
-    }
-}
-
-- (NSString *)_photoStorePathByDate:(NSDate *)date {
-    int year = date.year;
-    int month = date.month;
-    int day = date.day;
-    
-    NSString *path;
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *subPath = [NSString stringWithFormat:@"photos/%d/%d/%d", year, month, day];
-	path = [[paths objectAtIndex:0] stringByAppendingPathComponent:subPath];
-	NSError *error;
-	if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-		if (![[NSFileManager defaultManager] createDirectoryAtPath:path
-									   withIntermediateDirectories:YES
-														attributes:nil
-															 error:&error]) {
-			NSLog(@"Create directory error: %@", error);
-		}
-	}
-    
-    return subPath;
-}
-
+#pragma mark - ImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     UIImage *originImage = [info valueForKey:UIImagePickerControllerOriginalImage];

@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WBConnect.h"
-#import "ASIHTTPRequestDelegate.h"
+#import "WBEngine.h"
 
-@interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate, UITextFieldDelegate,WBSessionDelegate, ASIHTTPRequestDelegate> {
+@interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate, UITextFieldDelegate, WBEngineDelegate> {
     
     NSManagedObjectContext *_managedObjectContext;
     
@@ -18,8 +17,6 @@
     NSMutableDictionary *_settingsData;
     
     NSArray *_babies;
-    
-    WeiBo *_weibo;
     
     UITextField *_usernameTextField;
     UITextField *_passwordTextField;
@@ -29,7 +26,6 @@
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) NSMutableDictionary *settingsData;
 @property (nonatomic, retain) NSArray *babies;
-@property (nonatomic, retain) WeiBo *weibo;
 @property (nonatomic, retain) UITextField *usernameTextField;
 @property (nonatomic, retain) UITextField *passwordTextField;
 

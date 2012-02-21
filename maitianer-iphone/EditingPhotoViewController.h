@@ -8,18 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-#import "WBConnect.h"
+#import "WBEngine.h"
+#import "WBRequest.h"
 #import "JSONRequest.h"
 
 @class Photo;
 
-@interface EditingPhotoViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate, WBRequestDelegate, WBSessionDelegate, JSONRequestDelegate> {
+@interface EditingPhotoViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate, WBEngineDelegate, WBRequestDelegate, JSONRequestDelegate> {
     IBOutlet UITextField *_photoText;
     IBOutlet UIImageView *_imageView;
     IBOutlet UISwitch *_shareSwitch;
     Photo *_photo;
-    
-    WeiBo *_weibo;
 }
 
 @property (nonatomic, retain) UITextField *photoText;
@@ -27,7 +26,7 @@
 @property (nonatomic, retain) UISwitch *shareSwitch;
 @property (nonatomic, retain) Photo *photo;
 
-@property (nonatomic, retain) WeiBo *weibo;
+@property (nonatomic, retain) WBEngine *wbEngine;
 
 - (void)cancelEditing;
 - (void)saveEditing;

@@ -15,15 +15,10 @@
 
 #define FIRST_SHOW_BUTTON_TAG 100
 
-@interface CalendarViewController ()
-@property (nonatomic, retain) PhotoPickerController *photoPickerController;
-@end
-
 @implementation CalendarViewController
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize photoResultsController = _photoResultsController;
 @synthesize baby = _baby;
-@synthesize customTabBarController = _customTabBarController;
 @synthesize babyInfoView = _babyInfoView;
 @synthesize avatarView = _avatarView;
 @synthesize babyNameLabel = _babyNameLabel;
@@ -40,7 +35,7 @@
     UINavigationController *settingsNVC = [[[UINavigationController alloc] initWithRootViewController:settingsVC] autorelease];
     [settingsVC release];
     settingsNVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.customTabBarController presentModalViewController:settingsNVC animated:YES];
+    [self presentModalViewController:settingsNVC animated:YES];
 }
 
 - (IBAction)toggleBabyInfo:(id)sender {
@@ -141,7 +136,6 @@
     [_daysAfterRecordLabel release];
     [_babyInfoToggle release]; 
     [_calendarView release];
-    [_customTabBarController release];
     [_photoPickerController release];
     [super dealloc];
 }
@@ -174,7 +168,6 @@
     [super viewWillAppear:animated];
     
     self.navigationController.navigationBarHidden = YES;
-    [self.customTabBarController setTabBarHidden:NO animated:YES];
     
     //show editing baby view controller for create a baby if baby not existed
     if (self.baby == nil) {
@@ -183,7 +176,7 @@
         editingBabyVC.baby = [NSEntityDescription insertNewObjectForEntityForName:@"Baby" inManagedObjectContext:self.managedObjectContext];
         editingBabyVC.baby.creationDate = [NSDate date];
         UINavigationController *editingBabyNVC = [[UINavigationController alloc] initWithRootViewController:editingBabyVC];
-        [self.customTabBarController presentModalViewController:editingBabyNVC animated:YES];
+        [self presentModalViewController:editingBabyNVC animated:YES];
         [editingBabyVC release];
         [editingBabyNVC release];
     }
@@ -263,8 +256,6 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [self.customTabBarController setTabBarHidden:YES animated:YES];
 }
 
 - (void)viewDidUnload
@@ -298,41 +289,16 @@
     return _photoResultsController;
 }
 
-#pragma mark - calendar view delegate methods
+#pragma mark - MTCalendarViewDelegate
 - (void)calendarView:(MTCalendarView *)calendarView didSelectDate:(NSDate *)date {
     MTCalendarCellView *cell = [calendarView cellForDate:date];
     if (cell.photos) {
-//        //show photos at selected date
-//        PhotosViewController *photosVC = [[PhotosViewController alloc] initWithStyle:UITableViewStylePlain];
-//        
-//        //set controller title
-//        NSDateFormatter *dateFormattor = [[NSDateFormatter alloc] init];
-//        dateFormattor.dateFormat = @"yyyy年MM月dd日";
-//        photosVC.title = [dateFormattor stringFromDate:date];
-//        [dateFormattor release];
-//        
-//        //set controller photos
-//        //photosVC.photos = [cell.photos mutableCopy];
-//        photosVC.managedObjectContext = self.managedObjectContext;
-//        photosVC.recordDate = date;
-//        
-//        self.photographVC.recordDate = date;
-//        
-//        //config back bar button item style
-//        UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStyleDone target:nil action:nil];
-//        self.navigationItem.backBarButtonItem = backBarButtonItem;
-//        [backBarButtonItem release];
-//        
-//        [self.navigationController pushViewController:photosVC animated:YES];
-//        [photosVC release];
         MWPhotoBrowser *photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
         photoBrowser.recordDate = date;
         [self.navigationController pushViewController:photoBrowser animated:YES];
+        [photoBrowser release];
     }else {
         // Show photos library for picking photo
-        if (self.photoPickerController == nil) {
-            _photoPickerController = [[PhotoPickerController alloc] initWithDelegate:self.customTabBarController];
-        }
         self.photoPickerController.recordDate = date;
         [self.photoPickerController photoLibraryAction];
     }
@@ -377,21 +343,6 @@
 }
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBroswer didSelectedPhoto:(Photo *)photo actionAtIndex:(NSInteger)index {
-    if (index == 4) {
-        // Show photos library for picking photo
-        if (self.photoPickerController == nil) {
-            _photoPickerController = [[PhotoPickerController alloc] initWithDelegate:self.customTabBarController];
-        }
-        self.photoPickerController.recordDate = photoBroswer.recordDate;
-        [self.photoPickerController photoLibraryAction];
-        //fetch photos per day from database
-        NSError *error;
-        if (![self.photoResultsController performFetch:&error]) {
-            //handle the error.
-        }
-        [self _showPhotosInCalendar];
-        [photoBroswer reloadData];
-    }
 }
 
 @end

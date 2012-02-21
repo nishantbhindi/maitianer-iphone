@@ -8,14 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class Photo;
-@class Baby;
 @class PhotoPickerController;
 
 @protocol PhotoPickerControllerDelegate <NSObject>
 @optional
 - (void)photoPickerController:(PhotoPickerController *)controller didFinishPickingImage:(UIImage *)image isFromCamera:(BOOL)isFromCamera;
-
 @end
 
 @interface PhotoPickerController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>

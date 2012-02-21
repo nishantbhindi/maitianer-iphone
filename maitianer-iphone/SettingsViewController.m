@@ -16,6 +16,7 @@
 #import "SVProgressHUD.h"
 #import "FlurryAnalytics.h"
 #import "Authorization.h"
+#import "Utilities.h"
 
 #define SINA_WEIBO_TAG 301
 
@@ -24,7 +25,6 @@
 @synthesize tableView = _tableView;
 @synthesize settingsData = _settingsData;
 @synthesize babies = _babies;
-@synthesize weibo = _weibo;
 @synthesize usernameTextField = _usernameTextField;
 @synthesize passwordTextField = _passwordTextField;
 
@@ -117,16 +117,17 @@
 }
 
 - (void)shareSwitchValueChanged:(UISwitch *)sender {
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    AppDelegate *appDelegate = [Utilities appDelegate];
     if (sender.tag == SINA_WEIBO_TAG) {
         if (sender.on) {
-            if (![appDelegate.weibo isUserLoggedin]) {
-                [appDelegate.weibo startAuthorize];
+            if (![appDelegate.wbEngine isLoggedIn]) {
+                [appDelegate.wbEngine logIn];
             }
         }else {
-            [appDelegate.weibo LogOut];
+            if ([appDelegate.wbEngine isLoggedIn]) {
+                [appDelegate.wbEngine logOut];
+            }
         }
-        
     }
 }
 
@@ -152,7 +153,6 @@
     [_tableView release];
     [_settingsData release];
     [_babies release];
-    [_weibo release];
     [_usernameTextField release];
     [_passwordTextField release];
     [super dealloc];
@@ -171,9 +171,6 @@
     NSArray *sharesArray = [NSArray arrayWithObjects:@"绑定新浪微博", nil];
     self.settingsData = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.babies, sharesArray, nil] 
                                                     forKeys:[NSArray arrayWithObjects:@"设置宝宝信息" ,@"分享设置" , nil]];
-    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    self.weibo = appDelegate.weibo;
-    self.weibo.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -233,7 +230,7 @@
         if (indexPath.row == 0) {
             UISwitch *shareBindingSwitch = [[UISwitch alloc] init];
             AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            if ([appDelegate.weibo isUserLoggedin]) {
+            if ([appDelegate.wbEngine isLoggedIn]) {
                 shareBindingSwitch.on = YES;
             }else {
                 shareBindingSwitch.on = NO;
@@ -350,22 +347,7 @@
     }
 }
 
-#pragma mark - Weibo session delegate
-- (void)weiboDidLogin {
-    [SVProgressHUD show];
-    [SVProgressHUD dismissWithSuccess:@"绑定成功" afterDelay:2];
-    [FlurryAnalytics logEvent:@"BindedSinaWeibo"];
-}
-
-- (void)weiboLoginFailed:(BOOL)userCancelled withError:(NSError *)error {
-    NSLog(@"帐号绑定失败！错误信息：%@", [error description]);
-    [SVProgressHUD show];
-    [SVProgressHUD dismissWithError:userCancelled?@"用户取消":@"绑定失败" afterDelay:2];
-    UISwitch *shareSwitch = (UISwitch *)[self.view viewWithTag:SINA_WEIBO_TAG];
-    shareSwitch.on = NO;
-}
-
-#pragma mark - Alert view delegate
+#pragma mark - UIAlertViewDelegate
 - (void)willPresentAlertView:(UIAlertView *)alertView {
     [self.usernameTextField becomeFirstResponder];
 }
@@ -376,7 +358,7 @@
     }
 }
 
-#pragma mark - Text field delegate
+#pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (self.usernameTextField == textField) {
         [self.passwordTextField becomeFirstResponder];
@@ -384,35 +366,6 @@
         [self _validateLogin];
     }
     return YES;
-}
-
-#pragma mark - ASI request delegate
-- (void)requestFinished:(ASIHTTPRequest *)request {
-    NSString *returnJson = [[NSString alloc] initWithData:request.responseData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", returnJson);
-    NSDictionary *returnDict = [returnJson JSONValue];
-    if (request.responseStatusCode == 200 || request.responseStatusCode == 201) {
-        NSLog(@"email: %@", [returnDict objectForKey:@"email"]);
-        [[NSUserDefaults standardUserDefaults] setValue:self.usernameTextField.text forKey:@"email"];
-        [[NSUserDefaults standardUserDefaults] setValue:self.passwordTextField.text forKey:@"password"];
-        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"authenticated"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self.tableView reloadData];
-    }else {
-        [self requestFailed:request];
-    }
-}
-
-- (void)requestFailed:(ASIHTTPRequest *)request {
-    NSLog(@"failed with error: %d %@", [request responseStatusCode], [request.error localizedDescription]);
-    
-    if (request.responseStatusCode == 401) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"错误" message:@"用户名或密码错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alert show];
-        [alert release];
-        return;
-    }
-    
 }
 
 @end

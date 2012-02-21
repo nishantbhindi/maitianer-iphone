@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WBConnect.h"
+#import "WBEngine.h"
+#import "PhotoPickerController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate, PhotoPickerControllerDelegate, WBEngineDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
@@ -17,7 +18,7 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (readonly, strong, nonatomic) UITabBarController *tabBarController;
-@property (readonly, retain, nonatomic) WeiBo *weibo;
+@property (readonly, retain, nonatomic) WBEngine *wbEngine;
 @property (assign, nonatomic) NSUInteger previousSelectedTabIndex;
 
 - (void)saveContext;

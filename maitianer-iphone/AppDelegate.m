@@ -13,13 +13,15 @@
 #import "MilestonesViewController.h"
 #import "PhotoPickerController.h"
 #import "FlurryAnalytics.h"
+#import "Utilities.h"
+#import "SVProgressHUD.h"
 
-#if !defined(SinaWeiBoSDKDemo_APPKey)
-#error "You must define SinaWeiBoSDKDemo_APPKey as your APP Key"
+#ifndef kWBSDKDemoAppKey
+#error
 #endif
 
-#if !defined(SinaWeiBoSDKDemo_APPSecret)
-#error "You must define SinaWeiBoSDKDemo_APPSecret as your APP Secret"
+#ifndef kWBSDKDemoAppSecret
+#error
 #endif
 
 @implementation UINavigationBar (CustomBackground)
@@ -51,19 +53,19 @@
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 @synthesize tabBarController = _tabBarController;
-@synthesize weibo = _weibo;
+@synthesize wbEngine = _wbEngine;
 @synthesize previousSelectedTabIndex = _previousSelectedTabIndex;
 
-void uncaughtExceptionHandler(NSException *exception) {
-    [FlurryAnalytics logError:@"Uncaught" message:@"Crash!" exception:exception];
-}
+//void uncaughtExceptionHandler(NSException *exception) {
+//    [FlurryAnalytics logError:@"Uncaught" message:@"Crash!" exception:exception];
+//}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     
     // Flurry
-    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    //NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
     [FlurryAnalytics startSession:@"YHJ3T4Z3ZQR6KGK96X7E"];
     
     // Show the status bar with black opaque style
@@ -74,14 +76,19 @@ void uncaughtExceptionHandler(NSException *exception) {
     [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
     
     // Initial weibo api
-    _weibo = [[WeiBo alloc] initWithAppKey:SinaWeiBoSDKDemo_APPKey withAppSecret:SinaWeiBoSDKDemo_APPSecret];
+    _wbEngine = [[WBEngine alloc] initWithAppKey:kWBSDKDemoAppKey appSecret:kWBSDKDemoAppSecret];
+    [_wbEngine setRootViewController:self.tabBarController];
+    [_wbEngine setDelegate:self];
+    [_wbEngine setRedirectURI:@"http://"];
+    [_wbEngine setIsUserExclusive:NO];
     
     CalendarViewController *calendarVC = [[CalendarViewController alloc] initWithNibName:@"CalendarViewController" bundle:[NSBundle mainBundle]];
     calendarVC.managedObjectContext = self.managedObjectContext;
     UINavigationController *calendarNVC = [[UINavigationController alloc] initWithRootViewController:calendarVC];
     calendarNVC.navigationBarHidden = YES;
     
-    PhotoPickerController *photoPickerController = [[PhotoPickerController alloc] init];
+    PhotoPickerController *photoPickerController = [[PhotoPickerController alloc] initWithDelegate:self];
+    calendarVC.photoPickerController = photoPickerController;
     
     MilestonesViewController *milestonesVC = [[MilestonesViewController alloc] init];
     milestonesVC.managedObjectContext = self.managedObjectContext;
@@ -144,7 +151,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     [__managedObjectModel release];
     [__persistentStoreCoordinator release];
     [_tabBarController release];
-    [_weibo release];
+    [_wbEngine release];
     [super dealloc];
 }
 
@@ -267,35 +274,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-#pragma mark - Weibo API return URL handle method
-
-//for ios version below 4.2
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
-{
-	if( [self.weibo handleOpenURL:url] )
-		return TRUE;
-	
-	return TRUE;
-}
-
-//for ios version is or above 4.2
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-	if( [self.weibo handleOpenURL:url] )
-		return TRUE;
-	
-	return TRUE;
-}
-
-#pragma mark - UITabBarControllerDelegate
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    if ([viewController isKindOfClass:[PhotoPickerController class]]) {
-        [(PhotoPickerController *)viewController photoLibraryAction];
-        tabBarController.selectedIndex = self.previousSelectedTabIndex;
-    }
-    self.previousSelectedTabIndex = tabBarController.selectedIndex;
-}
-
 #pragma mark - Network connection status method
 - (BOOL)hasNetworkConnection {
 	SCNetworkReachabilityRef reach = SCNetworkReachabilityCreateWithName(kCFAllocatorSystemDefault, "60.190.99.152");
@@ -316,4 +294,55 @@ void uncaughtExceptionHandler(NSException *exception) {
 	return ret;
 }
 
+#pragma mark - UITabBarControllerDelegate
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    // If selected tab for photo picker restore the previous controller and show the picker
+    if ([viewController isKindOfClass:[PhotoPickerController class]]) {
+        [(PhotoPickerController *)viewController cameraAction];
+        tabBarController.selectedIndex = self.previousSelectedTabIndex;
+    }
+    
+    // if selected tab isn't photo picker store the current tab index
+    self.previousSelectedTabIndex = tabBarController.selectedIndex;
+}
+
+#pragma mark - PhotoPickerControllerDelegate
+- (void)photoPickerController:(PhotoPickerController *)controller didFinishPickingImage:(UIImage *)image isFromCamera:(BOOL)isFromCamera {
+    // Save the photo
+    NSDate *recordDate;
+    if (controller.recordDate) {
+        recordDate = controller.recordDate;
+    }else {
+        recordDate = [NSDate date];
+    }
+    
+    Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:self.managedObjectContext];
+    photo.baby = [[Utilities fetchBabies] objectAtIndex:0];
+    photo.recordDate = [recordDate beginningOfDay];
+    photo.creationDate = [NSDate date];
+    photo.shared = [NSNumber numberWithBool:NO];
+    [photo saveImage:image baseDirectory:[Utilities photoStorePathByDate:recordDate]];
+    [self saveContext];
+    
+    // Reset the photo picker record date
+    controller.recordDate = nil;
+}
+
+#pragma mark - WBEngineDelegate
+- (void)engineDidLogIn:(WBEngine *)engine {
+    [SVProgressHUD show];
+    [SVProgressHUD dismissWithSuccess:@"绑定成功" afterDelay:2];
+    [FlurryAnalytics logEvent:@"BindedSinaWeibo"];
+}
+
+- (void)engineDidLogOut:(WBEngine *)engine {
+    [SVProgressHUD show];
+    [SVProgressHUD dismissWithSuccess:@"您已成功解除绑定" afterDelay:2];
+}
+
+- (void)engine:(WBEngine *)engine didFailToLogInWithError:(NSError *)error {
+    NSLog(@"帐号绑定失败！错误信息：%@", [error description]);
+    [SVProgressHUD show];
+    [SVProgressHUD dismissWithSuccess:@"绑定失败" afterDelay:2];
+}
 @end

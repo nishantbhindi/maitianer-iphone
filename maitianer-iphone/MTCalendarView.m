@@ -45,21 +45,20 @@ static const CGFloat kCalendarCellSideLength = 70;
         
         if (oldMonth != newMonth) {
             [self monthUpdated];
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:1.0];
+            [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+            if ([oldDate isEarlierThanDate:_selectedDate]) {
+                [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:self.calendarScrollView cache:YES]; 
+            }else {
+                [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:self.calendarScrollView cache:YES]; 
+            }
+            [oldDate release];
+            [UIView commitAnimations];
         }
         
         [self.monthLabelButton setTitle:[NSString stringWithFormat:@"%d年%02d月", year, newMonth] forState:UIControlStateNormal];
-        
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:1.0];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-        if ([oldDate isEarlierThanDate:_selectedDate]) {
-            [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:self.calendarScrollView cache:YES]; 
-        }else {
-            [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:self.calendarScrollView cache:YES]; 
-        }
-        [oldDate release];
-        [UIView commitAnimations];
-        
+
     }
 }
 

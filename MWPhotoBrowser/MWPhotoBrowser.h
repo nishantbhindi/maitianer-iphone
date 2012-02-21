@@ -29,6 +29,7 @@
 @optional
 - (MWCaptionView *)photoBrowser:(MWPhotoBrowser *)photoBrowser captionViewForPhotoAtIndex:(NSUInteger)index;
 - (void)photoBrowser:(MWPhotoBrowser *)photoBroswer didSelectedPhoto:(Photo *)photo actionAtIndex:(NSInteger)index;
+
 @end
 
 // MWPhotoBrowser
