@@ -179,6 +179,7 @@
         [self presentModalViewController:editingBabyNVC animated:YES];
         [editingBabyVC release];
         [editingBabyNVC release];
+        return;
     }
     
     self.calendarView.miniumDate = self.baby.birthday;
@@ -233,29 +234,12 @@
     
     //config baby info
     self.babyNameLabel.text = self.baby.nickName;
-    NSString *duringBirthday = nil;
-    NSInteger yearsAfter = [[NSDate date] year] - [self.baby.birthday year];
-    NSInteger monthsAfter = [[NSDate date] month] - [self.baby.birthday month];
-    if (monthsAfter < 0) {
-        yearsAfter = yearsAfter - 1;
-        monthsAfter = 12 + monthsAfter;
-    }
-    if (yearsAfter > 0) {
-        int daysFromBeginningOfYear = [[self.baby.birthday yearsSince:yearsAfter] daysBeforeDate:[NSDate date]];
-        //duringBirthday = [NSString stringWithFormat:@"%d年%d个月", yearsAfter, monthsAfter];
-        duringBirthday = [NSString stringWithFormat:@"%d年%d天", yearsAfter, daysFromBeginningOfYear];
-    }else {
-        duringBirthday = [NSString stringWithFormat:@"%d天", [[NSDate date] daysAfterDate:self.baby.birthday]];
-    }
-    self.daysFromBirthdayLabel.text = [NSString stringWithFormat:@"出生%@", duringBirthday];
+    self.daysFromBirthdayLabel.text = [NSString stringWithFormat:@"出生%@", [Utilities daysAfterBirthday:self.baby.birthday fromDate:[NSDate date]]];
     
     //reload calendar view for reset calendar cell view
     [self.calendarView reload];
     //fetch photos then show in calendar
     [self _showPhotosInCalendar];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
 }
 
 - (void)viewDidUnload
@@ -280,7 +264,7 @@
     //create and configure a fetch request for Photo entity
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:[NSEntityDescription entityForName:@"Photo" inManagedObjectContext:self.managedObjectContext]];
-    [request setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO], [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO], nil]];
+    [request setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO], nil]];
     
     //create and init fetched result controller with section
     _photoResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"recordDateLabel" cacheName:nil];
@@ -295,6 +279,8 @@
     if (cell.photos) {
         MWPhotoBrowser *photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
         photoBrowser.recordDate = date;
+        NSUInteger initialPhotoIndex = [self.photoResultsController.fetchedObjects indexOfObject:[[calendarView cellForDate:date].photos objectAtIndex:0]];
+        [photoBrowser setInitialPageIndex:initialPhotoIndex];
         [self.navigationController pushViewController:photoBrowser animated:YES];
         [photoBrowser release];
     }else {
@@ -332,14 +318,11 @@
 
 #pragma mark - Photo browser delegate methods
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-    MTCalendarCellView *cell = [self.calendarView cellForDate:photoBrowser.recordDate];
-    return [cell.photos count];
+    return [self.photoResultsController.fetchedObjects count];
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
-    MTCalendarCellView *cell = [self.calendarView cellForDate:photoBrowser.recordDate];
-    Photo *photo = [cell.photos objectAtIndex:index];
-    return photo;
+    return [self.photoResultsController.fetchedObjects objectAtIndex:index];
 }
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBroswer didSelectedPhoto:(Photo *)photo actionAtIndex:(NSInteger)index {

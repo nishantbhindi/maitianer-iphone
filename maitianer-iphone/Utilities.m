@@ -61,6 +61,21 @@
     return subPath;
 }
 
++ (NSString *)daysAfterBirthday:(NSDate *)birthday fromDate:(NSDate *)date {
+    NSString *daysAfterBirthday;
+    if ([[birthday nextYear] isEqualToDateIgnoringTime:date]) {
+        daysAfterBirthday = @"一年";
+    }else if ([[birthday nextYear] isLaterThanDate:[date beginningOfDay]]) {
+        daysAfterBirthday = [NSString stringWithFormat:@"%d天", [date daysAfterDate:birthday]];
+    }else {
+        NSInteger yearsAfter = [date year] - [birthday year];
+        int daysFromBeginningOfYear = [[birthday yearsSince:yearsAfter] daysBeforeDate:date];
+        daysAfterBirthday = [NSString stringWithFormat:@"%d年%d天", yearsAfter, daysFromBeginningOfYear];
+    }
+    
+    return daysAfterBirthday;
+}
+
 + (NSManagedObjectContext *)moc {
     return [Utilities appDelegate].managedObjectContext;
 }

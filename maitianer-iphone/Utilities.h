@@ -18,6 +18,7 @@
 + (NSDate *)dateFromString:(NSString *)date withFormat:(NSString *)format;
 + (NSString *)generateUUID;
 + (NSString *)photoStorePathByDate:(NSDate *)date;
++ (NSString *)daysAfterBirthday:(NSDate *)birthday fromDate:(NSDate *)date;
 
 // Core Data
 + (NSManagedObjectContext *)moc;

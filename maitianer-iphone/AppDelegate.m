@@ -103,6 +103,7 @@
     [calendarNVC release];
     [milestonesNVC release];
     
+    // Add first tab bar background
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"tabBarBackground%i.png",_tabBarController.selectedIndex]]];
     CGRect frame = backgroundImageView.frame;
     frame.origin.y -= 11;

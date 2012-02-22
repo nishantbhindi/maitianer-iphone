@@ -92,6 +92,10 @@ typedef enum PhotoImageVersionT {
     return [self _imageForVersion:PhotoImageVersionB140];
 }
 
+- (NSString *)daysAfterBirthday {
+    return [Utilities daysAfterBirthday:self.baby.birthday fromDate:self.recordDate];
+}
+
 #pragma mark - Private
 - (void)saveImage:(UIImage *)img toPath:(NSString *)path {
     DKFile *file = [DKFile fileFromDocuments:path];

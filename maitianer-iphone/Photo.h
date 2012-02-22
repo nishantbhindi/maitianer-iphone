@@ -31,6 +31,7 @@
 @property (nonatomic, readonly) UIImage *b140Image;
 
 - (NSString *)recordDateLabel;
+- (NSString *)daysAfterBirthday;
 - (void)saveImage:(UIImage *)img baseDirectory:(NSString *)directoryPath;
 
 @end

@@ -11,6 +11,8 @@
 #import "MWZoomingScrollView.h"
 #import "MBProgressHUD.h"
 #import "SDImageCache.h"
+#import "Utilities.h"
+#import "Photo.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -45,6 +47,7 @@
 	UIBarButtonItem *_previousButton, *_nextButton, *_actionButton;
     UIActionSheet *_actionsSheet;
     MBProgressHUD *_progressHUD;
+    UILabel *_titleLabel;
     UIButton *_backButton;
     QuadCurveMenu *_quadCurveMenu;
     
@@ -54,6 +57,7 @@
     UIColor *_previousNavBarTintColor;
     UIBarStyle _previousNavBarStyle;
     UIStatusBarStyle _previousStatusBarStyle;
+    BOOL _previousStatusBarHidden;
     UIBarButtonItem *_previousViewControllerBackButton;
     
     // Misc
@@ -73,6 +77,7 @@
 @property (nonatomic, retain) UIImage *navigationBarBackgroundImageDefault, *navigationBarBackgroundImageLandscapePhone;
 @property (nonatomic, retain) UIActionSheet *actionsSheet;
 @property (nonatomic, retain) MBProgressHUD *progressHUD;
+@property (nonatomic, retain) UILabel *titleLabel;
 @property (nonatomic, retain) UIButton *backButton;
 @property (nonatomic, retain) QuadCurveMenu *quadCurveMenu;
 
@@ -104,6 +109,7 @@
 - (CGRect)frameForCaptionView:(MWCaptionView *)captionView atIndex:(NSUInteger)index;
 
 // Navigation
+- (void)updateTitleLabel;
 - (void)updateNavigation;
 - (void)jumpToPageAtIndex:(NSUInteger)index;
 - (void)gotoPreviousPage;
@@ -147,6 +153,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 @synthesize progressHUD = _progressHUD;
 @synthesize previousViewControllerBackButton = _previousViewControllerBackButton;
 @synthesize recordDate = _recordDate;
+@synthesize titleLabel = _titleLabel;
 @synthesize backButton = _backButton;
 @synthesize quadCurveMenu = _quadCurveMenu;
 
@@ -211,6 +218,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [_photos release];
     [_progressHUD release];
     [_recordDate release];
+    [_titleLabel release];
     [_backButton release];
     [_quadCurveMenu release];
     [super dealloc];
@@ -273,6 +281,15 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [_backButton addTarget:self action:@selector(popNavigation) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.backButton];
     
+    // Title label
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 10, 140, 30)];
+    _titleLabel.backgroundColor = [UIColor blackColor];
+    _titleLabel.alpha = 0.6;
+    _titleLabel.layer.cornerRadius = 15;
+    _titleLabel.textColor = [UIColor whiteColor];
+    _titleLabel.textAlignment = UITextAlignmentCenter;
+    [self.view addSubview:_titleLabel];
+    
     // QuadCurveMenu
     UIImage *storyMenuItemImage = [UIImage imageNamed:@"bg-menuitem.png"];
     UIImage *storyMenuItemImagePressed = [UIImage imageNamed:@"bg-menuitem-highlighted.png"];
@@ -294,21 +311,16 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
                                                                highlightedImage:storyMenuItemImagePressed 
                                                                    ContentImage:starImage 
                                                         highlightedContentImage:nil];
-    QuadCurveMenuItem *starMenuItem5 = [[QuadCurveMenuItem alloc] initWithImage:storyMenuItemImage
-                                                               highlightedImage:storyMenuItemImagePressed 
-                                                                   ContentImage:starImage
-                                                        highlightedContentImage:nil];
-    NSArray *menus = [NSArray arrayWithObjects:starMenuItem1, starMenuItem2, starMenuItem3, starMenuItem4, starMenuItem5, nil];
+    NSArray *menus = [NSArray arrayWithObjects:starMenuItem1, starMenuItem2, starMenuItem3, starMenuItem4, nil];
     [starMenuItem1 release];
     [starMenuItem2 release];
     [starMenuItem3 release];
     [starMenuItem4 release];
-    [starMenuItem5 release];
     _quadCurveMenu = [[QuadCurveMenu alloc] initWithFrame:self.view.bounds menus:menus];
     _quadCurveMenu.delegate = self;
-    _quadCurveMenu.center = CGPointMake(290, 45);
+    _quadCurveMenu.center = CGPointMake(290, 25);
     _quadCurveMenu.rotateAngle = M_PI;
-    _quadCurveMenu.menuWholeAngle = M_PI / 1.6;
+    _quadCurveMenu.menuWholeAngle = M_PI / 2.0;
     [self.view addSubview:_quadCurveMenu];
     [self.view bringSubviewToFront:_quadCurveMenu];
     
@@ -331,7 +343,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [_recycledPages removeAllObjects];
     
     // Toolbar
-    if (numberOfPhotos > 1 || _displayActionButton) {
+    //if (numberOfPhotos > 1 || _displayActionButton) {
+    if (_displayActionButton) {
         [self.view addSubview:_toolbar];
     } else {
         [_toolbar removeFromSuperview];
@@ -354,7 +367,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	[self updateNavigation];
     
     // Navigation buttons
-    self.backButton.frame = CGRectMake(10, 20, 52, 52);
+    self.backButton.frame = CGRectMake(5, 0, 52, 52);
     
     if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
         // We're first on stack so show done button
@@ -420,7 +433,9 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     // Status bar
     if (self.wantsFullScreenLayout && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         _previousStatusBarStyle = [[UIApplication sharedApplication] statusBarStyle];
+        _previousStatusBarHidden = [UIApplication sharedApplication].statusBarHidden;
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:animated];
+        [[UIApplication sharedApplication] setStatusBarHidden:YES animated:YES];
     }
     
     // Navigation bar appearance
@@ -456,6 +471,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     // Status bar
     if (self.wantsFullScreenLayout && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [[UIApplication sharedApplication] setStatusBarStyle:_previousStatusBarStyle animated:animated];
+        [[UIApplication sharedApplication] setStatusBarHidden:_previousStatusBarHidden animated:animated];
     }
     
 	// Super
@@ -916,6 +932,10 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 #pragma mark - Navigation
+- (void)updateTitleLabel {
+    Photo *photo = [self photoAtIndex:_currentPageIndex];
+    self.titleLabel.text = [photo daysAfterBirthday];
+}
 
 - (void)updateNavigation {
     
@@ -925,6 +945,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	} else {
 		self.title = nil;
 	}
+    
+    [self updateTitleLabel];
 	
 	// Buttons
 	_previousButton.enabled = (_currentPageIndex > 0);
@@ -968,11 +990,11 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
         }
         
         // Status Bar
-        if ([UIApplication instancesRespondToSelector:@selector(setStatusBarHidden:withAnimation:)]) {
-            [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:animated?UIStatusBarAnimationFade:UIStatusBarAnimationNone];
-        } else {
-            [[UIApplication sharedApplication] setStatusBarHidden:hidden animated:animated];
-        }
+//        if ([UIApplication instancesRespondToSelector:@selector(setStatusBarHidden:withAnimation:)]) {
+//            [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:animated?UIStatusBarAnimationFade:UIStatusBarAnimationNone];
+//        } else {
+//            [[UIApplication sharedApplication] setStatusBarHidden:hidden animated:animated];
+//        }
         
         // Get status bar height if visible
         if (![UIApplication sharedApplication].statusBarHidden) {
