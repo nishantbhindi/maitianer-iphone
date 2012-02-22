@@ -12,6 +12,9 @@
 #import "PhotosViewController.h"
 #import "SettingsViewController.h"
 #import "MWPhoto.h"
+#import "Milestone.h"
+#import "EditingPhotoView.h"
+#import "FTAnimation.h"
 
 #define FIRST_SHOW_BUTTON_TAG 100
 
@@ -325,7 +328,46 @@
     return [self.photoResultsController.fetchedObjects objectAtIndex:index];
 }
 
+- (void)_showSendWeiboView:(Photo *)photo {
+    WBSendView *wbSendView = [[WBSendView alloc] initWithAppKey:kWBSDKDemoAppKey appSecret:kWBSDKDemoAppSecret text:photo.milestone ? photo.milestone.content:photo.content image:photo.image];
+    [wbSendView show:YES];
+    wbSendView.delegate = self;
+    [wbSendView release];
+}
+
+- (void)_showEditingPhotoView:(Photo *)photo inPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    EditingPhotoView *editingPhotoView = [[EditingPhotoView alloc] initWithPhoto:photo];
+    editingPhotoView.delegate = self;
+    editingPhotoView.frame = CGRectMake(20, 60, 280, 200);
+    [editingPhotoView backInFrom:0 withFade:YES duration:.8 delegate:nil];
+    [photoBrowser.view addSubview:editingPhotoView];
+    [editingPhotoView release];
+}
+
 - (void)photoBrowser:(MWPhotoBrowser *)photoBroswer didSelectedPhoto:(Photo *)photo actionAtIndex:(NSInteger)index {
+    switch (index) {
+        case 0:
+            [self _showSendWeiboView:photo];
+            break;
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            [self _showEditingPhotoView:photo inPhotoBrowser:photoBroswer];
+            break;
+        default:
+            break;
+    }
+}
+
+#pragma mark - EditingPhotoViewDelegate
+- (void)didFinishEditingPhotoView:(EditingPhotoView *)editingPhotoView {
+    [editingPhotoView removeFromSuperview];
+}
+
+- (void)didCancelEditingPhotoView:(EditingPhotoView *)editingPhotoView {
+    [editingPhotoView removeFromSuperview];
 }
 
 @end

@@ -11,10 +11,12 @@
 #import "Photo.h"
 #import "MTCalendarView.h"
 #import "MWPhotoBrowser.h"
+#import "WBSendView.h"
+#import "EditingPhotoView.h"
 
 @class PhotoPickerController;
 
-@interface CalendarViewController : UIViewController <MTCalendarViewDelegate, UIActionSheetDelegate, MWPhotoBrowserDelegate> {
+@interface CalendarViewController : UIViewController <MTCalendarViewDelegate, UIActionSheetDelegate, MWPhotoBrowserDelegate, WBSendViewDelegate, EditingPhotoViewDelegate> {
     // CoreData
     NSManagedObjectContext *_managedObjectContext;
     NSFetchedResultsController *_photoResultsController;

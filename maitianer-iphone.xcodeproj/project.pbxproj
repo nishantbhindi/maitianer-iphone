@@ -85,9 +85,6 @@
 		3F9808DC14AAAB1C00063CCA /* capture-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9808DA14AAAB1C00063CCA /* capture-button.png */; };
 		3F9808DD14AAAB1C00063CCA /* capture-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F9808DB14AAAB1C00063CCA /* capture-button@2x.png */; };
 		3F98093314AAAFD900063CCA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F98093214AAAFD900063CCA /* Security.framework */; };
-		3F9CC14C14F0CA8F00321F43 /* MTTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC14B14F0CA8F00321F43 /* MTTabBar.m */; };
-		3F9CC14E14F0CAA400321F43 /* MTTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F9CC14D14F0CAA400321F43 /* MTTabBar.xib */; };
-		3F9CC15514F0CE1A00321F43 /* MTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F9CC15414F0CE1A00321F43 /* MTTabBarController.m */; };
 		3FA1CEA914F20BC8009C3C1B /* QuadCurveMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1CEA614F20BC8009C3C1B /* QuadCurveMenu.m */; };
 		3FA1CEAA14F20BC8009C3C1B /* QuadCurveMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1CEA814F20BC8009C3C1B /* QuadCurveMenuItem.m */; };
 		3FA1CEBF14F20D37009C3C1B /* bg-addbutton-highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FA1CEB114F20D37009C3C1B /* bg-addbutton-highlighted.png */; };
@@ -176,6 +173,11 @@
 		75C5D784147D54CE00BD84E8 /* calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C5D780147D54CE00BD84E8 /* calendar.png */; };
 		75CDB966148BADA40003923D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 75CDB965148BADA40003923D /* Default.png */; };
 		75CDB969148BADAB0003923D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75CDB968148BADAB0003923D /* Default@2x.png */; };
+		75E94ECE14F51DBE00AAAB40 /* FTAnimation+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75E94ECA14F51DBE00AAAB40 /* FTAnimation+UIView.m */; };
+		75E94ECF14F51DBE00AAAB40 /* FTAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 75E94ECB14F51DBE00AAAB40 /* FTAnimationManager.m */; };
+		75E94ED014F51DBE00AAAB40 /* FTUtils+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 75E94ECC14F51DBE00AAAB40 /* FTUtils+NSObject.m */; };
+		75E94ED114F51DBE00AAAB40 /* FTUtils+UIGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 75E94ECD14F51DBE00AAAB40 /* FTUtils+UIGestureRecognizer.m */; };
+		75E94EDA14F5263500AAAB40 /* EditingPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75E94ED914F5263500AAAB40 /* EditingPhotoView.m */; };
 		75EB906F149326E7007027F0 /* TabBarGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EB906D149326E7007027F0 /* TabBarGradient.png */; };
 		75EB9070149326E7007027F0 /* TabBarGradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EB906E149326E7007027F0 /* TabBarGradient@2x.png */; };
 		75EB908714935FEE007027F0 /* TabBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EB908314935FEE007027F0 /* TabBackground.png */; };
@@ -321,11 +323,6 @@
 		3F9808DA14AAAB1C00063CCA /* capture-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "capture-button.png"; sourceTree = "<group>"; };
 		3F9808DB14AAAB1C00063CCA /* capture-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "capture-button@2x.png"; sourceTree = "<group>"; };
 		3F98093214AAAFD900063CCA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		3F9CC14A14F0CA8F00321F43 /* MTTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTabBar.h; sourceTree = "<group>"; };
-		3F9CC14B14F0CA8F00321F43 /* MTTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTabBar.m; sourceTree = "<group>"; };
-		3F9CC14D14F0CAA400321F43 /* MTTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MTTabBar.xib; sourceTree = "<group>"; };
-		3F9CC15314F0CE1A00321F43 /* MTTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTabBarController.h; sourceTree = "<group>"; };
-		3F9CC15414F0CE1A00321F43 /* MTTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTabBarController.m; sourceTree = "<group>"; };
 		3FA1CEA514F20BC8009C3C1B /* QuadCurveMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuadCurveMenu.h; sourceTree = "<group>"; };
 		3FA1CEA614F20BC8009C3C1B /* QuadCurveMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuadCurveMenu.m; sourceTree = "<group>"; };
 		3FA1CEA714F20BC8009C3C1B /* QuadCurveMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuadCurveMenuItem.h; sourceTree = "<group>"; };
@@ -465,6 +462,18 @@
 		75C5D780147D54CE00BD84E8 /* calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar.png; sourceTree = "<group>"; };
 		75CDB965148BADA40003923D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		75CDB968148BADAB0003923D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		75E94ECA14F51DBE00AAAB40 /* FTAnimation+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FTAnimation+UIView.m"; sourceTree = "<group>"; };
+		75E94ECB14F51DBE00AAAB40 /* FTAnimationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTAnimationManager.m; sourceTree = "<group>"; };
+		75E94ECC14F51DBE00AAAB40 /* FTUtils+NSObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FTUtils+NSObject.m"; sourceTree = "<group>"; };
+		75E94ECD14F51DBE00AAAB40 /* FTUtils+UIGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FTUtils+UIGestureRecognizer.m"; sourceTree = "<group>"; };
+		75E94ED214F51E0B00AAAB40 /* FTAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTAnimation.h; sourceTree = "<group>"; };
+		75E94ED314F51E0B00AAAB40 /* FTAnimation+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FTAnimation+UIView.h"; sourceTree = "<group>"; };
+		75E94ED414F51E0B00AAAB40 /* FTAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTAnimationManager.h; sourceTree = "<group>"; };
+		75E94ED514F51E0B00AAAB40 /* FTUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTUtils.h; sourceTree = "<group>"; };
+		75E94ED614F51E0B00AAAB40 /* FTUtils+NSObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FTUtils+NSObject.h"; sourceTree = "<group>"; };
+		75E94ED714F51E0B00AAAB40 /* FTUtils+UIGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FTUtils+UIGestureRecognizer.h"; sourceTree = "<group>"; };
+		75E94ED814F5263500AAAB40 /* EditingPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditingPhotoView.h; sourceTree = "<group>"; };
+		75E94ED914F5263500AAAB40 /* EditingPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditingPhotoView.m; sourceTree = "<group>"; };
 		75EB906D149326E7007027F0 /* TabBarGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TabBarGradient.png; sourceTree = "<group>"; };
 		75EB906E149326E7007027F0 /* TabBarGradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TabBarGradient@2x.png"; sourceTree = "<group>"; };
 		75EB908314935FEE007027F0 /* TabBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TabBackground.png; sourceTree = "<group>"; };
@@ -522,9 +531,9 @@
 		3F0F85D6147B6C1600FC3FC9 = {
 			isa = PBXGroup;
 			children = (
+				75E94EC914F51DBE00AAAB40 /* ftutils */,
 				3F313E5214F381C000CD2E67 /* SinaWeiBoSDK */,
 				3FA1CEA414F20BC8009C3C1B /* QuadCurveMenu */,
-				3F9CC14814F0CA7500321F43 /* CustomTabBar */,
 				3FCF0B4914F0B6800045D34F /* Models */,
 				3FCF0B4714F0B64E0045D34F /* Utilities */,
 				3FAB728814F0992700C452E7 /* MBProgressHUD */,
@@ -610,6 +619,8 @@
 				3FDAE04114D8C8C2000A0E3A /* LoginViewController.h */,
 				3FDAE04214D8C8C2000A0E3A /* LoginViewController.m */,
 				3FDAE04314D8C8C2000A0E3A /* LoginViewController.xib */,
+				75E94ED814F5263500AAAB40 /* EditingPhotoView.h */,
+				75E94ED914F5263500AAAB40 /* EditingPhotoView.m */,
 			);
 			path = "maitianer-iphone";
 			sourceTree = "<group>";
@@ -738,18 +749,6 @@
 				3F313E7914F381C000CD2E67 /* SFHFKeychainUtils.m */,
 			);
 			path = SFHFKeychainUtils;
-			sourceTree = "<group>";
-		};
-		3F9CC14814F0CA7500321F43 /* CustomTabBar */ = {
-			isa = PBXGroup;
-			children = (
-				3F9CC14A14F0CA8F00321F43 /* MTTabBar.h */,
-				3F9CC14B14F0CA8F00321F43 /* MTTabBar.m */,
-				3F9CC14D14F0CAA400321F43 /* MTTabBar.xib */,
-				3F9CC15314F0CE1A00321F43 /* MTTabBarController.h */,
-				3F9CC15414F0CE1A00321F43 /* MTTabBarController.m */,
-			);
-			name = CustomTabBar;
 			sourceTree = "<group>";
 		};
 		3F9CC15614F0CE3A00321F43 /* CustomTabBar */ = {
@@ -1006,6 +1005,23 @@
 			path = Reachability;
 			sourceTree = "<group>";
 		};
+		75E94EC914F51DBE00AAAB40 /* ftutils */ = {
+			isa = PBXGroup;
+			children = (
+				75E94ED214F51E0B00AAAB40 /* FTAnimation.h */,
+				75E94ED314F51E0B00AAAB40 /* FTAnimation+UIView.h */,
+				75E94ED414F51E0B00AAAB40 /* FTAnimationManager.h */,
+				75E94ED514F51E0B00AAAB40 /* FTUtils.h */,
+				75E94ED614F51E0B00AAAB40 /* FTUtils+NSObject.h */,
+				75E94ED714F51E0B00AAAB40 /* FTUtils+UIGestureRecognizer.h */,
+				75E94ECA14F51DBE00AAAB40 /* FTAnimation+UIView.m */,
+				75E94ECB14F51DBE00AAAB40 /* FTAnimationManager.m */,
+				75E94ECC14F51DBE00AAAB40 /* FTUtils+NSObject.m */,
+				75E94ECD14F51DBE00AAAB40 /* FTUtils+UIGestureRecognizer.m */,
+			);
+			path = ftutils;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1146,7 +1162,6 @@
 				3FAB72A414F0992700C452E7 /* .gitignore in Resources */,
 				3FAB72A514F0992700C452E7 /* LICENSE in Resources */,
 				3FAB72A614F0992700C452E7 /* README.md in Resources */,
-				3F9CC14E14F0CAA400321F43 /* MTTabBar.xib in Resources */,
 				3FA1CEBF14F20D37009C3C1B /* bg-addbutton-highlighted.png in Resources */,
 				3FA1CEC014F20D37009C3C1B /* bg-addbutton-highlighted@2x.png in Resources */,
 				3FA1CEC114F20D37009C3C1B /* bg-addbutton.png in Resources */,
@@ -1266,8 +1281,6 @@
 				3FAB72AB14F0992700C452E7 /* SDWebImagePrefetcher.m in Sources */,
 				3FAB72AC14F0992700C452E7 /* UIButton+WebCache.m in Sources */,
 				3FAB72AD14F0992700C452E7 /* UIImageView+WebCache.m in Sources */,
-				3F9CC14C14F0CA8F00321F43 /* MTTabBar.m in Sources */,
-				3F9CC15514F0CE1A00321F43 /* MTTabBarController.m in Sources */,
 				3FA1CEA914F20BC8009C3C1B /* QuadCurveMenu.m in Sources */,
 				3FA1CEAA14F20BC8009C3C1B /* QuadCurveMenuItem.m in Sources */,
 				3F313E8B14F381C000CD2E67 /* GTMBase64.m in Sources */,
@@ -1285,6 +1298,11 @@
 				3F313EA614F381C000CD2E67 /* WBRequest.m in Sources */,
 				3F313EA714F381C000CD2E67 /* WBSendView.m in Sources */,
 				3F313EA814F381C000CD2E67 /* WBUtil.m in Sources */,
+				75E94ECE14F51DBE00AAAB40 /* FTAnimation+UIView.m in Sources */,
+				75E94ECF14F51DBE00AAAB40 /* FTAnimationManager.m in Sources */,
+				75E94ED014F51DBE00AAAB40 /* FTUtils+NSObject.m in Sources */,
+				75E94ED114F51DBE00AAAB40 /* FTUtils+UIGestureRecognizer.m in Sources */,
+				75E94EDA14F5263500AAAB40 /* EditingPhotoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
