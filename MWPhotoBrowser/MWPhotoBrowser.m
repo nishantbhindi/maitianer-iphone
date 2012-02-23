@@ -47,6 +47,7 @@
 	UIBarButtonItem *_previousButton, *_nextButton, *_actionButton;
     UIActionSheet *_actionsSheet;
     MBProgressHUD *_progressHUD;
+    UIImageView *_titleBackgroundView;
     UILabel *_titleLabel;
     UIButton *_backButton;
     QuadCurveMenu *_quadCurveMenu;
@@ -77,6 +78,7 @@
 @property (nonatomic, retain) UIImage *navigationBarBackgroundImageDefault, *navigationBarBackgroundImageLandscapePhone;
 @property (nonatomic, retain) UIActionSheet *actionsSheet;
 @property (nonatomic, retain) MBProgressHUD *progressHUD;
+@property (nonatomic, retain) UIImageView *titleBackgroundView;
 @property (nonatomic, retain) UILabel *titleLabel;
 @property (nonatomic, retain) UIButton *backButton;
 @property (nonatomic, retain) QuadCurveMenu *quadCurveMenu;
@@ -134,6 +136,7 @@
 - (void)copyPhoto;
 - (void)emailPhoto;
 - (void)popNavigation;
+- (void)updateCaptionView;
 
 @end
 
@@ -153,6 +156,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 @synthesize progressHUD = _progressHUD;
 @synthesize previousViewControllerBackButton = _previousViewControllerBackButton;
 @synthesize recordDate = _recordDate;
+@synthesize titleBackgroundView = _titleBackgroundView;
 @synthesize titleLabel = _titleLabel;
 @synthesize backButton = _backButton;
 @synthesize quadCurveMenu = _quadCurveMenu;
@@ -218,6 +222,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [_photos release];
     [_progressHUD release];
     [_recordDate release];
+    [_titleBackgroundView release];
     [_titleLabel release];
     [_backButton release];
     [_quadCurveMenu release];
@@ -276,19 +281,25 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     
     // Return home button
     _backButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-    [_backButton setImage:[UIImage imageNamed:@"bg-addbutton.png"] forState:UIControlStateNormal];
-    [_backButton setImage:[UIImage imageNamed:@"bg-addbutton-highlighted.png"] forState:UIControlStateHighlighted];
+    [_backButton setImage:[UIImage imageNamed:@"back-button.png"] forState:UIControlStateNormal];
+    //[_backButton setImage:[UIImage imageNamed:@"back-button.png"] forState:UIControlStateHighlighted];
     [_backButton addTarget:self action:@selector(popNavigation) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.backButton];
     
-    // Title label
-    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 10, 140, 30)];
-    _titleLabel.backgroundColor = [UIColor blackColor];
-    _titleLabel.alpha = 0.6;
-    _titleLabel.layer.cornerRadius = 15;
+    // Title
+    _titleBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title-background.png"]];
+    CGRect frame = _titleBackgroundView.frame;
+    frame.origin.y = 10;
+    frame.origin.x = (self.view.bounds.size.width - frame.size.width) / 2;
+    _titleBackgroundView.frame = frame;
+    [self.view addSubview:_titleBackgroundView];
+    _titleLabel = [[UILabel alloc] initWithFrame:_titleBackgroundView.bounds];
+    _titleLabel.backgroundColor = [UIColor clearColor];
+    _titleLabel.shadowColor = [UIColor blackColor];
+    //_titleLabel.layer.cornerRadius = 15;
     _titleLabel.textColor = [UIColor whiteColor];
     _titleLabel.textAlignment = UITextAlignmentCenter;
-    [self.view addSubview:_titleLabel];
+    [self.titleBackgroundView addSubview:_titleLabel];
     
     // QuadCurveMenu
     UIImage *storyMenuItemImage = [UIImage imageNamed:@"bg-menuitem.png"];
@@ -318,11 +329,14 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [starMenuItem4 release];
     _quadCurveMenu = [[QuadCurveMenu alloc] initWithFrame:self.view.bounds menus:menus];
     _quadCurveMenu.delegate = self;
-    _quadCurveMenu.center = CGPointMake(290, 25);
+    _quadCurveMenu.center = CGPointMake(290, 30);
     _quadCurveMenu.rotateAngle = M_PI;
     _quadCurveMenu.menuWholeAngle = M_PI / 2.0;
     [self.view addSubview:_quadCurveMenu];
     [self.view bringSubviewToFront:_quadCurveMenu];
+    
+    // Notification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCaptionView) name:@"updateCaptionViewWhenSaved" object:nil];
     
     // Update
     [self reloadData];
@@ -367,7 +381,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	[self updateNavigation];
     
     // Navigation buttons
-    self.backButton.frame = CGRectMake(5, 0, 52, 52);
+    self.backButton.frame = CGRectMake(5, 5, 50, 50);
     
     if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
         // We're first on stack so show done button
@@ -1164,9 +1178,14 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 #pragma mark - QuadCurveMenu
+- (void)updateCaptionView {
+    MWZoomingScrollView *page = [self pageDisplayedAtIndex:_currentPageIndex];
+    [page.captionView setupCaption];
+}
+
 - (void)quadCurveMenu:(QuadCurveMenu *)menu didSelectIndex:(NSInteger)idx {
-    if ([_delegate respondsToSelector:@selector(photoBrowser:didSelectedPhoto:actionAtIndex:)]) {
-        [_delegate photoBrowser:self didSelectedPhoto:[_photos objectAtIndex:_currentPageIndex] actionAtIndex:idx];
+    if ([_delegate respondsToSelector:@selector(photoBrowser:didSelectedPhotoAtIndex:actionAtIndex:)]) {
+        [_delegate photoBrowser:self didSelectedPhotoAtIndex:_currentPageIndex actionAtIndex:idx];
     }
 }
 

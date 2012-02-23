@@ -2,69 +2,86 @@
 //  MTCaptionView.m
 //  maitianer-iphone
 //
-//  Created by 张 朝 on 12-2-17.
+//  Created by 张 朝 on 12-2-23.
 //  Copyright (c) 2012年 麦田儿. All rights reserved.
 //
 
 #import "MTCaptionView.h"
 #import "Photo.h"
+#import "Milestone.h"
 
 static const CGFloat labelPadding = 10;
 
-// Private
 @interface MTCaptionView () {
-    id<MTPhotoProtocol> _photo;
-    UILabel *_label;    
+    UIImageView *_imageView;
+    UILabel *_contentLabel;
 }
+@property (nonatomic, retain) UILabel *contentLabel;
 @end
 
 @implementation MTCaptionView
+@synthesize contentLabel = _contentLabel;
 
-- (id)initWithPhoto:(id<MTPhotoProtocol>)photo {
-    self = [super initWithFrame:CGRectMake(0, 0, 320, 44)]; // Random initial frame
+- (id)initWithPhoto:(id<MWPhoto>)photo {
+    self = [super initWithPhoto:photo];
     if (self) {
-        _photo = [photo retain];
-        self.opaque = NO;
-        self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-        [self setupCaption];
     }
     return self;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
     CGFloat maxHeight = 9999;
-    if (_label.numberOfLines > 0) maxHeight = _label.font.leading*_label.numberOfLines;
-    CGSize textSize = [_label.text sizeWithFont:_label.font 
-                              constrainedToSize:CGSizeMake(size.width - labelPadding*2, maxHeight)
-                                  lineBreakMode:_label.lineBreakMode];
+    if (_contentLabel.numberOfLines > 0) maxHeight = _contentLabel.font.leading*_contentLabel.numberOfLines;
+    CGSize textSize = [_contentLabel.text sizeWithFont:_contentLabel.font 
+                              constrainedToSize:CGSizeMake(self.bounds.size.width-labelPadding - 40, maxHeight)
+                                  lineBreakMode:_contentLabel.lineBreakMode];
     return CGSizeMake(size.width, textSize.height + labelPadding * 2);
 }
 
 - (void)setupCaption {
-    _label = [[UILabel alloc] initWithFrame:CGRectMake(labelPadding, 0, 
-                                                       self.bounds.size.width-labelPadding*2,
-                                                       self.bounds.size.height)];
-    _label.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    _label.opaque = NO;
-    _label.backgroundColor = [UIColor clearColor];
-    _label.textAlignment = UITextAlignmentCenter;
-    _label.lineBreakMode = UILineBreakModeWordWrap;
-    _label.numberOfLines = 3;
-    _label.textColor = [UIColor whiteColor];
-    _label.shadowColor = [UIColor blackColor];
-    _label.shadowOffset = CGSizeMake(1, 1);
-    _label.font = [UIFont systemFontOfSize:17];
-    if ([_photo respondsToSelector:@selector(caption)]) {
-        _label.text = [_photo caption] ? [_photo caption] : @" ";
+    
+    if ([self.subviews containsObject:_contentLabel]) {
+        [_contentLabel removeFromSuperview];
+        [_contentLabel release];
+        _contentLabel = nil;
+        [_imageView removeFromSuperview];
+        [_imageView release];
+        _imageView = nil;
     }
     
-    [self addSubview:_label];
+    Photo *photo = [self valueForKey:@"_photo"];
+    _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, 
+                                                       self.bounds.size.width-labelPadding - 40,
+                                                       self.bounds.size.height)];
+    _contentLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    _contentLabel.opaque = NO;
+    _contentLabel.backgroundColor = [UIColor clearColor];
+    _contentLabel.textAlignment = UITextAlignmentCenter;
+    _contentLabel.lineBreakMode = UILineBreakModeWordWrap;
+    _contentLabel.numberOfLines = 3;
+    _contentLabel.textColor = [UIColor whiteColor];
+    _contentLabel.shadowColor = [UIColor blackColor];
+    _contentLabel.shadowOffset = CGSizeMake(1, 1);
+    _contentLabel.font = [UIFont systemFontOfSize:17];
+    
+    if ([photo respondsToSelector:@selector(caption)]) {
+        _contentLabel.text = [photo caption] ? [photo caption] : @" ";
+    }
+    [self addSubview:_contentLabel];
+    
+    if (photo.milestone) {
+        _imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"milestone-star.png"]];
+    }else {
+        _imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo-description.png"]];
+    }
+    _imageView.frame = CGRectMake(5, (self.bounds.size.height - 30) / 2, 30, 30);
+    [self addSubview:_imageView];
+    
 }
 
 - (void)dealloc {
-    [_label release];
-    [_photo release];
+    [_imageView release];
+    [_contentLabel release];
     [super dealloc];
 }
 

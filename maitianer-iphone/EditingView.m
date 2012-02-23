@@ -6,34 +6,41 @@
 //  Copyright (c) 2012年 麦田儿. All rights reserved.
 //
 
-#import "EditingPhotoView.h"
+#import "EditingView.h"
 #import "Photo.h"
 
-@interface EditingPhotoView ()
+@interface EditingView ()
 
+@property (nonatomic, retain) UILabel *titleLabel;
 @property (nonatomic, retain) UIButton *saveButton;
 @property (nonatomic, retain) UIButton *cancelButton;
-@property (nonatomic, retain) UITextView *contentTextView;
 @property (nonatomic, retain) UIImageView *backgroundView;
     
 @end
 
-@implementation EditingPhotoView
+@implementation EditingView
 @synthesize delegate = _delegate;
-@synthesize photo = _photo;
+@synthesize entity = _entity;
+@synthesize titleLabel = _titleLabel;
 @synthesize saveButton = _saveButton;
 @synthesize cancelButton = _cancelButton;
 @synthesize contentTextView = _contentTextView;
 @synthesize backgroundView = _backgroundView;
 
-- (id)initWithPhoto:(Photo *)photo {
+- (id)initWithTitle:(NSString *)title Entity:entity {
     self = [self init];
     if (self) {
-        _photo = [photo retain];
+        _entity = [entity retain];
     }
     
     _backgroundView = [[UIImageView alloc] init];
     [self addSubview:_backgroundView];
+    
+    _titleLabel = [[UILabel alloc] init];
+    _titleLabel.backgroundColor = [UIColor clearColor];
+    _titleLabel.text = title;
+    _titleLabel.textAlignment = UITextAlignmentCenter;
+    [self addSubview:_titleLabel];
     
     _saveButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
     [_saveButton setTitle:@"保存" forState:UIControlStateNormal];
@@ -49,14 +56,14 @@
     
     _contentTextView = [[UITextView alloc] init];
     _contentTextView.editable = YES;
-    _contentTextView.delegate = self;
     _contentTextView.font = [UIFont systemFontOfSize:16];
+    _contentTextView.returnKeyType = UIReturnKeyNext;
     [self addSubview:_contentTextView];
     return self;
 }
 
 - (void)dealloc {
-    [_photo release];
+    [_entity release];
     [_saveButton release];
     [_cancelButton release];
     [_contentTextView release];
@@ -66,6 +73,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.backgroundView.frame = self.bounds;
+    self.titleLabel.frame = CGRectMake((self.bounds.size.width - 150)/2,  10, 150, 20);
     self.saveButton.frame = CGRectMake(self.bounds.size.width - 10 - 30, 10, 30, 20);
     self.cancelButton.frame = CGRectMake(10, 10, 30, 20);
     self.contentTextView.frame = CGRectMake(0, 40, self.bounds.size.width, self.bounds.size.height - 40);
@@ -73,25 +81,15 @@
 
 #pragma mark - Actions
 - (void)finishEditing:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(didFinishEditingPhotoView:)]) {
-        [self.delegate didFinishEditingPhotoView:self];
+    if ([self.delegate respondsToSelector:@selector(didFinishEditingView:)]) {
+        [self.delegate didFinishEditingView:self];
     }
 }
 
 - (void)cancelEditing:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(didCancelEditingPhotoView:)]) {
-        [self.delegate didCancelEditingPhotoView:self];
+    if ([self.delegate respondsToSelector:@selector(didCancelEditingView:)]) {
+        [self.delegate didCancelEditingView:self];
     }
     
 }
-
-#pragma mark - UITextViewDelegate
-- (void)textViewDidBeginEditing:(UITextView *)textView {
-    
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView {
-    
-}
-
 @end

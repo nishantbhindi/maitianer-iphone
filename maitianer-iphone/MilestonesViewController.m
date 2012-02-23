@@ -56,8 +56,7 @@
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     //set table view appearence
     self.view.backgroundColor = RGBCOLOR(229, 234, 204);
@@ -68,15 +67,16 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.allowsSelectionDuringEditing = YES;
     
+    NSError *error;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        //handler the error
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        //handler the error
-    }
     [self.tableView reloadData];
     
     if ([self.fetchedResultsController.fetchedObjects count] > 0) {
@@ -84,10 +84,7 @@
     }else {
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
-    
-    //show button
-    UIView *button = [self.tabBarController.view viewWithTag:9999];
-    [button setHidden:NO];
+
 }
 
 

@@ -137,7 +137,16 @@ typedef enum PhotoImageVersionT {
 }
 
 - (NSString *)caption {
-    return self.content;
+    NSString *caption;
+    if (self.milestone) {
+        caption = self.milestone.content;
+    }else {
+        caption = self.content;
+    }
+    if ([[caption stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+        return nil;
+    }
+    return caption;
 }
 
 @end

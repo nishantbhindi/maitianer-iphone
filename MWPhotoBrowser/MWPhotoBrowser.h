@@ -28,7 +28,7 @@
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index;
 @optional
 - (MWCaptionView *)photoBrowser:(MWPhotoBrowser *)photoBrowser captionViewForPhotoAtIndex:(NSUInteger)index;
-- (void)photoBrowser:(MWPhotoBrowser *)photoBroswer didSelectedPhoto:(Photo *)photo actionAtIndex:(NSInteger)index;
+- (void)photoBrowser:(MWPhotoBrowser *)photoBroswer didSelectedPhotoAtIndex:(NSUInteger)photoIndex actionAtIndex:(NSUInteger)index;
 
 @end
 
