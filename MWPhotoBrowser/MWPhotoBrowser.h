@@ -33,7 +33,7 @@
 @end
 
 // MWPhotoBrowser
-@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, QuadCurveMenuDelegate> 
+@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, QuadCurveMenuDelegate, UIAlertViewDelegate> 
 
 // Properties
 @property (nonatomic) BOOL displayActionButton;

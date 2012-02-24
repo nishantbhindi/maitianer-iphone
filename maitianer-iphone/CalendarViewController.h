@@ -16,7 +16,7 @@
 
 @class PhotoPickerController;
 
-@interface CalendarViewController : UIViewController <MTCalendarViewDelegate, UIActionSheetDelegate, MWPhotoBrowserDelegate, WBSendViewDelegate, EditingViewDelegate> {
+@interface CalendarViewController : UIViewController <MTCalendarViewDelegate, UIActionSheetDelegate, MWPhotoBrowserDelegate, WBSendViewDelegate, EditingViewDelegate, UIAlertViewDelegate> {
     // CoreData
     NSManagedObjectContext *_managedObjectContext;
     NSFetchedResultsController *_photoResultsController;

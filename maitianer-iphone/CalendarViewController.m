@@ -330,6 +330,7 @@
 
 #pragma mark - Photo browser delegate methods
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    NSLog(@"%d", [self.photoResultsController.fetchedObjects count]);
     return [self.photoResultsController.fetchedObjects count];
 }
 
@@ -393,6 +394,20 @@
     [photoBrowser.view addSubview:_editingPhotoView];
 }
 
+- (void)_deletePhoto:(Photo *)photo inPhotoBroswer:(MWPhotoBrowser *)photoBrowser{
+    [self.managedObjectContext deleteObject:photo];
+    NSError *error;
+    [self.managedObjectContext save:&error];
+    if (error) {
+        // Handle error
+    }
+    [self.photoResultsController performFetch:&error];
+    if (error) {
+        // Handle error
+    }
+    [photoBrowser reloadData];
+}
+
 - (void)photoBrowser:(MWPhotoBrowser *)photoBroswer didSelectedPhotoAtIndex:(NSUInteger)photoIndex actionAtIndex:(NSUInteger)actionIndex {
     Photo *photo = [self.photoResultsController.fetchedObjects objectAtIndex:photoIndex];
     switch (actionIndex) {
@@ -400,6 +415,7 @@
             [self _showSendWeiboView:photo];
             break;
         case 1:
+            [self _deletePhoto:photo inPhotoBroswer:photoBroswer];
             break;
         case 2:
             [self _showEditingMilestoneView:photo inPhotoBrowser:photoBroswer];

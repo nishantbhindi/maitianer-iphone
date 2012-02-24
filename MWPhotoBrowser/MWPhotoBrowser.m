@@ -305,22 +305,26 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     UIImage *storyMenuItemImage = [UIImage imageNamed:@"bg-menuitem.png"];
     UIImage *storyMenuItemImagePressed = [UIImage imageNamed:@"bg-menuitem-highlighted.png"];
     
-    UIImage *starImage = [UIImage imageNamed:@"icon-star.png"];
+    UIImage *editImage = [UIImage imageNamed:@"icon-edit.png"];
+    UIImage *milestoneImage = [UIImage imageNamed:@"icon-milestone.png"];
+    UIImage *deleteImage = [UIImage imageNamed:@"icon-delete.png"];
+    UIImage *shareImage = [UIImage imageNamed:@"icon-share.png"];
+            
     QuadCurveMenuItem *starMenuItem1 = [[QuadCurveMenuItem alloc] initWithImage:storyMenuItemImage
                                                                highlightedImage:storyMenuItemImagePressed 
-                                                                   ContentImage:starImage 
+                                                                   ContentImage:shareImage
                                                         highlightedContentImage:nil];
     QuadCurveMenuItem *starMenuItem2 = [[QuadCurveMenuItem alloc] initWithImage:storyMenuItemImage
                                                                highlightedImage:storyMenuItemImagePressed 
-                                                                   ContentImage:starImage 
+                                                                   ContentImage:deleteImage 
                                                         highlightedContentImage:nil];
     QuadCurveMenuItem *starMenuItem3 = [[QuadCurveMenuItem alloc] initWithImage:storyMenuItemImage
                                                                highlightedImage:storyMenuItemImagePressed 
-                                                                   ContentImage:starImage 
+                                                                   ContentImage:milestoneImage 
                                                         highlightedContentImage:nil];
     QuadCurveMenuItem *starMenuItem4 = [[QuadCurveMenuItem alloc] initWithImage:storyMenuItemImage
                                                                highlightedImage:storyMenuItemImagePressed 
-                                                                   ContentImage:starImage 
+                                                                   ContentImage:editImage 
                                                         highlightedContentImage:nil];
     NSArray *menus = [NSArray arrayWithObjects:starMenuItem1, starMenuItem2, starMenuItem3, starMenuItem4, nil];
     [starMenuItem1 release];
@@ -1184,8 +1188,14 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 - (void)quadCurveMenu:(QuadCurveMenu *)menu didSelectIndex:(NSInteger)idx {
-    if ([_delegate respondsToSelector:@selector(photoBrowser:didSelectedPhotoAtIndex:actionAtIndex:)]) {
-        [_delegate photoBrowser:self didSelectedPhotoAtIndex:_currentPageIndex actionAtIndex:idx];
+    if (idx == 1) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"确认删除？" message:@"删除照片会同时删除相关的里程碑。" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
+        [alertView show];
+        [alertView release];
+    }else {
+        if ([_delegate respondsToSelector:@selector(photoBrowser:didSelectedPhotoAtIndex:actionAtIndex:)]) {
+            [_delegate photoBrowser:self didSelectedPhotoAtIndex:_currentPageIndex actionAtIndex:idx];
+        }
     }
 }
 
@@ -1265,6 +1275,15 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 		[alert show];
     }
 	[self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark UIAlertViewDelegate 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        if ([_delegate respondsToSelector:@selector(photoBrowser:didSelectedPhotoAtIndex:actionAtIndex:)]) {
+            [_delegate photoBrowser:self didSelectedPhotoAtIndex:_currentPageIndex actionAtIndex:1];
+        }
+    }
 }
 
 @end
