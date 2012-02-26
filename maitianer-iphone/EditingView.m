@@ -33,31 +33,38 @@
         _entity = [entity retain];
     }
     
-    _backgroundView = [[UIImageView alloc] init];
+    _backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"editing-view-bg.png"]];
     [self addSubview:_backgroundView];
     
     _titleLabel = [[UILabel alloc] init];
     _titleLabel.backgroundColor = [UIColor clearColor];
     _titleLabel.text = title;
     _titleLabel.textAlignment = UITextAlignmentCenter;
+    _titleLabel.textColor = [UIColor whiteColor];
     [self addSubview:_titleLabel];
     
-    _saveButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+    _saveButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    [_saveButton setBackgroundImage:[UIImage imageNamed:@"button-red.png"] forState:UIControlStateNormal];
     [_saveButton setTitle:@"保存" forState:UIControlStateNormal];
+    _saveButton.titleLabel.font = [UIFont systemFontOfSize:14];
     _saveButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [_saveButton addTarget:self action:@selector(finishEditing:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_saveButton];
     
-    _cancelButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+    _cancelButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    [_cancelButton setBackgroundImage:[UIImage imageNamed:@"button-black.png"] forState:UIControlStateNormal];
     [_cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+    _cancelButton.titleLabel.font = [UIFont systemFontOfSize:14];
     _cancelButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     [_cancelButton addTarget:self action:@selector(cancelEditing:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_cancelButton];
     
     _contentTextView = [[UITextView alloc] init];
     _contentTextView.editable = YES;
+    _contentTextView.backgroundColor = [UIColor clearColor];
     _contentTextView.font = [UIFont systemFontOfSize:16];
     _contentTextView.returnKeyType = UIReturnKeyNext;
+    _contentTextView.textColor = [UIColor whiteColor];
     [self addSubview:_contentTextView];
     return self;
 }
@@ -73,10 +80,10 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.backgroundView.frame = self.bounds;
-    self.titleLabel.frame = CGRectMake((self.bounds.size.width - 150)/2,  10, 150, 20);
-    self.saveButton.frame = CGRectMake(self.bounds.size.width - 10 - 30, 10, 30, 20);
-    self.cancelButton.frame = CGRectMake(10, 10, 30, 20);
-    self.contentTextView.frame = CGRectMake(0, 40, self.bounds.size.width, self.bounds.size.height - 40);
+    self.titleLabel.frame = CGRectMake((self.bounds.size.width - 150)/2,  15, 150, 20);
+    self.saveButton.frame = CGRectMake(self.bounds.size.width - 15 - 50, 8, 55, 33);
+    self.cancelButton.frame = CGRectMake(15, 8, 55, 33);
+    self.contentTextView.frame = CGRectMake(15, 40, self.bounds.size.width - 15, self.bounds.size.height - 40);
 }
 
 #pragma mark - Actions
@@ -90,6 +97,5 @@
     if ([self.delegate respondsToSelector:@selector(didCancelEditingView:)]) {
         [self.delegate didCancelEditingView:self];
     }
-    
 }
 @end

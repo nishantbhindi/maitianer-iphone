@@ -119,6 +119,8 @@
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    self.recordDate = nil;
+    
     // Dismiss the modal view when finish
     [self.imagePickerController dismissModalViewControllerAnimated:YES];
 }

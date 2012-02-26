@@ -13,6 +13,9 @@
 #import "SDImageCache.h"
 #import "Utilities.h"
 #import "Photo.h"
+#import "Milestone.h"
+#import "FTAnimation.h"
+#import "SVProgressHUD.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -136,6 +139,11 @@
 - (void)copyPhoto;
 - (void)emailPhoto;
 - (void)popNavigation;
+- (void)showSendWeiboView:(Photo *)photo;
+- (void)showEditingPhotoView:(Photo *)photo;
+- (void)showEditingMilestoneView:(Photo *)photo;
+- (void)deletePhoto:(Photo *)photo;
+
 - (void)updateCaptionView;
 
 @end
@@ -282,12 +290,13 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     // Return home button
     _backButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     [_backButton setImage:[UIImage imageNamed:@"back-button.png"] forState:UIControlStateNormal];
-    //[_backButton setImage:[UIImage imageNamed:@"back-button.png"] forState:UIControlStateHighlighted];
+    [_backButton setImage:[UIImage imageNamed:@"back-button-highlighted.png"] forState:UIControlStateHighlighted];
     [_backButton addTarget:self action:@selector(popNavigation) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.backButton];
     
     // Title
     _titleBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title-background.png"]];
+    _titleBackgroundView.alpha = .7;
     CGRect frame = _titleBackgroundView.frame;
     frame.origin.y = 10;
     frame.origin.x = (self.view.bounds.size.width - frame.size.width) / 2;
@@ -333,7 +342,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [starMenuItem4 release];
     _quadCurveMenu = [[QuadCurveMenu alloc] initWithFrame:self.view.bounds menus:menus];
     _quadCurveMenu.delegate = self;
-    _quadCurveMenu.center = CGPointMake(290, 30);
+    _quadCurveMenu.center = CGPointMake(290, 32);
     _quadCurveMenu.rotateAngle = M_PI;
     _quadCurveMenu.menuWholeAngle = M_PI / 2.0;
     [self.view addSubview:_quadCurveMenu];
@@ -463,7 +472,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     [self setNavBarAppearance:animated];
     
     // Update UI
-	[self hideControlsAfterDelay];
+	//[self hideControlsAfterDelay];
     
 }
 
@@ -941,7 +950,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
 	// Hide controls when dragging begins
-	[self setControlsHidden:YES animated:YES permanent:NO];
+	//[self setControlsHidden:YES animated:YES permanent:NO];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -1041,6 +1050,9 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     CGFloat alpha = hidden ? 0 : 1;
 	[self.navigationController.navigationBar setAlpha:alpha];
 	[_toolbar setAlpha:alpha];
+    [_backButton setAlpha:alpha];
+    [_titleBackgroundView setAlpha:alpha];
+    [_quadCurveMenu setAlpha:alpha];
     for (UIView *v in captionViews) v.alpha = alpha;
 	if (animated) [UIView commitAnimations];
 	
@@ -1069,8 +1081,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 - (BOOL)areControlsHidden { return (_toolbar.alpha == 0); /* [UIApplication sharedApplication].isStatusBarHidden; */ }
-- (void)hideControls { [self setControlsHidden:YES animated:YES permanent:NO]; }
-- (void)toggleControls { [self setControlsHidden:![self areControlsHidden] animated:YES permanent:NO]; }
+- (void)hideControls { [self setControlsHidden:YES animated:YES permanent:YES]; }
+- (void)toggleControls { [self setControlsHidden:![self areControlsHidden] animated:YES permanent:YES]; }
 
 #pragma mark - Properties
 
@@ -1188,18 +1200,82 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 - (void)quadCurveMenu:(QuadCurveMenu *)menu didSelectIndex:(NSInteger)idx {
-    if (idx == 1) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"确认删除？" message:@"删除照片会同时删除相关的里程碑。" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
-        [alertView show];
-        [alertView release];
-    }else {
-        if ([_delegate respondsToSelector:@selector(photoBrowser:didSelectedPhotoAtIndex:actionAtIndex:)]) {
-            [_delegate photoBrowser:self didSelectedPhotoAtIndex:_currentPageIndex actionAtIndex:idx];
-        }
+    Photo *photo = [self photoAtIndex:_currentPageIndex];
+    switch (idx) {
+        case 0:
+            [self showSendWeiboView:photo];
+            break;
+        case 1:
+            [self deletePhoto:photo];
+            break;
+        case 2:
+            [self showEditingMilestoneView:photo];
+            break;
+        case 3:
+            [self showEditingPhotoView:photo];
+            break;
+        default:
+            break;
     }
 }
 
 #pragma mark - Actions
+
+- (void)showEditingPhotoView:(Photo *)photo {
+    EditingView *editingPhotoView = [[EditingView alloc] initWithTitle:@"编辑照片描述" Entity:photo];
+    editingPhotoView.delegate = self;
+    editingPhotoView.frame = CGRectMake(0, 5, 320, 130);
+    if (photo.content) {
+        editingPhotoView.contentTextView.text = photo.content;
+    }
+    [editingPhotoView backInFrom:0 withFade:NO duration:.7 delegate:nil];
+    [self.view addSubview:editingPhotoView];
+    [editingPhotoView release];
+}
+
+- (void)showEditingMilestoneView:(Photo *)photo {
+    
+    Milestone *milestone = photo.milestone;
+    
+    if (milestone == nil) {
+        milestone = [NSEntityDescription insertNewObjectForEntityForName:@"Milestone" inManagedObjectContext:[Utilities appDelegate].managedObjectContext];
+        milestone.recordDate = photo.recordDate;
+        milestone.photo = photo;
+        milestone.creationDate = [NSDate date];
+        photo.milestone = milestone;
+        milestone.baby = photo.baby;
+    }else {
+        milestone.lastModifiedByDate = [NSDate date];
+    }
+    
+    EditingView *editingMilestoneView = [[EditingView alloc] initWithTitle:@"编辑里程碑" Entity:photo.milestone];
+    editingMilestoneView.delegate = self;
+    editingMilestoneView.frame = CGRectMake(0, 5, 320, 130);
+    if (milestone.content) {
+        editingMilestoneView.contentTextView.text = milestone.content;
+    }
+    [editingMilestoneView backInFrom:0 withFade:NO duration:.7 delegate:nil];
+    [self.view addSubview:editingMilestoneView];
+    [editingMilestoneView release];
+}
+
+- (void)showSendWeiboView:(Photo *)photo {
+    WBEngine *engine = [Utilities appDelegate].wbEngine;
+    if (![engine isLoggedIn]) {
+        [engine logIn];
+        return;
+    }
+    WBSendView *wbSendView = [[WBSendView alloc] initWithAppKey:kWBSDKDemoAppKey appSecret:kWBSDKDemoAppSecret text:photo.milestone ? photo.milestone.content:photo.content image:photo.image];
+    [wbSendView show:YES];
+    wbSendView.delegate = self;
+    [wbSendView release];
+}
+
+- (void)deletePhoto:(Photo *)photo {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"确认删除？" message:@"删除照片会同时删除相关的里程碑。" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
+    [alertView show];
+    [alertView release];
+}
 
 - (void)popNavigation {
     [self.navigationController popViewControllerAnimated:YES];
@@ -1266,7 +1342,6 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 #pragma mark Mail Compose Delegate
-
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
     if (result == MFMailComposeResultFailed) {
 		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Email", nil)
@@ -1279,11 +1354,63 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 
 #pragma mark UIAlertViewDelegate 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    Photo *photo = [self photoAtIndex:_currentPageIndex];
     if (buttonIndex == 1) {
-        if ([_delegate respondsToSelector:@selector(photoBrowser:didSelectedPhotoAtIndex:actionAtIndex:)]) {
-            [_delegate photoBrowser:self didSelectedPhotoAtIndex:_currentPageIndex actionAtIndex:1];
-        }
+        [[Utilities appDelegate].managedObjectContext deleteObject:photo];
+        [[Utilities appDelegate] saveContext];
+    }
+    
+    if ([_delegate respondsToSelector:@selector(didFinishDeletePhotoInBrowser:)]) {
+        [_delegate didFinishDeletePhotoInBrowser:self];
     }
 }
 
+#pragma mark EditingViewDelegate
+- (void)didFinishEditingView:(EditingView *)editingView {
+    NSError *error;
+    if ([editingView.entity isKindOfClass:[Photo class]]) {
+        Photo *photo = (Photo *)editingView.entity;
+        photo.content = editingView.contentTextView.text;
+        [photo.managedObjectContext save:&error];
+    }else if ([editingView.entity isKindOfClass:[Milestone class]]) {
+        Milestone *milestone = (Milestone *)editingView.entity;
+        milestone.content = editingView.contentTextView.text;
+        [milestone.managedObjectContext save:&error];
+    }else {
+        return;
+    }
+    
+    if (error) {
+        // Handle error
+    }
+    [self reloadData];
+    [self updateCaptionView];
+    [editingView.contentTextView resignFirstResponder];
+    [editingView backOutTo:0 withFade:NO duration:.8 delegate:nil];
+}
+
+- (void)didCancelEditingView:(EditingView *)editingView {
+    [[Utilities appDelegate].managedObjectContext rollback];
+    [editingView.contentTextView resignFirstResponder];
+    [editingView backOutTo:0 withFade:NO duration:.8 delegate:nil];
+}
+
+#pragma mark - WBSendViewDelegate
+- (void)sendViewDidFinishSending:(WBSendView *)view {
+    NSLog(@"Send view did finish sending!");
+    [SVProgressHUD show];
+    [SVProgressHUD dismissWithSuccess:@"分享成功！" afterDelay:2];
+}
+
+- (void)sendView:(WBSendView *)view didFailWithError:(NSError *)error {
+    NSLog(@"Send view did fail with error: %@", error.description);
+    [SVProgressHUD show];
+    [SVProgressHUD dismissWithError:[NSString stringWithFormat:@"分享失败：%@", error.description] afterDelay:2];
+}
+
+- (void)sendViewNotAuthorized:(WBSendView *)view {
+    NSLog(@"Send view not authorized!");
+    [SVProgressHUD show];
+    [SVProgressHUD dismissWithError:@"请先在设置中绑定您的新浪微博账号。" afterDelay:2];
+}
 @end

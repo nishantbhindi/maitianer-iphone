@@ -38,8 +38,8 @@
     if (photos != _photos) {
         [_photos release];
         _photos = [photos retain];
-        Photo *firstPhoto = [_photos objectAtIndex:0];
-        UIImageView *innerImageView = [[UIImageView alloc] initWithImage:firstPhoto.b140Image];
+        Photo *lastPhoto = [_photos lastObject];
+        UIImageView *innerImageView = [[UIImageView alloc] initWithImage:lastPhoto.b140Image];
         self.innerImageView = innerImageView;
         [innerImageView release];
         BOOL flag = NO;

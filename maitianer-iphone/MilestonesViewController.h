@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "MWPhotoBrowser.h"
 
-@interface MilestonesViewController : UITableViewController <NSFetchedResultsControllerDelegate> {
+@interface MilestonesViewController : UITableViewController <NSFetchedResultsControllerDelegate, MWPhotoBrowserDelegate> {
     NSManagedObjectContext *_managedObjectContext;
-    NSFetchedResultsController *_fetchedResultsController;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 
 @end

@@ -9,7 +9,6 @@
 #import "CalendarViewController.h"
 #import "EditingBabyViewController.h"
 #import "Utilities.h"
-#import "PhotosViewController.h"
 #import "SettingsViewController.h"
 #import "MWPhoto.h"
 #import "Milestone.h"
@@ -17,13 +16,6 @@
 #import "MTCaptionView.h"
 
 #define FIRST_SHOW_BUTTON_TAG 100
-
-@interface CalendarViewController () {
-    EditingView *_editingPhotoView;
-    EditingView *_editingMilestoneView;
-}
-
-@end
 
 @implementation CalendarViewController
 @synthesize managedObjectContext = _managedObjectContext;
@@ -147,8 +139,6 @@
     [_babyInfoToggle release]; 
     [_calendarView release];
     [_photoPickerController release];
-    [_editingPhotoView release];
-    [_editingMilestoneView release];
     [super dealloc];
 }
 
@@ -276,7 +266,7 @@
     //create and configure a fetch request for Photo entity
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:[NSEntityDescription entityForName:@"Photo" inManagedObjectContext:self.managedObjectContext]];
-    [request setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO], nil]];
+    [request setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES], nil]];
     
     //create and init fetched result controller with section
     _photoResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"recordDateLabel" cacheName:nil];
@@ -291,7 +281,7 @@
     if (cell.photos) {
         MWPhotoBrowser *photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
         photoBrowser.recordDate = date;
-        NSUInteger initialPhotoIndex = [self.photoResultsController.fetchedObjects indexOfObject:[[calendarView cellForDate:date].photos objectAtIndex:0]];
+        NSUInteger initialPhotoIndex = [self.photoResultsController.fetchedObjects indexOfObject:[[calendarView cellForDate:date].photos lastObject]];
         [photoBrowser setInitialPageIndex:initialPhotoIndex];
         [self.navigationController pushViewController:photoBrowser animated:YES];
         [photoBrowser release];
@@ -330,7 +320,6 @@
 
 #pragma mark - Photo browser delegate methods
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-    NSLog(@"%d", [self.photoResultsController.fetchedObjects count]);
     return [self.photoResultsController.fetchedObjects count];
 }
 
@@ -346,118 +335,13 @@
     return [[MTCaptionView alloc] initWithPhoto:[self.photoResultsController.fetchedObjects objectAtIndex:index]];
 }
 
-- (void)_showSendWeiboView:(Photo *)photo {
-    WBSendView *wbSendView = [[WBSendView alloc] initWithAppKey:kWBSDKDemoAppKey appSecret:kWBSDKDemoAppSecret text:photo.milestone ? photo.milestone.content:photo.content image:photo.image];
-    [wbSendView show:YES];
-    wbSendView.delegate = self;
-    [wbSendView release];
-}
-
-- (void)_showEditingMilestoneView:(Photo *)photo inPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-    if (_editingMilestoneView) {
-        [_editingMilestoneView release];
-    }
-    Milestone *milestone = photo.milestone;
-    if (milestone == nil) {
-        milestone = [NSEntityDescription insertNewObjectForEntityForName:@"Milestone" inManagedObjectContext:self.managedObjectContext];
-        milestone.recordDate = photo.recordDate;
-        milestone.photo = photo;
-        milestone.creationDate = [NSDate date];
-        photo.milestone = milestone;
-        milestone.baby = photo.baby;
-    }else {
-        milestone.lastModifiedByDate = [NSDate date];
-    }
-    
-    _editingMilestoneView = [[EditingView alloc] initWithTitle:@"编辑里程碑" Entity:milestone];
-    _editingMilestoneView.delegate = self;
-    _editingMilestoneView.frame = CGRectMake(20, 60, 280, 200);
-    if (milestone.content) {
-        _editingMilestoneView.contentTextView.text = milestone.content;
-    }
-    [_editingMilestoneView backInFrom:0 withFade:YES duration:.7 delegate:nil];
-    [photoBrowser.view addSubview:_editingMilestoneView];
-}
-
-- (void)_showEditingPhotoView:(Photo *)photo inPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-    if (_editingPhotoView) {
-        [_editingPhotoView release];
-    }
-    
-    _editingPhotoView = [[EditingView alloc] initWithTitle:@"编辑照片描述" Entity:photo];
-    _editingPhotoView.delegate = self;
-    _editingPhotoView.frame = CGRectMake(20, 60, 280, 200);
-    if (photo.content) {
-        _editingPhotoView.contentTextView.text = photo.content;
-    }
-    [_editingPhotoView backInFrom:0 withFade:YES duration:.7 delegate:nil];
-    [photoBrowser.view addSubview:_editingPhotoView];
-}
-
-- (void)_deletePhoto:(Photo *)photo inPhotoBroswer:(MWPhotoBrowser *)photoBrowser{
-    [self.managedObjectContext deleteObject:photo];
+- (void)didFinishDeletePhotoInBrowser:(MWPhotoBrowser *)photoBrowser {
     NSError *error;
-    [self.managedObjectContext save:&error];
-    if (error) {
-        // Handle error
-    }
     [self.photoResultsController performFetch:&error];
     if (error) {
         // Handle error
     }
     [photoBrowser reloadData];
-}
-
-- (void)photoBrowser:(MWPhotoBrowser *)photoBroswer didSelectedPhotoAtIndex:(NSUInteger)photoIndex actionAtIndex:(NSUInteger)actionIndex {
-    Photo *photo = [self.photoResultsController.fetchedObjects objectAtIndex:photoIndex];
-    switch (actionIndex) {
-        case 0:
-            [self _showSendWeiboView:photo];
-            break;
-        case 1:
-            [self _deletePhoto:photo inPhotoBroswer:photoBroswer];
-            break;
-        case 2:
-            [self _showEditingMilestoneView:photo inPhotoBrowser:photoBroswer];
-            break;
-        case 3:
-            [self _showEditingPhotoView:photo inPhotoBrowser:photoBroswer];
-            break;
-        default:
-            break;
-    }
-}
-
-#pragma mark - EditingPhotoViewDelegate
-- (void)didFinishEditingView:(EditingView *)editingView {
-    NSError *error;
-    if ([editingView.entity isKindOfClass:[Photo class]]) {
-        Photo *photo = (Photo *)editingView.entity;
-        photo.content = editingView.contentTextView.text;
-        [photo.managedObjectContext save:&error];
-    }else if ([editingView.entity isKindOfClass:[Milestone class]]) {
-        Milestone *milestone = (Milestone *)editingView.entity;
-        milestone.content = editingView.contentTextView.text;
-        [milestone.managedObjectContext save:&error];
-    }else {
-        return;
-    }
-    
-    if (error) {
-        // Handle error
-    }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"updateCaptionViewWhenSaved" object:nil];
-    [editingView.contentTextView resignFirstResponder];
-    [editingView backOutTo:0 withFade:YES duration:.8 delegate:nil];
-    //[_editingPhotoView removeFromSuperview];
-}
-
-- (void)didCancelEditingView:(EditingView *)editingView {
-    [self.managedObjectContext rollback];
-    [editingView.contentTextView resignFirstResponder];
-    [editingView backOutTo:0 withFade:YES duration:.8 delegate:nil];
-    //[_editingPhotoView removeFromSuperview];
 }
 
 @end

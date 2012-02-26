@@ -12,7 +12,8 @@
 #import "MWPhotoProtocol.h"
 #import "MWCaptionView.h"
 #import "QuadCurveMenu.h"
-#import "Photo.h"
+#import "EditingView.h"
+#import "WBSendView.h"
 
 // Debug Logging
 #if 0 // Set to 1 to enable debug logging
@@ -28,12 +29,12 @@
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index;
 @optional
 - (MWCaptionView *)photoBrowser:(MWPhotoBrowser *)photoBrowser captionViewForPhotoAtIndex:(NSUInteger)index;
-- (void)photoBrowser:(MWPhotoBrowser *)photoBroswer didSelectedPhotoAtIndex:(NSUInteger)photoIndex actionAtIndex:(NSUInteger)index;
+- (void)didFinishDeletePhotoInBrowser:(MWPhotoBrowser *)photoBrowser;
 
 @end
 
 // MWPhotoBrowser
-@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, QuadCurveMenuDelegate, UIAlertViewDelegate> 
+@interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, QuadCurveMenuDelegate, UIAlertViewDelegate, EditingViewDelegate, WBSendViewDelegate> 
 
 // Properties
 @property (nonatomic) BOOL displayActionButton;

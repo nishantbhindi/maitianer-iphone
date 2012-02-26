@@ -80,7 +80,7 @@
     [_wbEngine setRootViewController:self.tabBarController];
     [_wbEngine setDelegate:self];
     [_wbEngine setRedirectURI:@"http://"];
-    [_wbEngine setIsUserExclusive:NO];
+    [_wbEngine setIsUserExclusive:YES];
     
     CalendarViewController *calendarVC = [[CalendarViewController alloc] initWithNibName:@"CalendarViewController" bundle:[NSBundle mainBundle]];
     calendarVC.managedObjectContext = self.managedObjectContext;
@@ -352,20 +352,24 @@
 }
 
 #pragma mark - WBEngineDelegate
+- (void)engineAlreadyLoggedIn:(WBEngine *)engine {
+    NSLog(@"Engine already logged in!");
+}
+
 - (void)engineDidLogIn:(WBEngine *)engine {
     [SVProgressHUD show];
-    [SVProgressHUD dismissWithSuccess:@"绑定成功" afterDelay:2];
+    [SVProgressHUD dismissWithSuccess:@"绑定成功！" afterDelay:2];
     [FlurryAnalytics logEvent:@"BindedSinaWeibo"];
 }
 
 - (void)engineDidLogOut:(WBEngine *)engine {
     [SVProgressHUD show];
-    [SVProgressHUD dismissWithSuccess:@"您已成功解除绑定" afterDelay:2];
+    [SVProgressHUD dismissWithSuccess:@"您已成功解除绑定！" afterDelay:2];
 }
 
 - (void)engine:(WBEngine *)engine didFailToLogInWithError:(NSError *)error {
     NSLog(@"帐号绑定失败！错误信息：%@", [error description]);
     [SVProgressHUD show];
-    [SVProgressHUD dismissWithSuccess:@"绑定失败" afterDelay:2];
+    [SVProgressHUD dismissWithSuccess:@"绑定失败！" afterDelay:2];
 }
 @end

@@ -9,17 +9,26 @@
 #import "MilestonesViewController.h"
 #import "Milestone.h"
 #import "Photo.h"
+#import "Baby.h"
 #import "NSDate-Utilities.h"
 #import "EditingMilestoneViewController.h"
-#import "PhotosViewController.h"
+#import "MWPhotoBrowser.h"
+#import "MTCaptionView.h"
+#import "Utilities.h"
 
 #define DETAIL_LABEL_TAG 1
 #define DATE_LABEL_TAG 2
 #define PHOTO_TAG 3
 
+@interface MilestonesViewController () 
+@property (nonatomic, retain) NSFetchedResultsController *fetchedMilestonesController;
+@property (nonatomic, retain) NSFetchedResultsController *fetchedPhotosController;
+@end
+
 @implementation MilestonesViewController
 @synthesize managedObjectContext = _managedObjectContext;
-@synthesize fetchedResultsController = _fetchedResultsController;
+@synthesize fetchedMilestonesController = _fetchedMilestonesController;
+@synthesize fetchedPhotosController = _fetchedPhotosController;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -41,20 +50,44 @@
 
 - (void)dealloc {
     [_managedObjectContext release];
-    [_fetchedResultsController release];
+    [_fetchedMilestonesController release];
+    [_fetchedPhotosController release];
     [super dealloc];
+}       
+
+#pragma mark - Properties
+- (NSFetchedResultsController *)fetchedMilestonesController {
+    if (_fetchedMilestonesController) {
+        return _fetchedMilestonesController;
+    }
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:[NSEntityDescription entityForName:@"Milestone" inManagedObjectContext:self.managedObjectContext]];
+    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO]]];
+    
+    _fetchedMilestonesController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    //_fetchedMilestonesController.delegate = self;
+    
+    [request release];
+    
+    return _fetchedMilestonesController;
+}
+
+- (NSFetchedResultsController *)fetchedPhotosController {
+    if (_fetchedPhotosController) {
+        return _fetchedPhotosController;
+    }
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:[NSEntityDescription entityForName:@"Photo" inManagedObjectContext:self.managedObjectContext]];
+    [request setSortDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES], nil]];
+    
+    _fetchedPhotosController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    [request release];
+    return _fetchedPhotosController;
 }
 
 #pragma mark - View lifecycle
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -67,19 +100,21 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.allowsSelectionDuringEditing = YES;
     
-    NSError *error;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        //handler the error
-    }
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    
+    NSError *error;
+    if (![self.fetchedMilestonesController performFetch:&error]) {
+        //handler the error
+    }
+    
     [self.tableView reloadData];
     
-    if ([self.fetchedResultsController.fetchedObjects count] > 0) {
+    if ([self.fetchedMilestonesController.fetchedObjects count] > 0) {
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }else {
         self.navigationItem.rightBarButtonItem.enabled = NO;
@@ -101,24 +136,7 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - fetched result controller
-- (NSFetchedResultsController *)fetchedResultsController {
-    if (_fetchedResultsController) {
-        return _fetchedResultsController;
-    }
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:[NSEntityDescription entityForName:@"Milestone" inManagedObjectContext:self.managedObjectContext]];
-    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"recordDate" ascending:NO]]];
-    
-    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-    _fetchedResultsController.delegate = self;
-
-    [request release];
-    
-    return _fetchedResultsController;
-}
-
+#pragma mark - NSFetchedResultControllerDelegate
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     [self.tableView beginUpdates];
 }
@@ -141,15 +159,13 @@
         default:
             break;
     }
-    
-
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [self.tableView endUpdates];
 }
 
-#pragma mark - Table view data source
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -157,9 +173,8 @@
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.fetchedResultsController.fetchedObjects count];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.fetchedMilestonesController.fetchedObjects count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -217,63 +232,40 @@
     //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     //cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    Milestone *milestone = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    Milestone *milestone = [self.fetchedMilestonesController objectAtIndexPath:indexPath];
     detailLabel.text = milestone.content;
     photoView.image = milestone.photo.b140Image;
-    dateLabel.text = [NSString stringWithFormat:@"%d-%02d-%02d", milestone.recordDate.year, milestone.recordDate.month, milestone.recordDate.day];
+    dateLabel.text = [NSString stringWithFormat:@"%d-%02d-%02d 出生%@", milestone.recordDate.year, milestone.recordDate.month, milestone.recordDate.day, [Utilities daysAfterBirthday:milestone.baby.birthday fromDate:milestone.recordDate]];
     
     return cell;
 }
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
 
  // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        NSManagedObjectContext *context = self.fetchedResultsController.managedObjectContext;
-        Milestone *milestone = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        [context deleteObject:milestone];
+        Milestone *milestone = [self.fetchedMilestonesController objectAtIndexPath:indexPath];
+        [milestone.managedObjectContext deleteObject:milestone];
         NSError *error;
-        if (![context save:&error]) {
+        if (![milestone.managedObjectContext save:&error]) {
             //handle the error
         }
         
+        [self.fetchedMilestonesController performFetch:&error];
+        
+        [tableView beginUpdates];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        [tableView endUpdates];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
 
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-#pragma mark - Table view delegate
+#pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Milestone *milestone = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    Milestone *milestone = [self.fetchedMilestonesController objectAtIndexPath:indexPath];
     if (self.editing) {
         EditingMilestoneViewController *editingMilestoneVC = [[EditingMilestoneViewController alloc] initWithNibName:@"EditingMilestoneViewController" bundle:[NSBundle mainBundle]];
         editingMilestoneVC.title = @"编辑里程碑";
@@ -282,23 +274,48 @@
         [self.navigationController pushViewController:editingMilestoneVC animated:YES];
         [editingMilestoneVC release];
     }else {
-        PhotosViewController *photosVC = [[PhotosViewController alloc] init];
-        photosVC.recordDate = milestone.recordDate;
-        [self.navigationController pushViewController:photosVC animated:YES];
-        [photosVC release];
+        NSError *error;
+        [self.fetchedPhotosController performFetch:&error];
+        if (error) {
+            // Handle error
+        }
+        
+        MWPhotoBrowser *photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+        [self.navigationController pushViewController:photoBrowser animated:YES];
+        photoBrowser.navigationController.navigationBarHidden = YES;
+        [photoBrowser setInitialPageIndex:[self.fetchedPhotosController.fetchedObjects indexOfObject:milestone.photo]];
+        [photoBrowser release];
     }
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 75;
+}
+
+#pragma mark - MWPhotoBrowserDelegate
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return [self.fetchedPhotosController.fetchedObjects count];
+}
+
+- (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    return [self.fetchedPhotosController.fetchedObjects objectAtIndex:index];
+}
+
+- (MWCaptionView *)photoBrowser:(MWPhotoBrowser *)photoBrowser captionViewForPhotoAtIndex:(NSUInteger)index {
+    Photo *photo = [self.fetchedPhotosController.fetchedObjects objectAtIndex:index];
+    if (photo.caption == nil) {
+        return nil;
+    }
+    return [[MTCaptionView alloc] initWithPhoto:[self.fetchedPhotosController.fetchedObjects objectAtIndex:index]];
+}
+
+- (void)didFinishDeletePhotoInBrowser:(MWPhotoBrowser *)photoBrowser {
+    NSError *error;
+    [self.fetchedPhotosController performFetch:&error];
+    if (error) {
+        // Handle error
+    }
+    [photoBrowser reloadData];
 }
 
 @end
