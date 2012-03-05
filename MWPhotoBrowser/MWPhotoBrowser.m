@@ -296,7 +296,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     
     // Title
     _titleBackgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title-background.png"]];
-    _titleBackgroundView.alpha = .7;
+    _titleBackgroundView.alpha = 1;
     CGRect frame = _titleBackgroundView.frame;
     frame.origin.y = 10;
     frame.origin.x = (self.view.bounds.size.width - frame.size.width) / 2;
@@ -306,6 +306,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     _titleLabel.backgroundColor = [UIColor clearColor];
     _titleLabel.shadowColor = [UIColor blackColor];
     //_titleLabel.layer.cornerRadius = 15;
+    _titleLabel.font = [UIFont boldSystemFontOfSize:15];
     _titleLabel.textColor = [UIColor whiteColor];
     _titleLabel.textAlignment = UITextAlignmentCenter;
     [self.titleBackgroundView addSubview:_titleLabel];
@@ -394,7 +395,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 	[self updateNavigation];
     
     // Navigation buttons
-    self.backButton.frame = CGRectMake(5, 5, 50, 50);
+    self.backButton.frame = CGRectMake(5, 6, 50, 50);
     
     if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
         // We're first on stack so show done button
@@ -959,9 +960,18 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 }
 
 #pragma mark - Navigation
+
 - (void)updateTitleLabel {
     Photo *photo = [self photoAtIndex:_currentPageIndex];
-    self.titleLabel.text = [photo daysAfterBirthday];
+    if (![self.titleLabel.text isEqualToString:[photo daysAfterBirthday]]) {
+        if (self.titleBackgroundView.alpha) {
+            [self.titleBackgroundView fallIn:.5 delegate:nil];
+        }else {
+            [self.titleBackgroundView fallIn:.5 delegate:self];
+        }
+        
+        self.titleLabel.text = [photo daysAfterBirthday];
+    }
 }
 
 - (void)updateNavigation {
@@ -1360,8 +1370,8 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
         [[Utilities appDelegate] saveContext];
     }
     
-    if ([_delegate respondsToSelector:@selector(didFinishDeletePhotoInBrowser:)]) {
-        [_delegate didFinishDeletePhotoInBrowser:self];
+    if ([_delegate respondsToSelector:@selector(didFinishDeletePhotoInBrowser:atIndex:)]) {
+        [_delegate didFinishDeletePhotoInBrowser:self atIndex:_currentPageIndex];
     }
 }
 
@@ -1412,5 +1422,18 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
     NSLog(@"Send view not authorized!");
     [SVProgressHUD show];
     [SVProgressHUD dismissWithError:@"请先在设置中绑定您的新浪微博账号。" afterDelay:2];
+}
+
+#pragma mark - CAAnimationDelegate
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+    if (flag) {
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDelay:.5];
+        [UIView setAnimationDuration:.5];
+        self.titleBackgroundView.alpha = 1;
+        self.titleBackgroundView.alpha = 0;
+        [UIView commitAnimations];
+    }
+    
 }
 @end

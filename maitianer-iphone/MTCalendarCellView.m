@@ -95,8 +95,6 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
-        self.backgroundColor = [UIColor whiteColor];
         
         UIImageView *noPhotoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"no-photo"]];
         self.innerImageView = noPhotoImageView;

@@ -75,7 +75,7 @@
 								<string key="NSFrame">{{64, 9}, {113, 21}}</string>
 								<reference key="NSSuperview" ref="997468011"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="477738839"/>
+								<reference key="NSNextKeyView" ref="543956566"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -105,7 +105,7 @@
 								<string key="NSFrame">{{96, 9}, {129, 21}}</string>
 								<reference key="NSSuperview" ref="997468011"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="695951259"/>
+								<reference key="NSNextKeyView" ref="477738839"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -133,7 +133,7 @@
 								<string key="NSFrame">{{64, 31}, {152, 21}}</string>
 								<reference key="NSSuperview" ref="997468011"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="543956566"/>
+								<reference key="NSNextKeyView" ref="484898876"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -157,14 +157,14 @@
 							<object class="IBUIButton" id="484898876">
 								<reference key="NSNextResponder" ref="997468011"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{289, 20}, {18, 19}}</string>
+								<string key="NSFrame">{{280, 15}, {30, 30}}</string>
 								<reference key="NSSuperview" ref="997468011"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="482917560"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<int key="IBUIButtonType">3</int>
 								<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
 								<reference key="IBUIHighlightedTitleColor" ref="564307927"/>
 								<object class="NSColor" key="IBUINormalTitleColor">
@@ -174,6 +174,10 @@
 								<object class="NSColor" key="IBUINormalTitleShadowColor" id="785936064">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MC41AA</bytes>
+								</object>
+								<object class="NSCustomResource" key="IBUINormalImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">settings-icon.png</string>
 								</object>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<int key="type">2</int>
@@ -202,7 +206,7 @@
 						<string key="NSFrame">{{130, 68}, {61, 22}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="482917560"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -231,6 +235,7 @@
 						<string key="NSFrame">{{0, 60}, {320, 351}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="695951259"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">2</int>
 							<bytes key="NSRGB">MC44ODYyNzQ1NzYyIDAuOTI1NDkwMjYwMSAwLjc5NjA3ODUwMzEAA</bytes>
@@ -523,10 +528,10 @@
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">baby-info-bg.png</string>
-			<string key="NS.object.0">{320, 60}</string>
-		</object>
+		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="baby-info-bg.png">{320, 60}</string>
+			<string key="settings-icon.png">{40, 40}</string>
+		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">933</string>
 	</data>
 </archive>

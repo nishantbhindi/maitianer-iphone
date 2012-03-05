@@ -72,8 +72,8 @@
     [UIApplication sharedApplication].statusBarHidden = NO;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
     
-    // Set default timezone
-    [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+    // Set default timezone to system timezone
+    [NSTimeZone setDefaultTimeZone:[NSTimeZone systemTimeZone]];
     
     // Initial weibo api
     _wbEngine = [[WBEngine alloc] initWithAppKey:kWBSDKDemoAppKey appSecret:kWBSDKDemoAppSecret];
@@ -370,6 +370,6 @@
 - (void)engine:(WBEngine *)engine didFailToLogInWithError:(NSError *)error {
     NSLog(@"帐号绑定失败！错误信息：%@", [error description]);
     [SVProgressHUD show];
-    [SVProgressHUD dismissWithSuccess:@"绑定失败！" afterDelay:2];
+    [SVProgressHUD dismissWithSuccess:@"绑定失败，请重试！" afterDelay:2];
 }
 @end

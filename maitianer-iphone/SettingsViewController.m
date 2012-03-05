@@ -25,92 +25,6 @@
 @synthesize tableView = _tableView;
 @synthesize settingsData = _settingsData;
 @synthesize babies = _babies;
-@synthesize usernameTextField = _usernameTextField;
-@synthesize passwordTextField = _passwordTextField;
-
-- (void)_logout {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"email"];
-    [Authorization deleteAuthorization];
-    [self.tableView reloadData];
-}
-
-- (void)_validateLogin {
-    self.usernameTextField.text = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    self.passwordTextField.text = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if ([self.usernameTextField.text isEqualToString:@""]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"用户名不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alertView show];
-        [alertView release];
-        return;
-    }
-    
-    if ([self.passwordTextField.text isEqualToString:@""]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"密码不能为空" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alertView show];
-        [alertView release];
-        return;
-    }
-    NSDictionary *userDictionary = [NSDictionary dictionaryWithObject:
-                                    [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.usernameTextField.text, self.passwordTextField.text, nil] 
-                                                                forKeys:[NSArray arrayWithObjects:@"email", @"password", nil]] 
-                                                               forKey:@"user"];
-    NSString *userJson = [userDictionary JSONRepresentation];
-    NSLog(@"User info: %@", userJson);
-    NSURL *url = [NSURL URLWithString:@"http://localhost:3000/login"];
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-    request.delegate = self;
-    request.requestMethod = @"POST";
-    [request addRequestHeader:@"Accept" value:@"application/json"];
-    [request addRequestHeader:@"Content-Type" value:@"application/json"];
-    [request appendPostData:[userJson dataUsingEncoding:NSStringEncodingConversionExternalRepresentation]];
-    [request startAsynchronous];
-}
-
-- (NSArray *)babies {
-    if (_babies) {
-        return _babies;
-    }
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Baby"];
-    NSError *error;
-    _babies = [[self.managedObjectContext executeFetchRequest:request error:&error] retain];
-    if (error) {
-        //handle the error
-    }
-    return _babies;
-}
-
-- (UITextField *)usernameTextField {
-    if (_usernameTextField) {
-        return _usernameTextField;
-    }
-    
-    _usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 43, 260, 25)];
-    _usernameTextField.placeholder = @"邮箱";
-    _usernameTextField.backgroundColor = [UIColor whiteColor];
-    _usernameTextField.borderStyle = UITextBorderStyleRoundedRect;
-    _usernameTextField.keyboardType = UIKeyboardTypeEmailAddress;
-    _usernameTextField.returnKeyType = UIReturnKeyNext;
-    _usernameTextField.delegate = self;
-    
-    return _usernameTextField;
-}
-
-- (UITextField *)passwordTextField {
-    if (_passwordTextField) {
-        return _passwordTextField;
-    }
-    
-    _passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 72, 260, 25)];
-    _passwordTextField.placeholder = @"密码";
-    _passwordTextField.backgroundColor = [UIColor whiteColor];
-    _passwordTextField.borderStyle = UITextBorderStyleRoundedRect;
-    _passwordTextField.keyboardType = UIKeyboardTypeDefault;
-    _passwordTextField.returnKeyType = UIReturnKeySend;
-    _passwordTextField.secureTextEntry = YES;
-    _passwordTextField.delegate = self;
-    
-    return _passwordTextField;
-}
 
 - (IBAction)done:(id)sender {
     [self dismissModalViewControllerAnimated:YES];
@@ -154,8 +68,6 @@
     [_tableView release];
     [_settingsData release];
     [_babies release];
-    [_usernameTextField release];
-    [_passwordTextField release];
     [super dealloc];
 }
 
@@ -168,7 +80,7 @@
     UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
     self.navigationItem.rightBarButtonItem = doneButtonItem;
     [doneButtonItem release];
-    
+    self.babies = [Utilities fetchBabies];
     NSArray *sharesArray = [NSArray arrayWithObjects:@"绑定新浪微博", nil];
     self.settingsData = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.babies, sharesArray, nil] 
                                                     forKeys:[NSArray arrayWithObjects:@"设置宝宝信息" ,@"分享设置" , nil]];
@@ -207,7 +119,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifierBaby = @"SettingBabyCell";
     static NSString *CellIdentifierShare = @"SettingShareCell";
-    static NSString *CellIdentifierSyn = @"SettingSynCell";
     
     UITableViewCell *cell;
     
@@ -230,7 +141,7 @@
         cell.textLabel.text = [[self.settingsData objectForKey:sectionKey] objectAtIndex:indexPath.row];
         if (indexPath.row == 0) {
             UISwitch *shareBindingSwitch = [[UISwitch alloc] init];
-            AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            AppDelegate *appDelegate = [Utilities appDelegate];
             if ([appDelegate.wbEngine isLoggedIn]) {
                 shareBindingSwitch.on = YES;
             }else {
@@ -242,41 +153,14 @@
             [shareBindingSwitch release];
         }
         
-    }else if ([sectionKey isEqualToString:@"数据同步"]){
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierSyn];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifierSyn];
-        }
-        if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"email"] length]) {
-            cell.textLabel.text = [[NSUserDefaults standardUserDefaults] stringForKey:@"email"];
-            UIButton *logoutButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 28)];
-            [logoutButton setTitle:@"退出" forState:UIControlStateNormal];
-            [logoutButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [logoutButton addTarget:self action:@selector(_logout) forControlEvents:UIControlEventTouchUpInside];
-            cell.accessoryView = logoutButton;
-        }else {
-            cell.textLabel.text = [[self.settingsData objectForKey:sectionKey] objectAtIndex:indexPath.row];
-            cell.accessoryView = nil;
-            
-        }
     }
-    
     return cell;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     NSString *sectionKey = [[self.settingsData allKeys] objectAtIndex:section];
-    if ([sectionKey isEqualToString:@"数据同步"]) {
-        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncDate"]) {
-            NSDate *lastSyncDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncDate"];
-            NSDateFormatter *dateFormater = [[[NSDateFormatter alloc] init] autorelease];
-            [dateFormater setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-            return [NSString stringWithFormat:@"最后同步时间: %@", [dateFormater stringFromDate:lastSyncDate]];
-        }else {
-            return nil;
-        }
-    }
-    return nil;
+
+    return sectionKey;
 }
 
 #pragma mark - Table view delegate
@@ -288,31 +172,7 @@
         editingBabyVC.baby = baby;
         [self.navigationController pushViewController:editingBabyVC animated:YES];
         [editingBabyVC release];
-    }else if ([sectionKey isEqualToString:@"分享设置"]) {
-        
-    }else if ([sectionKey isEqualToString:@"数据同步"]) {
     }
-}
-
-#pragma mark - UIAlertViewDelegate
-- (void)willPresentAlertView:(UIAlertView *)alertView {
-    [self.usernameTextField becomeFirstResponder];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        [self _validateLogin];
-    }
-}
-
-#pragma mark - UITextFieldDelegate
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if (self.usernameTextField == textField) {
-        [self.passwordTextField becomeFirstResponder];
-    }else if(self.passwordTextField == textField) {
-        [self _validateLogin];
-    }
-    return YES;
 }
 
 @end

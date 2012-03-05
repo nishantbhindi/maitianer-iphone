@@ -335,13 +335,19 @@
     return [[MTCaptionView alloc] initWithPhoto:[self.photoResultsController.fetchedObjects objectAtIndex:index]];
 }
 
-- (void)didFinishDeletePhotoInBrowser:(MWPhotoBrowser *)photoBrowser {
+- (void)didFinishDeletePhotoInBrowser:(MWPhotoBrowser *)photoBrowser atIndex:(NSUInteger)index {
     NSError *error;
     [self.photoResultsController performFetch:&error];
     if (error) {
         // Handle error
     }
+    if (index > [self.photoResultsController.fetchedObjects count] - 1) {
+        index = [self.photoResultsController.fetchedObjects count] - 1;
+    }
+    
     [photoBrowser reloadData];
+    
+    [photoBrowser setInitialPageIndex:index];
 }
 
 @end

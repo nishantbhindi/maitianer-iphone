@@ -54,7 +54,7 @@ typedef enum PhotoImageVersionT {
     [self saveImage:img toPath:[self imagePathForVersion:PhotoImageVersionOrigin]];
     
     //resize the origin image for thumbnail 640x640 and store it
-    [self saveImage:img toPath:[self imagePathForVersion:PhotoImageVersionNormal]];
+    [self saveImage:[img imageCroppedToFitSize:CGSizeMake(320, 480)] toPath:[self imagePathForVersion:PhotoImageVersionNormal]];
     
     //resize the origin image for thumbnail 140x140 and store it
     [self saveImage: [img imageCroppedToFitSize:CGSizeMake(140, 140)] toPath:[self imagePathForVersion:PhotoImageVersionB140]];

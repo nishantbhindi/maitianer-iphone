@@ -66,7 +66,7 @@
         self.title = @"拍照";
         _imagePickerController = [[UIImagePickerController alloc] init];
         _imagePickerController.delegate = self;
-        _imagePickerController.allowsEditing = YES;
+        _imagePickerController.allowsEditing = NO;
     }
     return self;
 }
