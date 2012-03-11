@@ -84,7 +84,6 @@
 		3F62993414AB18A000194342 /* first-show@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3F62993214AB18A000194342 /* first-show@2x.jpg */; };
 		3F66DD5B14BFCB5F004D08E2 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F66DD5A14BFCB5F004D08E2 /* CFNetwork.framework */; };
 		3F66DD5D14BFCB65004D08E2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F66DD5C14BFCB65004D08E2 /* SystemConfiguration.framework */; };
-		3F66DD5F14BFCB7D004D08E2 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F66DD5E14BFCB7D004D08E2 /* MobileCoreServices.framework */; };
 		3F66DD6114BFCBCD004D08E2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F66DD6014BFCBCD004D08E2 /* libz.dylib */; };
 		3F6F8EA314F5F16E00E4D909 /* photo-description.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6F8EA114F5F16E00E4D909 /* photo-description.png */; };
 		3F6F8EA414F5F16E00E4D909 /* photo-description@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6F8EA214F5F16E00E4D909 /* photo-description@2x.png */; };
@@ -142,6 +141,7 @@
 		7526ADEB14AB5C2E00FEE0BC /* calendar-forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 7526ADE714AB5C2E00FEE0BC /* calendar-forward.png */; };
 		7526ADEC14AB5C2E00FEE0BC /* calendar-forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7526ADE814AB5C2E00FEE0BC /* calendar-forward@2x.png */; };
 		75287426147C00B000581419 /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 75287425147C00B000581419 /* NSDate-Utilities.m */; };
+		75308691150CF68C005C7B6F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F66DD5E14BFCB7D004D08E2 /* MobileCoreServices.framework */; };
 		7535E3F91503AAEC0015BC5D /* tabBarBackground0.png in Resources */ = {isa = PBXBuildFile; fileRef = 7535E3F51503AAEC0015BC5D /* tabBarBackground0.png */; };
 		7535E3FA1503AAEC0015BC5D /* tabBarBackground0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7535E3F61503AAEC0015BC5D /* tabBarBackground0@2x.png */; };
 		7535E3FB1503AAEC0015BC5D /* tabBarBackground2.png in Resources */ = {isa = PBXBuildFile; fileRef = 7535E3F71503AAEC0015BC5D /* tabBarBackground2.png */; };
@@ -502,10 +502,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75308691150CF68C005C7B6F /* MobileCoreServices.framework in Frameworks */,
 				3FAB72B014F0999A00C452E7 /* MessageUI.framework in Frameworks */,
 				3F66DD5D14BFCB65004D08E2 /* SystemConfiguration.framework in Frameworks */,
 				3F66DD6114BFCBCD004D08E2 /* libz.dylib in Frameworks */,
-				3F66DD5F14BFCB7D004D08E2 /* MobileCoreServices.framework in Frameworks */,
 				3F66DD5B14BFCB5F004D08E2 /* CFNetwork.framework in Frameworks */,
 				3F98093314AAAFD900063CCA /* Security.framework in Frameworks */,
 				3F8CE9A5147C8D11000E1277 /* QuartzCore.framework in Frameworks */,
@@ -1381,6 +1381,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				OTHER_LDFLAGS = "-ObjC";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
@@ -1400,6 +1401,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "-ObjC";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -1412,11 +1414,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "maitianer-iphone/maitianer-iphone-Prefix.pch";
 				INFOPLIST_FILE = "maitianer-iphone/maitianer-iphone-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/FlurryAnalytics\"",
+					"\"$(SRCROOT)/NYXImagesKit\"",
 				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1428,11 +1432,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "maitianer-iphone/maitianer-iphone-Prefix.pch";
 				INFOPLIST_FILE = "maitianer-iphone/maitianer-iphone-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/FlurryAnalytics\"",
+					"\"$(SRCROOT)/NYXImagesKit\"",
 				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

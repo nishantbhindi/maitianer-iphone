@@ -24,6 +24,76 @@ typedef enum PhotoImageVersionT {
 - (NSString *)imagePathForVersion:(PhotoImageVersion)photoImageVersion;
 @end
 
+@interface UIImage (Extras)
+- (UIImage *)imageByScalingProportionallyToSize:(CGSize)targetSize;
+@end;
+
+@implementation UIImage (Extras)
+
+- (UIImage *)imageByScalingProportionallyToSize:(CGSize)targetSize {
+    
+    UIImage *sourceImage = self;
+    UIImage *newImage = nil;
+    
+    CGSize imageSize = sourceImage.size;
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    
+    CGFloat targetWidth = targetSize.width;
+    CGFloat targetHeight = targetSize.height;
+    
+    CGFloat scaleFactor = 0.0;
+    CGFloat scaledWidth = targetWidth;
+    CGFloat scaledHeight = targetHeight;
+    
+    CGPoint thumbnailPoint = CGPointMake(0.0,0.0);
+    
+    if (CGSizeEqualToSize(imageSize, targetSize) == NO) {
+        
+        CGFloat widthFactor = targetWidth / width;
+        CGFloat heightFactor = targetHeight / height;
+        
+        if (widthFactor < heightFactor) 
+            scaleFactor = widthFactor;
+        else
+            scaleFactor = heightFactor;
+        
+        scaledWidth  = width * scaleFactor;
+        scaledHeight = height * scaleFactor;
+        
+        // center the image
+        
+        if (widthFactor < heightFactor) {
+            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5; 
+        } else if (widthFactor > heightFactor) {
+            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
+        }
+    }
+    
+    
+    // this is actually the interesting part:
+    
+    UIGraphicsBeginImageContext(targetSize);
+    
+    CGRect thumbnailRect = CGRectZero;
+    thumbnailRect.origin = thumbnailPoint;
+    thumbnailRect.size.width  = scaledWidth;
+    thumbnailRect.size.height = scaledHeight;
+    
+    [sourceImage drawInRect:thumbnailRect];
+    
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    if(newImage == nil) NSLog(@"could not scale image");
+    
+    
+    return newImage ;
+}
+
+@end;
+
+
 @implementation Photo
 
 @dynamic content;
@@ -54,10 +124,12 @@ typedef enum PhotoImageVersionT {
     [self saveImage:img toPath:[self imagePathForVersion:PhotoImageVersionOrigin]];
     
     //resize the origin image for thumbnail 640x640 and store it
-    [self saveImage:[img imageCroppedToFitSize:CGSizeMake(320, 480)] toPath:[self imagePathForVersion:PhotoImageVersionNormal]];
+    CGSize originImageSize = img.size;
+    UIImage *scaledImage = [img imageByScalingProportionallyToSize:CGSizeMake(640.0, 640.0 * originImageSize.height / originImageSize.width)];
+    [self saveImage:scaledImage toPath:[self imagePathForVersion:PhotoImageVersionNormal]];
     
     //resize the origin image for thumbnail 140x140 and store it
-    [self saveImage: [img imageCroppedToFitSize:CGSizeMake(140, 140)] toPath:[self imagePathForVersion:PhotoImageVersionB140]];
+    [self saveImage:[img imageCroppedToFitSize:CGSizeMake(70, 70)] toPath:[self imagePathForVersion:PhotoImageVersionB140]];
     
 }
 

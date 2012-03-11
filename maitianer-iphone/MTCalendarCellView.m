@@ -9,9 +9,11 @@
 #import "MTCalendarCellView.h"
 #import "NSDate-Utilities.h"
 #import "Photo.h"
+#import "Milestone.h"
 
 @implementation MTCalendarCellView
 @synthesize date = _date;
+@synthesize photo = _photo;
 @synthesize photos = _photos;
 @synthesize innerImageView = _innerImageView;
 @synthesize dateImageView = _dateImageView;
@@ -38,17 +40,24 @@
     if (photos != _photos) {
         [_photos release];
         _photos = [photos retain];
-        Photo *lastPhoto = [_photos lastObject];
-        UIImageView *innerImageView = [[UIImageView alloc] initWithImage:lastPhoto.b140Image];
-        self.innerImageView = innerImageView;
-        [innerImageView release];
         BOOL flag = NO;
+        Photo *lastPhoto = [_photos lastObject];
         for (Photo *photo in _photos) {
             if (photo.milestone != nil) {
                 flag = YES;
-                break;
+                if (lastPhoto.milestone) {
+                    if ([lastPhoto.milestone.creationDate isEarlierThanDate:photo.milestone.creationDate]) {
+                        lastPhoto = photo;
+                    }
+                }else {
+                    lastPhoto = photo;
+                }
             }
         }
+        self.photo = lastPhoto;
+        UIImageView *innerImageView = [[UIImageView alloc] initWithImage:lastPhoto.b140Image];
+        self.innerImageView = innerImageView;
+        [innerImageView release];
         if (flag) {
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-4, -5.5, 30, 30)];
             imageView.image = [UIImage imageNamed:@"date-background-milestone.png"];
@@ -109,20 +118,12 @@
 
 - (void)dealloc {
     [_date release];
+    [_photo release];
     [_photos release];
     [_innerImageView release];
     [_dateImageView release];
     [super dealloc];
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 
 @end

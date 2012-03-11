@@ -281,7 +281,7 @@
     if (cell.photos) {
         MWPhotoBrowser *photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate:self];
         photoBrowser.recordDate = date;
-        NSUInteger initialPhotoIndex = [self.photoResultsController.fetchedObjects indexOfObject:[[calendarView cellForDate:date].photos lastObject]];
+        NSUInteger initialPhotoIndex = [self.photoResultsController.fetchedObjects indexOfObject:[calendarView cellForDate:date].photo];
         [photoBrowser setInitialPageIndex:initialPhotoIndex];
         [self.navigationController pushViewController:photoBrowser animated:YES];
         [photoBrowser release];
